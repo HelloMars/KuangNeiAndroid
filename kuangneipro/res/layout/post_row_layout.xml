@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top" >
+
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@android:drawable/ic_menu_my_calendar" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imgIcon"
+        android:text="孤独的夏娃" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgIcon"
+        android:layout_alignLeft="@+id/txtName"
+        android:layout_marginBottom="10dp"
+        android:text="10秒前" />
+
+    <TextView
+        android:id="@+id/txtReplyNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txtName"
+        android:text="12" />
+
+    <ImageButton
+        android:id="@+id/btnReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnDislike"
+        android:layout_toLeftOf="@+id/txtReplyNum"
+        android:src="@android:drawable/stat_sys_upload" />
+
+    <ImageButton
+        android:id="@+id/btnDislike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtName"
+        android:layout_marginRight="16dp"
+        android:layout_toLeftOf="@+id/btnReply"
+        android:src="@android:drawable/stat_sys_download" />
+
+    <TextView
+        android:id="@+id/txtDislikeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnReply"
+        android:layout_toLeftOf="@+id/btnReply"
+        android:text="22" />
+
+    <TextView
+        android:id="@+id/txtContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/imgIcon"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="我不该偷吃苹果的啊，我就是个愚蠢的老女人！请大家一定不要相信一条蛇。。。" />
+
+</RelativeLayout>
