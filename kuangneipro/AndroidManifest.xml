@@ -69,6 +69,14 @@
 				<action android:name="com.igexin.sdk.action.BxYDvHaWgs5jvOZltpDGxA" />
 			</intent-filter>
 		</receiver>
+		
+		<!-- 如下配置用于透传 -->
+		<receiver android:name="me.kuangneipro.receiver.GeTuiPushReceiver" android:exported="false" >
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.BxYDvHaWgs5jvOZltpDGxA" />
+            </intent-filter>
+　　　	</receiver>
+            
 		<service android:name="com.igexin.getuiext.service.GetuiExtService" 
 			android:process=":pushservice" />
 		
