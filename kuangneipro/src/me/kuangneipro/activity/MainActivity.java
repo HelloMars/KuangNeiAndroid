@@ -30,6 +30,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.igexin.sdk.PushManager;
+
 public class MainActivity extends ActionBarActivity {
 	public final static String EXTRA_MESSAGE_TITLE = "me.kuangnei.MESSAGE";
 	
@@ -54,6 +56,7 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		PushManager.getInstance().initialize(this.getApplicationContext());
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
