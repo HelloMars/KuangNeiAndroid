@@ -29,6 +29,7 @@ public class GeTuiPushReceiver extends BroadcastReceiver {
 				{
 					String data = new String(payload);
 					Log.d(TAG, "Got Payload:" + data);
+					Toast.makeText(context, TAG+" Payload:"+data, Toast.LENGTH_LONG).show();
 					// TODO:接收处理透传（payload）数据 
 				}
 				break;
