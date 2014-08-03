@@ -33,7 +33,7 @@ import android.widget.TextView;
 public class MainActivity extends ActionBarActivity {
 	public final static String EXTRA_MESSAGE_TITLE = "me.kuangnei.MESSAGE";
 	
-	public String tag = this.getClass().getSimpleName(); // tag 用于测试log用  
+	private static final String TAG = MainActivity.class.getSimpleName(); // tag 用于测试log用  
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
 	    // Add 3 tabs, specifying the tab's text and TabListener
 	    String[] tabNames = getResources().getStringArray(R.array.tab_names);
         for (int i = 0; i < TAB_NUM; i++) {
-        	Log.i(tag, "addTab" + i);
+        	Log.i(TAG, "addTab" + i);
             actionBar.addTab(actionBar.newTab()
                     		.setText(tabNames[i])
                             .setTabListener(tabListener));

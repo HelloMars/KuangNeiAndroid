@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 
 public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
-	public String tag = this.getClass().getSimpleName(); // tag 用于测试log用  
+	private static final String TAG = ChannelListAdapter.class.getSimpleName(); // tag 用于测试log用  
 	private final Activity context;
 	private final ArrayList<ChannelEntity> mChannels;
 
@@ -32,7 +32,7 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 	
     @Override  
     public int getCount() {
-    	Log.i(tag, "getCount " + mChannels.size());
+    	Log.i(TAG, "getCount " + mChannels.size());
         return mChannels.size();  
     }
     
@@ -48,7 +48,7 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.i(tag, "getView" + position);
+		Log.i(TAG, "getView" + position);
 		View rowView = convertView;
 		// reuse views
 		ViewHolder viewHolder = null;

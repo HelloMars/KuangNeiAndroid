@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class PostListActivity extends ActionBarActivity {
-	public String tag = this.getClass().getSimpleName(); // tag 用于测试log用  
+	private static final String TAG = PostListActivity.class.getSimpleName(); // tag 用于测试log用  
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
@@ -39,12 +39,12 @@ public class PostListActivity extends ActionBarActivity {
 	 * becomes too memory intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	private SectionsPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
-	ViewPager mViewPager;
+	private ViewPager mViewPager;
 	
 	private static final int TAB_NUM = 2;
 
@@ -102,7 +102,7 @@ public class PostListActivity extends ActionBarActivity {
 	    // Add 3 tabs, specifying the tab's text and TabListener
 	    String[] tabNames = getResources().getStringArray(R.array.post_list_tab_names);
         for (int i = 0; i < TAB_NUM; i++) {
-        	Log.i(tag, "addTab" + i);
+        	Log.i(TAG, "addTab" + i);
             actionBar.addTab(actionBar.newTab()
                     		.setText(tabNames[i])
                             .setTabListener(tabListener));
@@ -146,8 +146,8 @@ public class PostListActivity extends ActionBarActivity {
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
 	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-		public String tag = this.getClass().getSimpleName(); // tag 用于测试log用  
+	public static class SectionsPagerAdapter extends FragmentPagerAdapter {
+		private static final String TAG = SectionsPagerAdapter.class.getSimpleName(); // tag 用于测试log用  
 		
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
@@ -158,13 +158,13 @@ public class PostListActivity extends ActionBarActivity {
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a PlaceholderFragment (defined as a static inner class
 			// below).
-			Log.i(tag, "getItem" + position);
+			Log.i(TAG, "getItem" + position);
 			return PlaceholderFragment.newInstance(position);
 		}
 
 		@Override
 		public int getCount() {
-			Log.i(tag, "getCount" + TAB_NUM);
+			Log.i(TAG, "getCount" + TAB_NUM);
 			return TAB_NUM;
 		}
 	}
@@ -173,7 +173,9 @@ public class PostListActivity extends ActionBarActivity {
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends ListFragment  {
-		public String tag = this.getClass().getSimpleName(); // tag 用于测试log用  
+		
+		private static final String TAG = PlaceholderFragment.class.getSimpleName(); // tag 用于测试log用  
+		
 		private int mSectionNum;
 		private ListView mListView;
 		private ArrayList<PostEntity> mPostList;
@@ -207,7 +209,7 @@ public class PostListActivity extends ActionBarActivity {
 		
 		@Override
 	    public void onActivityCreated(Bundle savedInstanceState) {
-			Log.i(tag, "onActivityCreated(((" + mSectionNum);
+			Log.i(TAG, "onActivityCreated(((" + mSectionNum);
 	        super.onActivityCreated(savedInstanceState);
 	        
 	        new RetrivePostList().execute("http://182.92.100.49/kuangnei/api/postlist/");
@@ -216,7 +218,7 @@ public class PostListActivity extends ActionBarActivity {
             		new ChannelData("缘分", "约会、表白、同性异性不限 约会、表白、同性异性不限 约会、表白、同性异性不限")};
 	        mListView.setAdapter(new ChannelListAdapter(getActivity(), channels));
 	        */
-	        Log.i(tag, "onActivityCreated)))" + mSectionNum);
+	        Log.i(TAG, "onActivityCreated)))" + mSectionNum);
 	    }
 		
 		class RetrivePostList extends AsyncTask<String, Void, ArrayList<PostEntity>> {
@@ -264,7 +266,7 @@ public class PostListActivity extends ActionBarActivity {
 			View v = inflater.inflate(layout, container, false);
             mListView = (ListView)v.findViewById(android.R.id.list);
             
-            Log.i(tag, "onCreateView" + mSectionNum);
+            Log.i(TAG, "onCreateView" + mSectionNum);
             return v;
 		}
 		
@@ -274,7 +276,7 @@ public class PostListActivity extends ActionBarActivity {
 		}
 		
 		public void onListItemClick(ListView l, View v, int position, long id) {
-			Log.i(tag, "onListItemClick" + position);
+			Log.i(TAG, "onListItemClick" + position);
 			
 		}
 	}
