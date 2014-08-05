@@ -1,7 +1,10 @@
-package me.kuangneipro;
+package me.kuangneipro.Adapter;
 
 import java.util.ArrayList;
 
+import me.kuangneipro.R;
+import me.kuangneipro.R.id;
+import me.kuangneipro.R.layout;
 import me.kuangneipro.entity.ChannelEntity;
 
 import android.app.Activity;

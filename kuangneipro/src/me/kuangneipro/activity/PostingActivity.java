@@ -1,6 +1,14 @@
 package me.kuangneipro.activity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
+import org.json.JSONObject;
+
 import me.kuangneipro.R;
+import me.kuangneipro.util.JasonReader;
+import me.kuangneipro.util.PushUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class PostingActivity extends ActionBarActivity {
+	public static final String CHANNEL_ID_KEY = "CHANNEL_ID_KEY";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,9 +43,35 @@ public class PostingActivity extends ActionBarActivity {
     		String warnning = this.getString(R.string.info_post_empty);
     		Toast.makeText(this, warnning, Toast.LENGTH_LONG).show();
     	} else {
-    		String success = this.getString(R.string.info_post_success);
-    		Toast.makeText(this, success, Toast.LENGTH_LONG).show();
-    		super.finish();
+    		
+    		try {
+				new AsyncTask<String, Void, Boolean>() {
+				    protected Boolean doInBackground(String... urls) {
+				        try {
+				        	JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
+				        	int returnCode = jsonObj.optInt("returnCode", -1);
+				        	if(returnCode!=0)
+				        		return false;
+				        	return true;
+				        } catch (Exception e) {
+				            e.printStackTrace();
+				            return false;
+				        }
+				    }
+
+				    protected void onPostExecute(Boolean success) {
+				        String message = PostingActivity.this.getString(R.string.info_post_failure);
+				       if(success){
+				    	   message = PostingActivity.this.getString(R.string.info_post_success);
+				       }
+				       Toast.makeText( PostingActivity.this, message, Toast.LENGTH_LONG).show();
+				       PostingActivity.super.finish();
+				    }
+				}.execute("http://182.92.100.49/kuangnei/api/post/?userid="+PushUtil.getToken()+"&channelId=0&content="+URLDecoder.decode(message,"UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+    		
     	}
 	}
 	

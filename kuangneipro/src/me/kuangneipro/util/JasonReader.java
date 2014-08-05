@@ -1,4 +1,4 @@
-package me.kuangneipro;
+package me.kuangneipro.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

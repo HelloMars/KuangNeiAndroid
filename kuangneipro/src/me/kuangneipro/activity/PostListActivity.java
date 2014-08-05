@@ -2,11 +2,11 @@ package me.kuangneipro.activity;
 
 import java.util.ArrayList;
 
+import me.kuangneipro.Adapter.PostListAdapter;
 import me.kuangneipro.activity.MainActivity;
-import me.kuangneipro.JasonReader;
-import me.kuangneipro.PostListAdapter;
 import me.kuangneipro.R;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.util.JasonReader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -118,6 +118,8 @@ public class PostListActivity extends ActionBarActivity {
 	
 	private void writePost() {
 		Intent intent = new Intent(this, PostingActivity.class);
+		//TODO 这里应传入channel_id
+//		intent.putExtra(PostingActivity.CHANNEL_ID_KEY, mSectionsPagerAdapter.getItem(position))
     	//EditText editText = (EditText) findViewById(R.id.edit_message);
     	//String message = editText.getText().toString();
     	//intent.putExtra(EXTRA_MESSAGE, message);
@@ -212,7 +214,7 @@ public class PostListActivity extends ActionBarActivity {
 			Log.i(TAG, "onActivityCreated(((" + mSectionNum);
 	        super.onActivityCreated(savedInstanceState);
 	        
-	        new RetrivePostList().execute("http://182.92.100.49/kuangnei/api/postlist/");
+	        new RetrivePostList().execute("http://kuangnei.me/kuangnei/api/postlist/");
 	        /*ChannelData[] channels = new ChannelData[] {
             		new ChannelData("兴趣", "不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦。真的！"),
             		new ChannelData("缘分", "约会、表白、同性异性不限 约会、表白、同性异性不限 约会、表白、同性异性不限")};
@@ -236,9 +238,9 @@ public class PostListActivity extends ActionBarActivity {
     	        				user.getInt("id"),
     	        				user.getString("name"),
     	        				oneJson.getString("title"),
-    	        				oneJson.getString("shortContent"),
+    	        				oneJson.getString("content"),
     	        				oneJson.getInt("opposedCount"),
-    	        				oneJson.getInt("replyCount"),
+    	        				oneJson.getInt("upCount"),
     	        				oneJson.getString("postTime"));
     	        		mPostList.add(channel);
                     }
