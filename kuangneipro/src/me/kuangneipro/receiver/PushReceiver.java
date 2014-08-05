@@ -12,9 +12,9 @@ import com.igexin.sdk.PushConsts;
 
 
 
-public class GeTuiPushReceiver extends BroadcastReceiver {
+public class PushReceiver extends BroadcastReceiver {
 	
-	private static final String TAG = GeTuiPushReceiver.class.getSimpleName();
+	private static final String TAG = PushReceiver.class.getSimpleName();
 	
 	
 	@Override

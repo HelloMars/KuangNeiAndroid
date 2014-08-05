@@ -72,7 +72,7 @@
 		</receiver>
 		
 		<!-- 如下配置用于透传 -->
-		<receiver android:name="me.kuangneipro.receiver.GeTuiPushReceiver" android:exported="false" >
+		<receiver android:name="me.kuangneipro.receiver.PushReceiver" android:exported="false" >
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.BxYDvHaWgs5jvOZltpDGxA" />
             </intent-filter>
