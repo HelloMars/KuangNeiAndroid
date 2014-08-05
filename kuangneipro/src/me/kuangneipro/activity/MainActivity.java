@@ -211,7 +211,7 @@ public class MainActivity extends ActionBarActivity {
 			Log.i(tag, "onActivityCreated(((" + mSectionNum);
 	        super.onActivityCreated(savedInstanceState);
 	        
-	        new RetriveChannelList().execute("http://182.92.100.49/kuangnei/api/category/");
+	        new RetriveChannelList().execute("http://182.92.100.49/kuangnei/api/channellist/");
 	        /*ChannelData[] channels = new ChannelData[] {
             		new ChannelData("兴趣", "不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦。真的！"),
             		new ChannelData("缘分", "约会、表白、同性异性不限 约会、表白、同性异性不限 约会、表白、同性异性不限")};

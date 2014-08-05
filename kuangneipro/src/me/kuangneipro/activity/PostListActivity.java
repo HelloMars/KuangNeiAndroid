@@ -227,7 +227,7 @@ public class PostListActivity extends ActionBarActivity {
     	        	mPostList = new ArrayList<PostEntity>();
     	        	JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
     	        	JSONArray jsonarray = jsonObj.getJSONArray("list");
-    	        	for (int i = 0; i < jsonarray.length()-1; i++) {
+    	        	for (int i = 0; i < jsonarray.length(); i++) {
     	        		JSONObject oneJson = jsonarray.getJSONObject(i);
     	        		JSONObject user = oneJson.getJSONObject("user");
     	        		if (user == null)
@@ -236,7 +236,7 @@ public class PostListActivity extends ActionBarActivity {
     	        				user.getInt("id"),
     	        				user.getString("name"),
     	        				oneJson.getString("title"),
-    	        				oneJson.getString("shortContent"),
+    	        				oneJson.getString("content"),
     	        				oneJson.getInt("opposedCount"),
     	        				oneJson.getInt("replyCount"),
     	        				oneJson.getString("postTime"));
