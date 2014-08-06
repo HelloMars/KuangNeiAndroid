@@ -229,7 +229,7 @@ public class PostListActivity extends ActionBarActivity {
     	        try {
     	        	JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
     	        	JSONArray jsonarray = jsonObj.getJSONArray("list");
-    	        	for (int i = 0; i < jsonarray.length()-1; i++) {
+    	        	for (int i = 0; i < jsonarray.length(); i++) {
     	        		JSONObject oneJson = jsonarray.getJSONObject(i);
     	        		JSONObject user = oneJson.getJSONObject("user");
     	        		if (user == null)
