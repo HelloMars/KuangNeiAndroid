@@ -225,8 +225,8 @@ public class PostListActivity extends ActionBarActivity {
 		
 		class RetrivePostList extends AsyncTask<String, Void, ArrayList<PostEntity>> {
     	    protected ArrayList<PostEntity> doInBackground(String... urls) {
+    	    	mPostList = new ArrayList<PostEntity>();
     	        try {
-    	        	mPostList = new ArrayList<PostEntity>();
     	        	JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
     	        	JSONArray jsonarray = jsonObj.getJSONArray("list");
     	        	for (int i = 0; i < jsonarray.length()-1; i++) {
@@ -248,7 +248,7 @@ public class PostListActivity extends ActionBarActivity {
     	        	
     	        } catch (Exception e) {
     	            e.printStackTrace();
-    	            return null;
+    	            return mPostList;
     	        }
     	    }
 

@@ -1,6 +1,7 @@
 package me.kuangneipro.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.ChannelListAdapter;
@@ -212,18 +213,18 @@ public class MainActivity extends ActionBarActivity {
 	        super.onActivityCreated(savedInstanceState);
 	        
 	        new RetriveChannelList().execute("http://kuangnei.me/kuangnei/api/channellist/");
-	        /*ChannelData[] channels = new ChannelData[] {
-            		new ChannelData("兴趣", "不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦。真的！"),
-            		new ChannelData("缘分", "约会、表白、同性异性不限 约会、表白、同性异性不限 约会、表白、同性异性不限")};
-	        mListView.setAdapter(new ChannelListAdapter(getActivity(), channels));
-	        */
+//	        List<ChannelEntity> channels = new ChannelEntity[] {
+//            		new ChannelEntity("兴趣", "不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦 不有趣可能会被踢得很惨哦。真的！"),
+//            		new ChannelEntity("缘分", "约会、表白、同性异性不限 约会、表白、同性异性不限 约会、表白、同性异性不限")};
+//	        mListView.setAdapter(new ChannelListAdapter(getActivity(), channels));
+	        
 	        Log.i(tag, "onActivityCreated)))" + mSectionNum);
 	    }
 		
 		class RetriveChannelList extends AsyncTask<String, Void, ArrayList<ChannelEntity>> {
     	    protected ArrayList<ChannelEntity> doInBackground(String... urls) {
+    	    	mChannelList = new ArrayList<ChannelEntity>();
     	        try {
-    	        	mChannelList = new ArrayList<ChannelEntity>();
     	        	JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
     	        	JSONArray jsonarray = jsonObj.getJSONArray("list");
     	        	for (int i = 0; i < jsonarray.length(); i++) {
@@ -235,7 +236,7 @@ public class MainActivity extends ActionBarActivity {
     	        	
     	        } catch (Exception e) {
     	            e.printStackTrace();
-    	            return null;
+    	            return mChannelList;
     	        }
     	    }
 
