@@ -2,6 +2,7 @@ package me.kuangneipro.activity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import org.json.JSONObject;
 
@@ -187,7 +188,7 @@ public class PostingActivity extends ActionBarActivity {
 				       Toast.makeText( PostingActivity.this, message, Toast.LENGTH_LONG).show();
 				       PostingActivity.super.finish();
 				    }
-				}.execute("http://182.92.100.49/kuangnei/api/post/?userid="+PushUtil.getToken()+"&channelid=0&content="+URLDecoder.decode(message,"UTF-8"));
+				}.execute("http://182.92.100.49/kuangnei/api/post/?userid="+PushUtil.getToken()+"&channelid=0&content="+URLEncoder.encode(message,"UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
