@@ -160,10 +160,18 @@ public class PostingActivity extends ActionBarActivity {
 				new AsyncTask<String, Void, Boolean>() {
 				    protected Boolean doInBackground(String... urls) {
 				        try {
-				        	JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
+				        	final JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
 				        	int returnCode = jsonObj.optInt("returnCode", -1);
-				        	if(returnCode!=0)
+				        	if(returnCode!=0){
+				        		runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										Toast.makeText( PostingActivity.this, jsonObj.optString("returnMessage","∑¢ÀÕ ß∞‹"), Toast.LENGTH_LONG).show();
+									}
+								});
+				        		 
 				        		return false;
+				        	}
 				        	return true;
 				        } catch (Exception e) {
 				            e.printStackTrace();
@@ -179,7 +187,7 @@ public class PostingActivity extends ActionBarActivity {
 				       Toast.makeText( PostingActivity.this, message, Toast.LENGTH_LONG).show();
 				       PostingActivity.super.finish();
 				    }
-				}.execute("http://182.92.100.49/kuangnei/api/post/?userid="+PushUtil.getToken()+"&channelId=0&content="+URLDecoder.decode(message,"UTF-8"));
+				}.execute("http://182.92.100.49/kuangnei/api/post/?userid="+PushUtil.getToken()+"&channelid=0&content="+URLDecoder.decode(message,"UTF-8"));
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
