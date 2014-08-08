@@ -1,5 +1,6 @@
 package me.kuangneipro.entity;
 
+import android.annotation.SuppressLint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +15,7 @@ public final class PostEntity {
 	public int mReplyNum;
 	
 	
+	@SuppressLint("SimpleDateFormat") 
 	public PostEntity(
 			int id,
 			String name,
@@ -45,10 +47,10 @@ public final class PostEntity {
 		int[] units = {60, 60, 24};
 		
 		long between=(new Date().getTime() - mDate.getTime())/1000;//除以1000是为了转换成秒
-		long day1=between/(24*3600);
-		long hour1=between%(24*3600)/3600;
-		long minute1=between%3600/60;
-		long second1=between%60/60;
+//		long day1=between/(24*3600);
+//		long hour1=between%(24*3600)/3600;
+//		long minute1=between%3600/60;
+//		long second1=between%60/60;
 		for (int i = 0; i < 4; ++i) {
 			if (between < units[i] || i == 3) {
 				return between + measure[i] + "前";

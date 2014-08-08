@@ -1,12 +1,9 @@
 package me.kuangneipro.Adapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import me.kuangneipro.R;
-import me.kuangneipro.R.id;
-import me.kuangneipro.R.layout;
 import me.kuangneipro.entity.ChannelEntity;
-
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +16,7 @@ import android.widget.TextView;
 public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 	private static final String TAG = ChannelListAdapter.class.getSimpleName(); // tag ”√”⁄≤‚ ‘log”√  
 	private final Activity context;
-	private final ArrayList<ChannelEntity> mChannels;
+	private final List<ChannelEntity> mChannels;
 
 	static class ViewHolder {
 		public TextView title;
@@ -27,7 +24,7 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 		//public ImageView image;
 	}
 
-	public ChannelListAdapter(Activity context, ArrayList<ChannelEntity> channels) {
+	public ChannelListAdapter(Activity context, List<ChannelEntity> channels) {
 		super(context, R.layout.channel_row_layout, channels);
 		this.context = context;
 		this.mChannels = channels;
@@ -52,25 +49,22 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Log.i(TAG, "getView" + position);
-		View rowView = convertView;
-		// reuse views
+
 		ViewHolder viewHolder = null;
-		if (rowView == null) {
+		if (convertView == null) {
 			LayoutInflater inflater = context.getLayoutInflater();
-			rowView = inflater.inflate(R.layout.channel_row_layout, parent, false);
-			// configure view holder
+			convertView = inflater.inflate(R.layout.channel_row_layout, parent, false);
 			viewHolder = new ViewHolder();
-			viewHolder.title = (TextView) rowView.findViewById(R.id.title);
-			viewHolder.subtitle = (TextView) rowView.findViewById(R.id.subtitle);
-			rowView.setTag(viewHolder);
+			viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+			viewHolder.subtitle = (TextView) convertView.findViewById(R.id.subtitle);
+			convertView.setTag(viewHolder);
 		}
 		
-		// fill data
-		ViewHolder holder = (ViewHolder) rowView.getTag();
+		ViewHolder holder = (ViewHolder) convertView.getTag();
 		ChannelEntity channel = mChannels.get(position);
-		holder.title.setText(channel.mTitle);
-		holder.subtitle.setText(channel.mSubtitle);
+		holder.title.setText(channel.getTitle());
+		holder.subtitle.setText(channel.getSubtitle());
 		
-		return rowView;
+		return convertView;
 	}
 } 

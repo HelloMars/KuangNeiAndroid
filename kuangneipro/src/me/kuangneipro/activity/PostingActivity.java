@@ -1,23 +1,19 @@
 package me.kuangneipro.activity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import me.kuangneipro.R;
+import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.ChannelEntity;
+import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.manager.PostEntityManager;
+import me.kuangneipro.util.ImageUtil;
 
 import org.json.JSONObject;
 
-import me.kuangneipro.R;
-import me.kuangneipro.util.JasonReader;
-import me.kuangneipro.util.PushUtil;
-import android.os.AsyncTask;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,15 +25,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class PostingActivity extends ActionBarActivity {
+public class PostingActivity extends HttpActivity {
 	public static final String CHANNEL_ID_KEY = "CHANNEL_ID_KEY";
 	private int mChoosed = 0;
 	private LinearLayout mImageRow;
 	private ImageView[] mImgView = new ImageView[4];
 	private String[] mImgPath = new String[4];
 	
+	private ChannelEntity mChannel;
+	
 	private static int RESULT_LOAD_IMAGE = 1;
 	private static final String TAG = MainActivity.class.getSimpleName(); // tag 用于测试log用  
+	
+	private MenuItem postingButton;
 	
 	protected void updateImages() {
 		for (int i = 0; i < 4; ++i) {
@@ -53,9 +53,10 @@ public class PostingActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
 		
+		mChannel = (ChannelEntity)getIntent().getParcelableExtra(PostListActivity.SELECT_CHANNEL_INFO);
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
-		//getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_edit);
 		
 		ImageButton imgBtnChoose = (ImageButton) findViewById(R.id.imgBtnChoose);
 		mImageRow = (LinearLayout) findViewById(R.id.imageRow);
@@ -86,37 +87,9 @@ public class PostingActivity extends ActionBarActivity {
 	    });
 	}
 	
-	public static int calculateInSampleSize(BitmapFactory.Options options, int thumbnailSize) {
-	    // Raw height and width of image
-	    final int height = options.outHeight;
-	    final int width = options.outWidth;
-	    int inSampleSize = 1;
 	
-	    if (height > thumbnailSize || width > thumbnailSize) {
-	        if (width > height) {
-	            inSampleSize = Math.round((float)height / (float)thumbnailSize);
-	        } else {
-	            inSampleSize = Math.round((float)width / (float)thumbnailSize);
-	        }
-	    }
-	    return inSampleSize;
-	}
 	
-	public static Bitmap decodeSampledBitmap(String imgFile, int thumbnailSize) {
-
-	    // First decode with inJustDecodeBounds=true to check dimensions
-	    final BitmapFactory.Options options = new BitmapFactory.Options();
-	    options.inJustDecodeBounds = true;
-	    BitmapFactory.decodeFile(imgFile, options);
-
-	    // Calculate inSampleSize
-	    options.inSampleSize = calculateInSampleSize(options, thumbnailSize);
-	    Log.i(TAG, "!!!!!!!!!!options.inSampleSize" + options.inSampleSize);
-	    
-	    // Decode bitmap with inSampleSize set
-	    options.inJustDecodeBounds = false;
-	    return BitmapFactory.decodeFile(imgFile, options);
-	}
+	
 	
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,7 +108,7 @@ public class PostingActivity extends ActionBarActivity {
             
             Log.i(TAG, "!!!!!!!!!!" + picturePath);
             mImgPath[mChoosed] = picturePath;
-            mImgView[mChoosed].setImageBitmap(decodeSampledBitmap(picturePath, 70));
+            mImgView[mChoosed].setImageBitmap(ImageUtil.decodeSampledBitmap(picturePath, 70));
             ++mChoosed;
             
             this.updateImages();
@@ -144,8 +117,8 @@ public class PostingActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.posting, menu);
+		postingButton = menu.findItem(R.id.action_post);
 		return true;
 	}
 	
@@ -156,54 +129,35 @@ public class PostingActivity extends ActionBarActivity {
     		String warnning = this.getString(R.string.info_post_empty);
     		Toast.makeText(this, warnning, Toast.LENGTH_LONG).show();
     	} else {
-    		
-    		try {
-				new AsyncTask<String, Void, Boolean>() {
-				    protected Boolean doInBackground(String... urls) {
-				        try {
-				        	final JSONObject jsonObj = JasonReader.readJsonFromUrl(urls[0]);
-				        	int returnCode = jsonObj.optInt("returnCode", -1);
-				        	if(returnCode!=0){
-				        		runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										Toast.makeText( PostingActivity.this, jsonObj.optString("returnMessage","发送失败"), Toast.LENGTH_LONG).show();
-									}
-								});
-				        		 
-				        		return false;
-				        	}
-				        	return true;
-				        } catch (Exception e) {
-				            e.printStackTrace();
-				            return false;
-				        }
-				    }
-
-				    protected void onPostExecute(Boolean success) {
-				        String message = PostingActivity.this.getString(R.string.info_post_failure);
-				       if(success){
-				    	   message = PostingActivity.this.getString(R.string.info_post_success);
-				       }
-				       Toast.makeText( PostingActivity.this, message, Toast.LENGTH_LONG).show();
-				       PostingActivity.super.finish();
-				    }
-				}.execute("http://182.92.100.49/kuangnei/api/post/?userid="+PushUtil.getToken()+"&channelid=0&content="+URLEncoder.encode(message,"UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-    		
+    		PostEntityManager.doPosting(getHttpRequest(), mChannel.getId(), message);
     	}
 	}
 	
 	@Override
+	protected void requestComplete(JSONObject jsonObj) {
+		super.requestComplete(jsonObj);
+		ReturnInfo returnInfo = PostEntityManager.getPostingReturnInfo(jsonObj);
+		
+		if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+			Toast.makeText( PostingActivity.this, getString(R.string.info_post_success), Toast.LENGTH_LONG).show();
+		}else{
+			Toast.makeText( PostingActivity.this, getString(R.string.info_post_failure), Toast.LENGTH_LONG).show();
+		}
+		finish();
+	}
+	
+	private void setPostingButtonEable(boolean enable){
+		if(postingButton!=null)
+			postingButton.setEnabled(false);
+	}
+	
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.action_post:
+			setPostingButtonEable(false);
 			sendPost();
 			return true;
 		case R.id.action_settings:

@@ -3,10 +3,7 @@ package me.kuangneipro.Adapter;
 import java.util.ArrayList;
 
 import me.kuangneipro.R;
-import me.kuangneipro.R.id;
-import me.kuangneipro.R.layout;
 import me.kuangneipro.entity.PostEntity;
-
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
