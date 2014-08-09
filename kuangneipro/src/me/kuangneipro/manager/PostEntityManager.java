@@ -2,6 +2,7 @@ package me.kuangneipro.manager;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.kuangneipro.entity.PostEntity;
@@ -31,14 +32,20 @@ public class PostEntityManager {
 	    		JSONObject user = oneJson.getJSONObject("user");
 	    		if (user == null)
 	    			continue;
+	    		List<String> pictureList = new ArrayList<String>();
+	    		JSONArray pictures = oneJson.getJSONArray("pictures");
+	    		for (int j = 0; j < pictures.length(); ++j)
+	    			pictureList.add(pictures.getString(j));
 	    		PostEntity channel = new PostEntity(
 	    				user.getInt("id"),
 	    				user.getString("name"),
+	    				user.getString("avatar"),
 	    				oneJson.getString("title"),
 	    				oneJson.getString("content"),
 	    				oneJson.getInt("opposedCount"),
 	    				oneJson.getInt("upCount"),
-	    				oneJson.getString("postTime"));
+	    				oneJson.getString("postTime"),
+	    				pictureList);
 	    		mPostList.add(channel);
 			}
 		} catch (JSONException e) {
