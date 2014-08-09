@@ -1,7 +1,5 @@
 package me.kuangneipro.manager;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +53,7 @@ public class PostEntityManager {
 	
 	
 	public static void doPosting(HttpHelper httpRequest,int channelId,String content,List<String> updatedImagePath ){
-		try {
-			httpRequest.setUrl(HostUtil.POSTING_URL).put("userid", PushUtil.getToken()).put("channelid",channelId+"").put("content", URLEncoder.encode(content,"UTF-8"));
+			httpRequest.setUrl(HostUtil.POSTING_URL).put("userid", PushUtil.getToken()).put("channelid",channelId+"").put("content", content);
 			
 			boolean isNotFirst = false;
 			StringBuilder sb = new StringBuilder();
@@ -72,10 +69,7 @@ public class PostEntityManager {
 				}
 			}
 			httpRequest.put("imageurl", sb.toString());
-			httpRequest.asyncGet();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+			httpRequest.asyncPost();
 	}
 	
 	

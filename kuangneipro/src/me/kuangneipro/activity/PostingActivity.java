@@ -176,6 +176,10 @@ public class PostingActivity extends HttpActivity{
 			}
 			final int updloadCountF = uploadCount;
 			
+			if(updloadCountF == 0){
+				PostEntityManager.doPosting(getHttpRequest(PostEntityManager.POST_LIST_KEY), mChannel.getId(), message,updatedImagePath);
+			}
+			
 			if(mImgPath!=null){
 				for(int i=0;i<mImgPath.length;i++){
 					if(!TextUtils.isEmpty(mImgPath[i])){
