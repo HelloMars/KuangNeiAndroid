@@ -55,8 +55,8 @@ public class PostListFragment extends HttpListFragment  {
     }
 	
 	@Override
-	protected void requestComplete(JSONObject jsonObj) {
-		super.requestComplete(jsonObj);
+	protected void requestComplete(int id,JSONObject jsonObj) {
+		super.requestComplete(id,jsonObj);
 		mPostList.clear();
 		PostEntityManager.fillPostListFromJson(jsonObj,mPostList);
 		if(mPostListAdapter==null){
@@ -75,7 +75,7 @@ public class PostListFragment extends HttpListFragment  {
 		View v = inflater.inflate(layout, container, false);
         mListView = (ListView)v.findViewById(android.R.id.list);
         
-        PostEntityManager.getPostList(getHttpRequest());
+        PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY));
         
         Log.i(TAG, "onCreateView" + mSectionNum);
         return v;

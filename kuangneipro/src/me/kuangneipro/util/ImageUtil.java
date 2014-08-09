@@ -35,4 +35,6 @@ public class ImageUtil {
 	    options.inJustDecodeBounds = false;
 	    return BitmapFactory.decodeFile(imgFile, options);
 	}
+	
+	
 }

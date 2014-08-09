@@ -15,6 +15,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PostEntityManager {
+	
+	public static int POST_LIST_KEY = 0;
+	public static int POSTING_KEY = 1;
 
 	public static void getPostList(HttpHelper httpRequest){
 		httpRequest.setUrl(HostUtil.POST_LIST_URL).asyncGet();

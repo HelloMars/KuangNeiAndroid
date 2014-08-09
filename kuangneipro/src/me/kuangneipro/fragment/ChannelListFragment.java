@@ -59,15 +59,15 @@ public class ChannelListFragment extends HttpListFragment {
 		View v = inflater.inflate(R.layout.fragment_main, container, false);
 		mListView = (ListView) v.findViewById(android.R.id.list);
 
-		ChannelEntityManager.getChannelList(getHttpRequest());
+		ChannelEntityManager.getChannelList(getHttpRequest(ChannelEntityManager.CHANNEL_LIST_KEY));
 
 		Log.i(TAG, "onCreateView" + mSectionNum);
 		return v;
 	}
 
 	@Override
-	protected void requestComplete(JSONObject jsonObj) {
-		super.requestComplete(jsonObj);
+	protected void requestComplete(int id,JSONObject jsonObj) {
+		super.requestComplete(id,jsonObj);
 		mChannelList.clear();
 		ChannelEntityManager.fillChannelListFromJson(jsonObj, mChannelList);
 		if(mChannelListAdapter==null){

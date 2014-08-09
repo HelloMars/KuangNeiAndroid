@@ -129,13 +129,13 @@ public class PostingActivity extends HttpActivity {
     		String warnning = this.getString(R.string.info_post_empty);
     		Toast.makeText(this, warnning, Toast.LENGTH_LONG).show();
     	} else {
-    		PostEntityManager.doPosting(getHttpRequest(), mChannel.getId(), message);
+    		PostEntityManager.doPosting(getHttpRequest(PostEntityManager.POST_LIST_KEY), mChannel.getId(), message);
     	}
 	}
 	
 	@Override
-	protected void requestComplete(JSONObject jsonObj) {
-		super.requestComplete(jsonObj);
+	protected void requestComplete(int id,JSONObject jsonObj) {
+		super.requestComplete(id,jsonObj);
 		ReturnInfo returnInfo = PostEntityManager.getPostingReturnInfo(jsonObj);
 		
 		if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){

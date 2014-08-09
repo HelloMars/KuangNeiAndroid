@@ -10,30 +10,29 @@ import android.support.v4.app.ListFragment;
 
 public class HttpListFragment extends ListFragment implements RequestCallBackListener {
 
-private HttpHelper httpRequest;
+	private HttpHelper httpRequest;
 	
 	
-	
-	protected final HttpHelper getHttpRequest(){
-		httpRequest = new HttpHelper();
+	protected final HttpHelper getHttpRequest(int id){
+		httpRequest = new HttpHelper(id);
 		httpRequest.setRequestCallBackListener(this);
 		return httpRequest;
 	}
 
 
-	protected void requestComplete(JSONObject jsonObj) {
+	protected void requestComplete(int id,JSONObject jsonObj) {
 		
 	}
 	
 
 	@Override
-	public final void onRequestComplete(final JSONObject jsonObj) {
+	public final void onRequestComplete(final int id,final JSONObject jsonObj) {
 		
 		getActivity().runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				requestComplete(jsonObj);
+				requestComplete(id,jsonObj);
 			}
 			
 		});

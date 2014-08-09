@@ -1,15 +1,14 @@
 package me.kuangneipro.core;
 
-import org.json.JSONObject;
-
 import me.kuangneipro.util.HttpHelper;
 import me.kuangneipro.util.HttpHelper.RequestCallBackListener;
-import android.support.v7.app.ActionBarActivity;
-/**
- * 可发送Http请求的基类
- * @author connor
- */
-public class HttpActivity extends ActionBarActivity implements RequestCallBackListener {
+
+import org.json.JSONObject;
+
+import android.support.v4.app.Fragment;
+
+
+public class HttpFragment extends Fragment implements RequestCallBackListener {
 
 	private HttpHelper httpRequest;
 	
@@ -29,7 +28,7 @@ public class HttpActivity extends ActionBarActivity implements RequestCallBackLi
 	@Override
 	public final void onRequestComplete(final int id,final JSONObject jsonObj) {
 		
-		runOnUiThread(new Runnable() {
+		getActivity().runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -39,6 +38,4 @@ public class HttpActivity extends ActionBarActivity implements RequestCallBackLi
 		});
 		
 	}
-	
-	
 }

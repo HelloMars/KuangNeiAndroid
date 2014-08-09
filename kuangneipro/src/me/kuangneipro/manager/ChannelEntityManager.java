@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ChannelEntityManager {
+	
+	public static final int CHANNEL_LIST_KEY = 0;
 
 	public static void fillChannelListFromJson(JSONObject jsonObj , List<ChannelEntity> channelList){
 		try {

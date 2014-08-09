@@ -28,19 +28,22 @@ import android.text.TextUtils;
 public class HttpHelper {
 	
 	public static interface RequestCallBackListener{
-		public void onRequestComplete(JSONObject jsonObj);
+		public void onRequestComplete(int id,JSONObject jsonObj);
 	}
 
 	public static final String CHARSET =  HTTP.UTF_8;
-	private volatile RequestCallBackListener requestCallBackListener;
-	private final Map<String,String> params;
-	private String url;
 	
-	public HttpHelper(){
-		this(null);
+	private final int id;
+	private final Map<String,String> params;
+	private volatile RequestCallBackListener requestCallBackListener;
+	private volatile String url;
+	
+	public HttpHelper(int id){
+		this(id,null);
 	}
 	
-	public HttpHelper(String url){
+	public HttpHelper(int id,String url){
+		this.id = id;
 		this.url = url;
 		params = new HashMap<String,String>();;
 	}
@@ -113,7 +116,7 @@ public class HttpHelper {
 			@Override
 			public void run() {
 				if(requestCallBackListener!=null)
-					requestCallBackListener.onRequestComplete(doHttpRequest(createHttpPost()));
+					requestCallBackListener.onRequestComplete(id,doHttpRequest(createHttpPost()));
 			}
 			
 		});
@@ -133,7 +136,7 @@ public class HttpHelper {
 			@Override
 			public void run() {
 				if(requestCallBackListener!=null)
-					requestCallBackListener.onRequestComplete(doHttpRequest(createHttpGet()));
+					requestCallBackListener.onRequestComplete(id,doHttpRequest(createHttpGet()));
 			}
 			
 		});
