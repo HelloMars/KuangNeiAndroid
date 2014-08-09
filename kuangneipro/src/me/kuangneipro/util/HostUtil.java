@@ -21,4 +21,10 @@ public class HostUtil {
 	 * 发帖子协议地址
 	 */
 	public static final String POSTING_URL = KUANG_NEI_HOST+"post/";
+	
+	
+	/**
+	 * 图片上传Token获取地址
+	 */
+	public static final String GET_UP_TOKEN_URL = "http://kuangnei.me/zhumeng/kuangnei/api/getUpToken/";
 }

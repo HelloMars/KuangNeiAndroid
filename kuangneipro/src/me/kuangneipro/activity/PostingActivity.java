@@ -1,5 +1,9 @@
 package me.kuangneipro.activity;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import me.kuangneipro.R;
 import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.entity.ChannelEntity;
@@ -14,6 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +30,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class PostingActivity extends HttpActivity {
+import com.qiniu.auth.JSONObjectRet;
+import com.qiniu.utils.QiniuException;
+
+public class PostingActivity extends HttpActivity{
 	public static final String CHANNEL_ID_KEY = "CHANNEL_ID_KEY";
 	private int mChoosed = 0;
 	private LinearLayout mImageRow;
@@ -34,10 +42,18 @@ public class PostingActivity extends HttpActivity {
 	
 	private ChannelEntity mChannel;
 	
+	private String message;
+	
 	private static int RESULT_LOAD_IMAGE = 1;
-	private static final String TAG = MainActivity.class.getSimpleName(); // tag 用于测试log用  
+	private static final String TAG = PostingActivity.class.getSimpleName(); // tag 用于测试log用  
 	
 	private MenuItem postingButton;
+	
+	private final List<String> updatedImagePath;
+	
+	public PostingActivity(){
+		updatedImagePath = new ArrayList<String>();
+	}
 	
 	protected void updateImages() {
 		for (int i = 0; i < 4; ++i) {
@@ -106,7 +122,7 @@ public class PostingActivity extends HttpActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             
-            Log.i(TAG, "!!!!!!!!!!" + picturePath);
+            Log.i(TAG, "choice picture:" + picturePath);
             mImgPath[mChoosed] = picturePath;
             mImgView[mChoosed].setImageBitmap(ImageUtil.decodeSampledBitmap(picturePath, 70));
             ++mChoosed;
@@ -124,26 +140,82 @@ public class PostingActivity extends HttpActivity {
 	
 	private void sendPost() {
 		EditText editText = (EditText) findViewById(R.id.editTextPost);
-    	String message = editText.getText().toString();
+    	message = editText.getText().toString();
+    	updatedImagePath.clear();
     	if (message.isEmpty()) {
     		String warnning = this.getString(R.string.info_post_empty);
     		Toast.makeText(this, warnning, Toast.LENGTH_LONG).show();
     	} else {
-    		PostEntityManager.doPosting(getHttpRequest(PostEntityManager.POST_LIST_KEY), mChannel.getId(), message);
+    		ImageUtil.gettingImageUploadToken(getHttpRequest(ImageUtil.GET_IMAGE_UPLOAD_TOKEN));
     	}
 	}
 	
 	@Override
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
-		ReturnInfo returnInfo = PostEntityManager.getPostingReturnInfo(jsonObj);
-		
-		if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
-			Toast.makeText( PostingActivity.this, getString(R.string.info_post_success), Toast.LENGTH_LONG).show();
-		}else{
-			Toast.makeText( PostingActivity.this, getString(R.string.info_post_failure), Toast.LENGTH_LONG).show();
+		switch (id) {
+		case PostEntityManager.POST_LIST_KEY:
+			ReturnInfo returnInfo = PostEntityManager.getPostingReturnInfo(jsonObj);
+			
+			if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+				Toast.makeText( PostingActivity.this, getString(R.string.info_post_success), Toast.LENGTH_LONG).show();
+			}else{
+				Toast.makeText( PostingActivity.this, getString(R.string.info_post_failure), Toast.LENGTH_LONG).show();
+			}
+			finish();
+			break;
+		case ImageUtil.GET_IMAGE_UPLOAD_TOKEN:
+			String token = ImageUtil.getImageUploadToken(jsonObj);
+			int uploadCount = 0;
+			if(mImgPath!=null){
+				for(int i=0;i<mImgPath.length;i++){
+					if(!TextUtils.isEmpty(mImgPath[i])){
+						uploadCount ++;
+					}
+				}
+			}
+			final int updloadCountF = uploadCount;
+			
+			if(mImgPath!=null){
+				for(int i=0;i<mImgPath.length;i++){
+					if(!TextUtils.isEmpty(mImgPath[i])){
+						File file = ImageUtil.compressBmpToTmpFile(mImgPath[i]);
+						if(file!=null &&file.exists()){
+							Log.i(TAG, "begin uploading:"+file.getAbsolutePath());
+							ImageUtil.uploadImg(token, file, new JSONObjectRet() {
+								@Override
+								public void onProcess(long current, long total) {
+									Log.i(TAG, "uploading:"+(current + "/" + total));
+								}
+
+								@Override
+								public void onSuccess(JSONObject resp) {
+									String redirect = ImageUtil.QINIUDN_SERVER+resp.optString("hash", "");
+									Toast.makeText(PostingActivity.this, redirect, Toast.LENGTH_LONG).show();
+									updatedImagePath.add(redirect);
+									if(updatedImagePath.size()>=updloadCountF){
+										PostEntityManager.doPosting(getHttpRequest(PostEntityManager.POST_LIST_KEY), mChannel.getId(), message,updatedImagePath);
+									}
+								}
+
+								@Override
+								public void onFailure(QiniuException ex) {
+									Log.e(TAG, "uploading failed!");
+								}
+							});
+							
+							
+						}
+					}
+				}
+			}
+//			
+			Log.i(TAG, "getUploadToken:"+token);
+			break;
+		default:
+			break;
 		}
-		finish();
+		
 	}
 	
 	private void setPostingButtonEable(boolean enable){

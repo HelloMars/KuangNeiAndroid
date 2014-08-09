@@ -16,8 +16,8 @@ import org.json.JSONObject;
 
 public class PostEntityManager {
 	
-	public static int POST_LIST_KEY = 0;
-	public static int POSTING_KEY = 1;
+	public static final int POST_LIST_KEY = 0;
+	public static final int POSTING_KEY = 1;
 
 	public static void getPostList(HttpHelper httpRequest){
 		httpRequest.setUrl(HostUtil.POST_LIST_URL).asyncGet();
@@ -47,9 +47,25 @@ public class PostEntityManager {
 	}
 	
 	
-	public static void doPosting(HttpHelper httpRequest,int channelId,String content ){
+	public static void doPosting(HttpHelper httpRequest,int channelId,String content,List<String> updatedImagePath ){
 		try {
-			httpRequest.setUrl(HostUtil.POSTING_URL).put("userid", PushUtil.getToken()).put("channelid",channelId+"").put("content", URLEncoder.encode(content,"UTF-8")).asyncPost();
+			httpRequest.setUrl(HostUtil.POSTING_URL).put("userid", PushUtil.getToken()).put("channelid",channelId+"").put("content", URLEncoder.encode(content,"UTF-8"));
+			
+			boolean isNotFirst = false;
+			StringBuilder sb = new StringBuilder();
+			if(updatedImagePath!=null&& !updatedImagePath.isEmpty()){
+				for(String imagePath : updatedImagePath){
+					if(isNotFirst){
+						sb.append('@');	
+					}else{
+						isNotFirst = true;
+						sb.append(imagePath);
+					}
+					
+				}
+			}
+			httpRequest.put("imageurl", sb.toString());
+			httpRequest.asyncGet();
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
