@@ -2,6 +2,8 @@ package me.kuangneipro.entity;
 
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class ReturnInfo {
 
 	public static final int SUCCESS = 0;
@@ -17,6 +19,7 @@ public class ReturnInfo {
 	public static ReturnInfo fromJSONObject(JSONObject jsonObj){
 		int returnCode = jsonObj.optInt("returnCode", 0);
 		String  returnMessage = jsonObj.optString("returnMessage", "");
+		Log.i("ReturnInfo", returnMessage);
 		return new ReturnInfo(returnCode,returnMessage);
 	}
 

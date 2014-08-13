@@ -141,6 +141,7 @@ public class PostingActivity extends HttpActivity{
 	private void sendPost() {
 		EditText editText = (EditText) findViewById(R.id.editTextPost);
     	message = editText.getText().toString();
+    	Log.i(TAG, "sendPost: " + message);
     	updatedImagePath.clear();
     	if (message.isEmpty()) {
     		String warnning = this.getString(R.string.info_post_empty);
@@ -155,6 +156,7 @@ public class PostingActivity extends HttpActivity{
 		super.requestComplete(id,jsonObj);
 		switch (id) {
 		case PostEntityManager.POST_LIST_KEY:
+			Log.i(TAG, "case PostEntityManager.POST_LIST_KEY");
 			ReturnInfo returnInfo = PostEntityManager.getPostingReturnInfo(jsonObj);
 			
 			if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
@@ -165,6 +167,7 @@ public class PostingActivity extends HttpActivity{
 			finish();
 			break;
 		case ImageUtil.GET_IMAGE_UPLOAD_TOKEN:
+			Log.i(TAG, "case ImageUtil.GET_IMAGE_UPLOAD_TOKEN");
 			String token = ImageUtil.getImageUploadToken(jsonObj);
 			int uploadCount = 0;
 			if(mImgPath!=null){
@@ -176,7 +179,7 @@ public class PostingActivity extends HttpActivity{
 			}
 			final int updloadCountF = uploadCount;
 			
-			if(mImgPath!=null){
+			if(updloadCountF > 0 && mImgPath!=null){
 				for(int i=0;i<mImgPath.length;i++){
 					if(!TextUtils.isEmpty(mImgPath[i])){
 						File file = ImageUtil.compressBmpToTmpFile(mImgPath[i]);
@@ -208,6 +211,8 @@ public class PostingActivity extends HttpActivity{
 						}
 					}
 				}
+			} else {
+				PostEntityManager.doPosting(getHttpRequest(PostEntityManager.POST_LIST_KEY), mChannel.getId(), message,null);
 			}
 //			
 			Log.i(TAG, "getUploadToken:"+token);
