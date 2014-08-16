@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,25 +8,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="0px"
     tools:context="me.kuangneipro.MainActivity$PlaceholderFragment" >
-    
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/pull_to_refresh_listview"
+
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editText1"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:headerDividersEnabled="false" />
-
-    <TextView
-        android:id="@+id/editText1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@android:id/list"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@android:id/list"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:text="@string/notice" />
 
 </RelativeLayout>

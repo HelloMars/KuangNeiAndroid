@@ -56,7 +56,7 @@ public class ChannelListFragment extends HttpListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_main, container, false);
+		View v = inflater.inflate(R.layout.fragment_channel_list, container, false);
 		mListView = (ListView) v.findViewById(android.R.id.list);
 
 		ChannelEntityManager.getChannelList(getHttpRequest(ChannelEntityManager.CHANNEL_LIST_KEY));
