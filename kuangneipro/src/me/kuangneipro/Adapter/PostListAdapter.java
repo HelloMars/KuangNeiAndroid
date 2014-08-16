@@ -97,6 +97,10 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 			if (i < post.mPictures.size()){
 				holder.pictures[i].setVisibility(View.VISIBLE);
 				String picUrl = post.mPictures.get(i);
+				if (picUrl.isEmpty()) {
+					holder.pictures[i].setVisibility(View.INVISIBLE);
+					continue;
+				}
 				Log.i(tag, "!!!!downloading pic " + i + picUrl);
 				Picasso.with(context)
 		        	.load(picUrl)

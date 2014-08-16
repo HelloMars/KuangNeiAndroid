@@ -13,13 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 public class PostEntityManager {
 	
 	public static final int POST_LIST_KEY = 0;
 	public static final int POSTING_KEY = 1;
 
-	public static void getPostList(HttpHelper httpRequest){
-		httpRequest.setUrl(HostUtil.POST_LIST_URL).asyncGet();
+	public static void getPostList(HttpHelper httpRequest, int channelId, int page){
+		httpRequest.setUrl(HostUtil.POST_LIST_URL).put("userid", "1").put("channelid", channelId+"").put("page", page+"").asyncGet();
 	}
 	
 	public static void fillPostListFromJson(JSONObject jsonObj , List<PostEntity> mPostList){
@@ -35,10 +36,9 @@ public class PostEntityManager {
 	    		for (int j = 0; j < pictures.length(); ++j)
 	    			pictureList.add(pictures.getString(j));
 	    		PostEntity channel = new PostEntity(
-	    				user.getInt("id"),
+	    				user.getString("id"),
 	    				user.getString("name"),
 	    				user.getString("avatar"),
-	    				oneJson.getString("title"),
 	    				oneJson.getString("content"),
 	    				oneJson.getInt("opposedCount"),
 	    				oneJson.getInt("upCount"),

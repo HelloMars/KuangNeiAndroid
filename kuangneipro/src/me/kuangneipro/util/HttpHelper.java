@@ -111,8 +111,8 @@ public class HttpHelper {
 				urlSB.append(entry.getKey()).append('=').append(entry.getValue());
 			}
 		}
-
-		HttpGet httpGet = new HttpGet(url);
+		
+		HttpGet httpGet = new HttpGet(urlSB.toString());
 		
 		return httpGet;
 	}

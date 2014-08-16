@@ -75,7 +75,7 @@ public class PostListFragment extends HttpListFragment  {
 		View v = inflater.inflate(layout, container, false);
         mListView = (ListView)v.findViewById(android.R.id.list);
         
-        PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY));
+        PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);
         
         Log.i(TAG, "onCreateView" + mSectionNum);
         return v;

@@ -8,10 +8,9 @@ import java.util.List;
 
 public final class PostEntity {
 	public Date mDate;
-	public int mUserId;
+	public String mUserId;
 	public String mUserName;
 	public String mUserAvatar;
-	public String mTitle;
 	public String mContent;	
 	public int mDislikeNum;
 	public int mReplyNum;
@@ -20,10 +19,9 @@ public final class PostEntity {
 	
 	@SuppressLint("SimpleDateFormat") 
 	public PostEntity(
-			int id,
+			String id,
 			String name,
 			String avatar,
-			String title,
 			String content,
 			int dislikeNum,
 			int replyNum,
@@ -34,7 +32,6 @@ public final class PostEntity {
 		mUserId = id;
 		mUserName = name;
 		mUserAvatar = avatar;
-        mTitle = title;
         mContent = content;
         mDislikeNum = dislikeNum;
         mReplyNum = replyNum;
@@ -54,10 +51,6 @@ public final class PostEntity {
 		int[] units = {60, 60, 24};
 		
 		long between=(new Date().getTime() - mDate.getTime())/1000;//除以1000是为了转换成秒
-//		long day1=between/(24*3600);
-//		long hour1=between%(24*3600)/3600;
-//		long minute1=between%3600/60;
-//		long second1=between%60/60;
 		for (int i = 0; i < 4; ++i) {
 			if (between < units[i] || i == 3) {
 				return between + measure[i] + "前";
