@@ -155,10 +155,15 @@ public class ImageUtil {
 		IO.putFile( token, IO.UNDEFINED_KEY, file, extra, jsonObjectRet);
 	}
 	
-	public static void uploadImg(String token,File file,JSONObjectRet jsonObjectRet){
-		PutExtra extra = new PutExtra();
-		extra.params = new HashMap<String, String>();
-		IO.putFile( token, IO.UNDEFINED_KEY, file, extra, jsonObjectRet);
+	public static void uploadImg(final String token,final File file,final JSONObjectRet jsonObjectRet){
+		ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+			@Override
+			public void run() {
+				PutExtra extra = new PutExtra();
+				extra.params = new HashMap<String, String>();
+				IO.putFile( token, IO.UNDEFINED_KEY, file, extra, jsonObjectRet);
+			}
+		});
 	}
 	
 	
