@@ -42,6 +42,9 @@ public class PostListActivity extends HttpActivity {
 		
 		mChannel = (ChannelEntity) (getIntent().getParcelableExtra(SELECT_CHANNEL_INFO));
 
+		if(mChannel==null)
+			mChannel = savedInstanceState.getParcelable(SELECT_CHANNEL_INFO);
+
 		getSupportActionBar().setTitle(mChannel.getTitle());
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
@@ -71,6 +74,14 @@ public class PostListActivity extends HttpActivity {
 			
 			mListView.onRefreshComplete();
 		}
+	}
+	
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		if(mChannel!=null)
+			outState.putParcelable(SELECT_CHANNEL_INFO, mChannel);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
