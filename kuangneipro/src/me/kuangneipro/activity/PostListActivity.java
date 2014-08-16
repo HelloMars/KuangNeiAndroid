@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 
@@ -27,6 +28,7 @@ public class PostListActivity extends HttpActivity {
 	
 	private ChannelEntity mChannel;
 	
+	private int index = 1;
 	private PullToRefreshListView mListView;
 	private ArrayList<PostEntity> mPostList;
 	private PostListAdapter mPostListAdapter;
@@ -54,8 +56,16 @@ public class PostListActivity extends HttpActivity {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                 // Do work to refresh the list here.
-            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);
+            	index = 1;
+            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), index);
             }
+        });
+        
+        mListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+        	@Override
+        	public void onLastItemVisible() {
+        		PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), ++index);
+        		}
         });
         
         PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);

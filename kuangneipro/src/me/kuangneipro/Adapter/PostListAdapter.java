@@ -109,7 +109,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 		        	.fit()
 		        	.into(holder.pictures[i]);
 			} else {
-				holder.pictures[i].setVisibility(View.INVISIBLE);
+				holder.pictures[i].setVisibility(View.GONE);
 			}
 		}
 		
