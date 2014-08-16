@@ -104,7 +104,7 @@ public class PostEntityManager {
 												if(index.get()>=imageSize){
 													doPosting(postingInfo);
 												}
-												Log.e(TAG, redirect);
+												Log.i(TAG, redirect);
 											}
 											@Override
 											public void onFailure(QiniuException ex) {
@@ -112,10 +112,10 @@ public class PostEntityManager {
 												if(index.get()>=imageSize){
 													doPosting(postingInfo);
 												}
-												Log.e(TAG, ex.toString());
+												Log.i(TAG, ex.toString());
 											}
 										});
-										Log.e(TAG, "uploading");
+										Log.i(TAG, "uploading");
 										
 									}else{
 										index.incrementAndGet();
