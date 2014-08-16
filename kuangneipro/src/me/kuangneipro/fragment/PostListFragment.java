@@ -11,6 +11,10 @@ import me.kuangneipro.manager.PostEntityManager;
 
 import org.json.JSONObject;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +27,7 @@ public class PostListFragment extends HttpListFragment  {
 	private static final String TAG = PostListFragment.class.getSimpleName(); // tag ”√”⁄≤‚ ‘log”√  
 	
 	private int mSectionNum;
-	private ListView mListView;
+	private PullToRefreshListView mListView;
 	private ArrayList<PostEntity> mPostList;
 	private PostListAdapter mPostListAdapter;
 	
@@ -64,6 +68,8 @@ public class PostListFragment extends HttpListFragment  {
 			mListView.setAdapter(mPostListAdapter);
 		}else{
 			mPostListAdapter.notifyDataSetChanged();
+			
+			mListView.onRefreshComplete();
 		}
 		
 	}
@@ -73,7 +79,14 @@ public class PostListFragment extends HttpListFragment  {
 			Bundle savedInstanceState) {
 		int layout = this.mSectionNum == 0 ? R.layout.fragment_latest : R.layout.fragment_main;
 		View v = inflater.inflate(layout, container, false);
-        mListView = (ListView)v.findViewById(android.R.id.list);
+        mListView = (PullToRefreshListView)v.findViewById(R.id.pull_to_refresh_listview);
+        mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                // Do work to refresh the list here.
+            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);
+            }
+        });
         
         PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);
         
