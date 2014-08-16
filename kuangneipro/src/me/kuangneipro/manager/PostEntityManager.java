@@ -1,17 +1,33 @@
 package me.kuangneipro.manager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import me.kuangneipro.R;
+import me.kuangneipro.core.KuangNeiApplication;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.entity.PostingInfo;
 import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.UploadImage;
+import me.kuangneipro.util.ApplicationWorker;
 import me.kuangneipro.util.HostUtil;
 import me.kuangneipro.util.HttpHelper;
+import me.kuangneipro.util.HttpHelper.RequestCallBackListener;
+import me.kuangneipro.util.ImageUtil;
 import me.kuangneipro.util.PushUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import com.qiniu.auth.JSONObjectRet;
+import com.qiniu.utils.QiniuException;
 
 
 public class PostEntityManager {
@@ -52,23 +68,122 @@ public class PostEntityManager {
 	}
 	
 	
-	public static void doPosting(HttpHelper httpRequest,int channelId,String content,List<String> updatedImagePath ){
+	public static void doPostingTotal(final PostingInfo postingInfo){
+		
+		ApplicationWorker.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				HttpHelper httpTokenGet = new HttpHelper(ImageUtil.GET_IMAGE_UPLOAD_TOKEN);
+				final List<UploadImage> uploadImages = postingInfo.getUploadImage();
+				final int imageSize = uploadImages.size();
+				final AtomicInteger index = new AtomicInteger(0);
+				if(uploadImages != null && !uploadImages.isEmpty()){
+					
+					httpTokenGet.setRequestCallBackListener(new RequestCallBackListener() {
+						@Override
+						public void onRequestComplete(int id, JSONObject jsonObj) {
+							String token = ImageUtil.getImageUploadToken(jsonObj);
+							for(int i=0;i<imageSize;i++){
+								String localPath = uploadImages.get(i).getLocalPath();
+								if(!TextUtils.isEmpty(localPath)){
+									File file = ImageUtil.compressBmpToTmpFile(localPath);
+									if(file!=null &&file.exists()){
+										final int j = i;
+										ImageUtil.uploadImg(token, file, new JSONObjectRet() {
+											@Override
+											public void onProcess(long current, long total) {
+											}
+											@Override
+											public void onSuccess(JSONObject resp) {
+												String redirect = ImageUtil.QINIUDN_SERVER+resp.optString("hash", "");
+												uploadImages.get(j).setRemotePath(redirect);
+												index.incrementAndGet();
+												if(index.get()>=imageSize){
+													doPosting(postingInfo);
+												}
+											}
+											@Override
+											public void onFailure(QiniuException ex) {
+											}
+										});
+										
+										
+									}else{
+										index.incrementAndGet();
+										if(index.get()>=imageSize){
+											doPosting(postingInfo);
+										}
+									}
+								}else{
+									index.incrementAndGet();
+									if(index.get()>=imageSize){
+										doPosting(postingInfo);
+									}
+								}
+							}
+							
+						}
+					});
+					ImageUtil.gettingImageUploadToken(httpTokenGet);
+				}else{
+					doPosting(postingInfo);
+				}
+				
+			}
+		});
+	}
+	
+	private static void doPosting(PostingInfo postingInfo){
+		HttpHelper httpPostingGet = new HttpHelper(POSTING_KEY);
+		
+		httpPostingGet.setRequestCallBackListener(new RequestCallBackListener() {
+			@Override
+			public void onRequestComplete(int id, JSONObject jsonObj) {
+				ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
+				final Context context = KuangNeiApplication.getInstance();
+				if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText( context, context.getString(R.string.info_post_success), Toast.LENGTH_SHORT).show();
+						}
+					});
+					
+				}else{
+					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText( context, context.getString(R.string.info_post_failure), Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}
+		});
+		doPosting(httpPostingGet, postingInfo.getChannel().getId(), postingInfo.getContent(), null);
+	}
+	
+	
+	
+	private static void doPosting(HttpHelper httpRequest,int channelId,String content,List<UploadImage> updatedImagePath ){
 			httpRequest.setUrl(HostUtil.POSTING_URL).put("userid", PushUtil.getToken()).put("channelid",channelId+"").put("content", content);
 			
 			boolean isNotFirst = false;
 			StringBuilder sb = new StringBuilder();
 			if(updatedImagePath!=null&& !updatedImagePath.isEmpty()){
-				for(String imagePath : updatedImagePath){
-					if(isNotFirst){
-						sb.append('@');	
-					}else{
-						isNotFirst = true;
-						sb.append(imagePath);
-					}
+				for(UploadImage imagePath : updatedImagePath){
+					if(!TextUtils.isEmpty(imagePath.getRemotePath()))
+						if(isNotFirst){
+							sb.append('@');	
+						}else{
+							isNotFirst = true;
+							sb.append(imagePath.getRemotePath());
+						}
 					
 				}
 			}
-			httpRequest.put("imageurl", sb.toString());
+			if(!TextUtils.isEmpty(sb.toString()))
+				httpRequest.put("imageurl", sb.toString());
 			httpRequest.asyncPost();
 	}
 	

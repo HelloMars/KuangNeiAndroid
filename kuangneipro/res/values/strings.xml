@@ -16,6 +16,8 @@
 	<string name="notice">为了维护本频道内容的相关性，如果你方便的话请对与本频道无关的内容使用踩
 请不要因为个人喜好和个人恩怨而使用踩功能，谢谢</string>
 
+	<string name="select_picture">选择图片</string>
+
     <string-array name="tab_names">
         <item>频道</item>
         <item>发现</item>

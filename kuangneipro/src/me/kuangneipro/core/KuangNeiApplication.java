@@ -12,13 +12,20 @@ import android.app.Application;
  */
 public class KuangNeiApplication extends Application {
 
+	private static KuangNeiApplication instance;
+	
 	@Override
 	public void onCreate() {
+		instance = this;
 		super.onCreate();
 		//初始化存储文件管理器
 		DataStorage.init(this);
 		//初始化线程池
 		ApplicationWorker.getInstance();
+	}
+	
+	public static KuangNeiApplication getInstance(){
+		return instance;
 	}
 
 	
