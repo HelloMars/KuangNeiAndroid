@@ -11,16 +11,18 @@ import me.kuangneipro.manager.PostEntityManager;
 
 import org.json.JSONObject;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class PostListFragment extends HttpListFragment  {
 	
@@ -34,8 +36,8 @@ public class PostListFragment extends HttpListFragment  {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private static final String ARG_SECTION_CHANNEL = "section_channel";
 	
-	@SuppressWarnings("unused")
 	private ChannelEntity mChannel;
+	private int index = 1;
 	
 	public static PostListFragment newInstance(int sectionNumber,ChannelEntity channel) {
 		Log.i(TAG, "newInstance" + sectionNumber);
@@ -61,7 +63,7 @@ public class PostListFragment extends HttpListFragment  {
 	@Override
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
-		mPostList.clear();
+//		mPostList.clear();
 		PostEntityManager.fillPostListFromJson(jsonObj,mPostList);
 		if(mPostListAdapter==null){
 			mPostListAdapter = new PostListAdapter(getActivity(), mPostList);
@@ -80,6 +82,15 @@ public class PostListFragment extends HttpListFragment  {
 		int layout = this.mSectionNum == 0 ? R.layout.fragment_latest : R.layout.fragment_main;
 		View v = inflater.inflate(layout, container, false);
         mListView = (PullToRefreshListView)v.findViewById(R.id.pull_to_refresh_listview);
+        
+        // Add an end-of-list listener
+        mListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+
+     			@Override
+     			public void onLastItemVisible() {
+     				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), ++index);
+     			}
+     	});
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
