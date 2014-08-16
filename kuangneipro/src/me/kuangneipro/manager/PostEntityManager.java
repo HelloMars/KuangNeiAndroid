@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.qiniu.auth.JSONObjectRet;
@@ -31,6 +32,7 @@ import com.qiniu.utils.QiniuException;
 
 
 public class PostEntityManager {
+	private static final String TAG = "PostEntityManager";
 	
 	public static final int POST_LIST_KEY = 0;
 	public static final int POSTING_KEY = 1;
@@ -102,12 +104,18 @@ public class PostEntityManager {
 												if(index.get()>=imageSize){
 													doPosting(postingInfo);
 												}
+												Log.e(TAG, redirect);
 											}
 											@Override
 											public void onFailure(QiniuException ex) {
+												index.incrementAndGet();
+												if(index.get()>=imageSize){
+													doPosting(postingInfo);
+												}
+												Log.e(TAG, ex.toString());
 											}
 										});
-										
+										Log.e(TAG, "uploading");
 										
 									}else{
 										index.incrementAndGet();
@@ -160,7 +168,7 @@ public class PostEntityManager {
 				}
 			}
 		});
-		doPosting(httpPostingGet, postingInfo.getChannel().getId(), postingInfo.getContent(), null);
+		doPosting(httpPostingGet, postingInfo.getChannel().getId(), postingInfo.getContent(), postingInfo.getUploadImage());
 	}
 	
 	
@@ -177,13 +185,16 @@ public class PostEntityManager {
 							sb.append('@');	
 						}else{
 							isNotFirst = true;
-							sb.append(imagePath.getRemotePath());
 						}
+						sb.append(imagePath.getRemotePath());
 					
 				}
 			}
 			if(!TextUtils.isEmpty(sb.toString()))
 				httpRequest.put("imageurl", sb.toString());
+			
+			Log.i(TAG, sb.toString()+"!");
+			
 			httpRequest.asyncPost();
 	}
 	

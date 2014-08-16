@@ -30,11 +30,11 @@ public class UploadImage {
 		this.bitmap = bitmap;
 	}
 
-	public String getRemotePath() {
+	public synchronized String getRemotePath() {
 		return remotePath;
 	}
 
-	public void setRemotePath(String remotePath) {
+	public synchronized void setRemotePath(String remotePath) {
 		this.remotePath = remotePath;
 	}
 	

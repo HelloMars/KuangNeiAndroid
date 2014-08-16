@@ -26,5 +26,5 @@ public class HostUtil {
 	/**
 	 * 图片上传Token获取地址
 	 */
-	public static final String GET_UP_TOKEN_URL = "http://kuangnei.me/zhumeng/kuangnei/api/getUpToken/";
+	public static final String GET_UP_TOKEN_URL = KUANG_NEI_HOST+"getUpToken/";
 }
