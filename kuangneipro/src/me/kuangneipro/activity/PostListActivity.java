@@ -2,23 +2,25 @@ package me.kuangneipro.activity;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
-
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.PostListAdapter;
 import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.manager.PostEntityManager;
+
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class PostListActivity extends HttpActivity {
 	private static final String TAG = PostListActivity.class.getSimpleName(); // tag ”√”⁄≤‚ ‘log”√  
@@ -30,6 +32,7 @@ public class PostListActivity extends HttpActivity {
 	private PullToRefreshListView mListView;
 	private ArrayList<PostEntity> mPostList;
 	private PostListAdapter mPostListAdapter;
+	private int index = 1;
 	
 	public PostListActivity() {
 		mPostList = new ArrayList<PostEntity>();
@@ -53,27 +56,42 @@ public class PostListActivity extends HttpActivity {
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                // Do work to refresh the list here.
-            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);
+            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), mChannel.getId(), 1);
             }
         });
+        mListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+			@Override
+			public void onLastItemVisible() {
+				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH_MORE), mChannel.getId(), ++index);
+			}
+		});
         
-        PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY), mChannel.getId(), 1);
+        PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), mChannel.getId(), 1);
 	}
 	
 	@Override
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
-		mPostList.clear();
-		PostEntityManager.fillPostListFromJson(jsonObj, mPostList);
-		if(mPostListAdapter==null){
-			mPostListAdapter = new PostListAdapter(this, mPostList);
-			mListView.setAdapter(mPostListAdapter);
-		}else{
-			mPostListAdapter.notifyDataSetChanged();
-			
-			mListView.onRefreshComplete();
+		switch (id) {
+		case PostEntityManager.POSTING_KEY_REFRESH:
+			mPostList.clear();
+		case PostEntityManager.POSTING_KEY_REFRESH_MORE:
+			PostEntityManager.fillPostListFromJson(jsonObj, mPostList);
+			if(mPostListAdapter==null){
+				mPostListAdapter = new PostListAdapter(this, mPostList);
+				mListView.setAdapter(mPostListAdapter);
+			}else{
+				mPostListAdapter.notifyDataSetChanged();
+				
+				mListView.onRefreshComplete();
+			}
+			break;
+
+		default:
+			break;
 		}
+		
+		
 	}
 	
 	
