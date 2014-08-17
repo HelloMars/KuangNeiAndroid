@@ -64,7 +64,7 @@
             android:scaleType="centerCrop"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/test_post_image" />
+            android:src="@android:drawable/ic_menu_my_calendar" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -73,7 +73,7 @@
             android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/test_post_image" />
+            android:src="@android:drawable/ic_menu_my_calendar" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -82,7 +82,7 @@
             android:scaleType="centerCrop"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/test_post_image" />
+            android:src="@android:drawable/ic_menu_my_calendar" />
     </RelativeLayout>
 
     <RelativeLayout
