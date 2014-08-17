@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:ems="10"
+        android:maxLength="800"
         android:inputType="textMultiLine" />
 
     <ImageButton
