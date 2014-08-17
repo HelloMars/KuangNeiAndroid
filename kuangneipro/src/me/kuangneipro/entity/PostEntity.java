@@ -1,6 +1,7 @@
 package me.kuangneipro.entity;
 
 import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,9 +14,9 @@ public final class PostEntity {
 	public String mUserAvatar;
 	public String mContent;	
 	public int mDislikeNum;
+	public int mLikeNum;
 	public int mReplyNum;
 	public List<String> mPictures;
-	
 	
 	@SuppressLint("SimpleDateFormat") 
 	public PostEntity(
@@ -24,6 +25,7 @@ public final class PostEntity {
 			String avatar,
 			String content,
 			int dislikeNum,
+			int likeNum,
 			int replyNum,
 			String date,
 			List<String> picList
@@ -34,15 +36,16 @@ public final class PostEntity {
 		mUserAvatar = avatar;
         mContent = content;
         mDislikeNum = dislikeNum;
+        mLikeNum = likeNum;
         mReplyNum = replyNum;
         mPictures = picList;
-        
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd, HH:mm:ss");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			mDate = formatter.parse(date);
 		} catch (ParseException e) {
 			mDate = new Date();
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
     }
 	

@@ -4,65 +4,40 @@
     android:layout_height="match_parent"
     android:gravity="top" >
 
-    <ImageView
-        android:id="@+id/imgIcon"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+    <RelativeLayout
+        android:id="@+id/userRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@android:drawable/ic_menu_my_calendar" />
+        android:layout_alignParentRight="true" >
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/imgIcon"
-        android:text="孤独的夏娃" />
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@android:drawable/ic_menu_my_calendar" />
 
-    <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imgIcon"
-        android:layout_alignLeft="@+id/txtName"
-        android:layout_marginBottom="10dp"
-        android:text="10秒前" />
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@+id/imgIcon"
+            android:text="孤独的夏娃" />
 
-    <TextView
-        android:id="@+id/txtReplyNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/txtName"
-        android:text="12" />
-
-    <ImageButton
-        android:id="@+id/btnReply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnDislike"
-        android:layout_toLeftOf="@+id/txtReplyNum"
-        android:src="@android:drawable/stat_sys_upload" />
-
-    <ImageButton
-        android:id="@+id/btnDislike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtName"
-        android:layout_marginRight="16dp"
-        android:layout_toLeftOf="@+id/btnReply"
-        android:src="@android:drawable/stat_sys_download" />
-
-    <TextView
-        android:id="@+id/txtDislikeNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btnReply"
-        android:layout_toLeftOf="@+id/btnReply"
-        android:text="22" />
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imgIcon"
+            android:layout_alignLeft="@+id/txtName"
+            android:layout_marginBottom="2dp"
+            android:text="10秒前" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/txtContent"
@@ -70,40 +45,103 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/imgIcon"
+        android:layout_below="@+id/userRow"
         android:layout_marginTop="10dp"
         android:text="我不该偷吃苹果的啊，我就是个愚蠢的老女人！请大家一定不要相信一条蛇。。。" />
 
-	<RelativeLayout
-	    android:id="@+id/imageRow"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentLeft="true"
-	    android:layout_below="@+id/txtContent" >
+    <RelativeLayout
+        android:id="@+id/imageRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/txtContent"
+        android:layout_marginTop="5dp" >
 
-	    <ImageView
-	        android:id="@+id/imageView1"
-	        android:layout_width="70dp"
-	        android:layout_height="70dp"
-	        android:layout_marginLeft="5dp"
-	        android:src="@android:drawable/ic_menu_gallery" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="@dimen/post_list_image_size"
+            android:layout_height="@dimen/post_list_image_size"
+            android:scaleType="centerCrop"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/test_post_image" />
 
-	    <ImageView
-	        android:id="@+id/imageView2"
-	        android:layout_width="70dp"
-	        android:layout_height="70dp"
-	        android:layout_alignParentTop="true"
-	        android:layout_centerHorizontal="true"
-	        android:src="@android:drawable/ic_menu_gallery" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/post_list_image_size"
+            android:layout_height="@dimen/post_list_image_size"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/test_post_image" />
 
-	    <ImageView
-	        android:id="@+id/imageView3"
-	        android:layout_width="70dp"
-	        android:layout_height="70dp"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginRight="21dp"
-	        android:src="@android:drawable/ic_menu_gallery" />
-	</RelativeLayout>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="@dimen/post_list_image_size"
+            android:layout_height="@dimen/post_list_image_size"
+            android:scaleType="centerCrop"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/test_post_image" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageRow" >
+        <ImageButton
+            android:id="@+id/btnDislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btnReply"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/dislike" />
+
+        <TextView
+            android:id="@+id/txtDislikeNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnReply"
+            android:layout_marginRight="5dp"
+            android:text="1" />
+        
+        <ImageButton
+            android:id="@+id/btnReply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btnLike"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/reply" />
+        <TextView
+            android:id="@+id/txtReplyNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/btnLike"
+            android:text="2" />
+        
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/like" />
+
+        <TextView
+            android:id="@+id/txtLikeNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="3" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

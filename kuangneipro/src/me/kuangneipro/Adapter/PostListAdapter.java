@@ -27,6 +27,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 		public TextView content;
 		public TextView date;
 		public TextView dislikeNum;
+		public TextView likeNum;
 		public TextView replyNum;
 		public ImageView[] pictures;
 	}
@@ -69,6 +70,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 			viewHolder.date = (TextView) rowView.findViewById(R.id.txtDate);
 			viewHolder.content = (TextView) rowView.findViewById(R.id.txtContent);
 			viewHolder.dislikeNum = (TextView) rowView.findViewById(R.id.txtDislikeNum);
+			viewHolder.likeNum = (TextView) rowView.findViewById(R.id.txtLikeNum);
 			viewHolder.replyNum = (TextView) rowView.findViewById(R.id.txtReplyNum);
 			viewHolder.pictures = new ImageView[3];
 			viewHolder.pictures[0] = (ImageView) rowView.findViewById(R.id.imageView1);
@@ -82,16 +84,18 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 		PostEntity post = mPosts.get(position);
 		holder.name.setText(post.mUserName);
 		holder.dislikeNum.setText(Integer.toString(post.mDislikeNum));
+		holder.likeNum.setText(Integer.toString(post.mLikeNum));
 		holder.replyNum.setText(Integer.toString(post.mReplyNum));
 		holder.content.setText(post.mContent);
 		holder.date.setText(post.getDate());
 		Log.i(tag, "!!!!downloading user avatar " + post.mUserAvatar);
 		Picasso.with(context)
         	.load(post.mUserAvatar)
-        	//.placeholder(android.R.drawable.ic_menu_my_calendar)
+        	.placeholder(android.R.drawable.ic_menu_my_calendar)
         	.placeholder(R.drawable.ic_launcher)
         	.error(android.R.drawable.ic_menu_report_image)
-        	.fit()
+        	.resize(80, 80)
+        	.centerCrop()
         	.into(holder.icon);
 		for (int i = 0; i < holder.pictures.length; ++i) {
 			if (i < post.mPictures.size()){
@@ -106,7 +110,8 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 		        	.load(picUrl)
 		        	.placeholder(android.R.drawable.ic_menu_gallery)
 		        	.error(android.R.drawable.ic_menu_report_image)
-		        	.fit()
+		        	.resize(120, 120)
+		        	.centerCrop()
 		        	.into(holder.pictures[i]);
 			} else {
 				holder.pictures[i].setVisibility(View.GONE);

@@ -61,6 +61,7 @@ public class PostEntityManager {
 	    				oneJson.getString("content"),
 	    				oneJson.getInt("opposedCount"),
 	    				oneJson.getInt("upCount"),
+	    				oneJson.getInt("replyCount"),
 	    				oneJson.getString("postTime"),
 	    				pictureList);
 	    		mPostList.add(channel);
@@ -149,6 +150,7 @@ public class PostEntityManager {
 		httpPostingGet.setRequestCallBackListener(new RequestCallBackListener() {
 			@Override
 			public void onRequestComplete(int id, JSONObject jsonObj) {
+				Log.i("**************jsonObj", ""+jsonObj.toString());
 				ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
 				final Context context = KuangNeiApplication.getInstance();
 				if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
