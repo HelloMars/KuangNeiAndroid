@@ -35,7 +35,8 @@ public class PostEntityManager {
 	private static final String TAG = "PostEntityManager";
 	
 	public static final int POST_LIST_KEY = 0;
-	public static final int POSTING_KEY = 1;
+	public static final int POSTING_KEY_REFRESH = 1;
+	public static final int POSTING_KEY_REFRESH_MORE = 2;
 
 	public static void getPostList(HttpHelper httpRequest, int channelId, int page){
 		httpRequest.setUrl(HostUtil.POST_LIST_URL).put("userid", "1").put("channelid", channelId+"").put("page", page+"").asyncGet();
@@ -143,7 +144,7 @@ public class PostEntityManager {
 	}
 	
 	private static void doPosting(PostingInfo postingInfo){
-		HttpHelper httpPostingGet = new HttpHelper(POSTING_KEY);
+		HttpHelper httpPostingGet = new HttpHelper(POSTING_KEY_REFRESH);
 		
 		httpPostingGet.setRequestCallBackListener(new RequestCallBackListener() {
 			@Override
