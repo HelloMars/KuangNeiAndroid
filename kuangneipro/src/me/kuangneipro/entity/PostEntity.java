@@ -54,13 +54,14 @@ public final class PostEntity {
 		int[] units = {60, 60, 24};
 		
 		long between=(new Date().getTime() - mDate.getTime())/1000;//除以1000是为了转换成秒
-		for (int i = 0; i < 4; ++i) {
-			if (between < units[i] || i == 3) {
+		int i = 0;
+		for (; i < 3; ++i) {
+			if (between < units[i]) {
 				return between + measure[i] + "前";
 			} else {
 				between /= units[i];
 			}
 		}
-		return "";
+		return between + measure[i] + "前";
 	}
 }
