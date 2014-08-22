@@ -1,12 +1,17 @@
 package com.qiniu.utils;
 
-import android.content.Context;
-import android.os.Environment;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.AbstractHttpEntity;
 
-import java.io.*;
+import android.content.Context;
 
 import com.qiniu.auth.Client;
 

@@ -1,20 +1,18 @@
 package com.qiniu.resumableio;
 
-import android.content.Context;
-import android.net.Uri;
+import java.io.File;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
+import android.content.Context;
+import android.net.Uri;
 
 import com.qiniu.auth.Client;
 import com.qiniu.auth.JSONObjectRet;
+import com.qiniu.utils.FileUri;
 import com.qiniu.utils.ICancel;
 import com.qiniu.utils.InputStreamAt;
-import com.qiniu.utils.FileUri;
 import com.qiniu.utils.QiniuException;
 
 public class ResumableIO {

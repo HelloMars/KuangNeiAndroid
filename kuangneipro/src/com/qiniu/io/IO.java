@@ -1,25 +1,22 @@
 package com.qiniu.io;
 
-import android.content.Context;
-import android.net.Uri;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
-
+import android.content.Context;
+import android.net.Uri;
 
 import com.qiniu.auth.CallRet;
 import com.qiniu.auth.Client;
 import com.qiniu.auth.JSONObjectRet;
 import com.qiniu.conf.Conf;
+import com.qiniu.utils.FileUri;
 import com.qiniu.utils.IOnProcess;
 import com.qiniu.utils.InputStreamAt;
 import com.qiniu.utils.MultipartEntity;
-import com.qiniu.utils.FileUri;
 import com.qiniu.utils.QiniuException;
 import com.qiniu.utils.RetryRet;
 
@@ -67,12 +64,12 @@ public class IO {
 	}
 
 	/**
-	 * 上传二进制
+	 * 涓婁紶浜岃繘鍒�
 	 *
-	 * @param key	  键值名, UNDEFINED_KEY 表示自动生成key
-	 * @param isa	  二进制数据
-	 * @param extra   上传参数
-	 * @param ret	  回调函数
+	 * @param key	  閿�煎悕, UNDEFINED_KEY 琛ㄧず鑷姩鐢熸垚key
+	 * @param isa	  浜岃繘鍒舵暟鎹�
+	 * @param extra   涓婁紶鍙傛暟
+	 * @param ret	  鍥炶皟鍑芥暟
 	 */
 	public void put(String key, final InputStreamAt isa, PutExtra extra, final JSONObjectRet ret) {
 		final MultipartEntity m;
@@ -113,13 +110,13 @@ public class IO {
 	}
 
 	/**
-	 * 通过提供URI来上传指定的文件
+	 * 閫氳繃鎻愪緵URI鏉ヤ笂浼犳寚瀹氱殑鏂囦欢
 	 *
 	 * @param mContext
 	 * @param key
-	 * @param uri 通过图库或其他拿到的URI
-	 * @param extra 上传参数
-	 * @param ret 结果回调函数
+	 * @param uri 閫氳繃鍥惧簱鎴栧叾浠栨嬁鍒扮殑URI
+	 * @param extra 涓婁紶鍙傛暟
+	 * @param ret 缁撴灉鍥炶皟鍑芥暟
 	 */
 	public void putFile(Context mContext, String key, Uri uri, PutExtra extra, JSONObjectRet ret) {
 		File file = FileUri.getFile(mContext, uri);

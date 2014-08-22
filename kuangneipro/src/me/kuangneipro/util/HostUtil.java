@@ -6,6 +6,7 @@ public class HostUtil {
 	 * 框内服务器地址
 	 */
 	public static final String KUANG_NEI_HOST = "http://kuangnei.me/kuangnei/api/";
+	public static final String KUANG_NEI_HOST_HTTPS = "https://kuangnei.me/kuangnei/api/";
 	
 	/**
 	 * 频道列表协议地址
@@ -27,4 +28,15 @@ public class HostUtil {
 	 * 图片上传Token获取地址
 	 */
 	public static final String GET_UP_TOKEN_URL = KUANG_NEI_HOST+"getUpToken/";
+	
+	/**
+	 * 注册
+	 */
+	public static final String REGISTER = KUANG_NEI_HOST_HTTPS + "register/";
+	
+	/**
+	 * 登陆
+	 */
+	public static final String SIGN_IN =  KUANG_NEI_HOST_HTTPS +"signin/";
+	
 }

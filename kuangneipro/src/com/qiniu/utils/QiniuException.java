@@ -1,7 +1,11 @@
 package com.qiniu.utils;
 
 public class QiniuException extends Exception{
-    public final int code;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2185083825606615868L;
+	public final int code;
     public final String reqId;
     public Exception reason = null;
     public QiniuException(int code, String reqId, String desc){

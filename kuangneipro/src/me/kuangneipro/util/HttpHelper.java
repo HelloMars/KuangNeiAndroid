@@ -72,7 +72,9 @@ public class HttpHelper {
 	private HttpPost createHttpPost(){
 		
 		HttpPost httpPost = new HttpPost(url);
-
+		String sessionId = LoginUtil.loadSession();
+		if(!TextUtils.isEmpty(sessionId))
+			httpPost.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
 		List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 
 		if (params != null && !params.isEmpty()) {
@@ -113,7 +115,9 @@ public class HttpHelper {
 		}
 		
 		HttpGet httpGet = new HttpGet(urlSB.toString());
-		
+		String sessionId = LoginUtil.loadSession();
+		if(!TextUtils.isEmpty(sessionId))
+			httpGet.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
 		return httpGet;
 	}
 	
@@ -164,8 +168,7 @@ public class HttpHelper {
 		try {
 			httpResponse = new DefaultHttpClient().execute(request);
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				returnJson = new JSONObject(EntityUtils.toString(httpResponse
-						.getEntity()));
+				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
