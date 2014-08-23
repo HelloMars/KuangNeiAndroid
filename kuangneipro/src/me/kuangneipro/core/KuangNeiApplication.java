@@ -5,7 +5,7 @@ import me.kuangneipro.util.DataStorage;
 import android.app.Application;
 
 /**
- * ¸²¸ÇÄ¬ÈÏµÄApplication,Ìí¼ÓÈ«¾ÖÅäÖÃĞÅÏ¢,³õÊ¼»¯È«¾Ö¹¤¾ßÀà
+ * è¦†ç›–é»˜è®¤çš„Application,æ·»åŠ å…¨å±€é…ç½®ä¿¡æ¯,åˆå§‹åŒ–å…¨å±€å·¥å…·ç±»
  * 
  * @author connor
  * 
@@ -18,13 +18,13 @@ public class KuangNeiApplication extends Application {
 	public void onCreate() {
 		instance = this;
 		super.onCreate();
-		//´íÎóĞÅÏ¢²¶»ñ
+		//é”™è¯¯ä¿¡æ¯æ•è·
 //		CrashHandler catchHandler = CrashHandler.getInstance();
 //		catchHandler.init(getApplicationContext());
 
-		// ³õÊ¼»¯´æ´¢ÎÄ¼ş¹ÜÀíÆ÷
+		// åˆå§‹åŒ–å­˜å‚¨æ–‡ä»¶ç®¡ç†å™¨
 		DataStorage.init(this);
-		// ³õÊ¼»¯Ïß³Ì³Ø
+		// åˆå§‹åŒ–çº¿ç¨‹æ± 
 		ApplicationWorker.getInstance();
 		
 	}

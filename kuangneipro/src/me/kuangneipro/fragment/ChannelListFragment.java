@@ -21,10 +21,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 /**
- * ÆµµÀÁĞ±íÒ³
+ * é¢‘é“åˆ—è¡¨é¡µ
  */
 public class ChannelListFragment extends HttpListFragment {
-	private static final String TAG = ChannelListFragment.class.getSimpleName(); // tag ÓÃÓÚ²âÊÔlogÓÃ
+	private static final String TAG = ChannelListFragment.class.getSimpleName(); // tag ç”¨äºæµ‹è¯•logç”¨
 	private int mSectionNum;
 	private ListView mListView;
 	private List<ChannelEntity> mChannelList;

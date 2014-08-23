@@ -35,7 +35,7 @@ public class RegisterActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(TextUtils.isEmpty(editPhone.getText())|| TextUtils.isEmpty(editPassword.getText())){
-					Toast.makeText(RegisterActivity.this, "ÇëÊäÈëÕËºÅÃÜÂë", Toast.LENGTH_SHORT).show();
+					Toast.makeText(RegisterActivity.this, "è¯·è¾“å…¥è´¦å·å¯†ç ", Toast.LENGTH_SHORT).show();
 				}else{
 					LoginUtil.register(editPhone.getText().toString(), editPassword.getText().toString(), new OnSignInLisener() {
 						
@@ -45,7 +45,7 @@ public class RegisterActivity extends Activity {
 								Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
 						    	startActivity(intent);
 							}else{
-								Toast.makeText(RegisterActivity.this, "µÇÂ¼Ê§°Ü£¬ÇëÖØÊÔ£¡", Toast.LENGTH_SHORT).show();
+								Toast.makeText(RegisterActivity.this, "ç™»å½•å¤±è´¥ï¼Œè¯·é‡è¯•ï¼", Toast.LENGTH_SHORT).show();
 							}
 							
 						}

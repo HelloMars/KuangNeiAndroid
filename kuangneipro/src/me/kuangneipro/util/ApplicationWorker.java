@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import android.os.Handler;
 
 /**
- * ¹ÜÀíÏîÄ¿ÖĞµÄÏß³Ì³Ø
+ * ç®¡ç†é¡¹ç›®ä¸­çš„çº¿ç¨‹æ± 
  * @author connor
  *
  */

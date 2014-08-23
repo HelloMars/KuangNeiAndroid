@@ -18,7 +18,7 @@ import com.igexin.sdk.PushManager;
 
 public class MainActivity extends HttpActivity {
 	
-	private static final String TAG = MainActivity.class.getSimpleName(); // tag ÓÃÓÚ²âÊÔlogÓÃ  
+	private static final String TAG = MainActivity.class.getSimpleName(); // tag ç”¨äºæµ‹è¯•logç”¨  
 
 	private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -31,7 +31,7 @@ public class MainActivity extends HttpActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//¸öÍÆÇëÇóclientid,²¢×¢²á½ÓÊÕ¼àÌı
+		//ä¸ªæ¨è¯·æ±‚clientid,å¹¶æ³¨å†Œæ¥æ”¶ç›‘å¬
 		PushManager.getInstance().initialize(this.getApplicationContext());
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -107,7 +107,7 @@ public class MainActivity extends HttpActivity {
 	 * one of the sections/tabs/pages.
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-		public String tag = this.getClass().getSimpleName(); // tag ÓÃÓÚ²âÊÔlogÓÃ  
+		public String tag = this.getClass().getSimpleName(); // tag ç”¨äºæµ‹è¯•logç”¨  
 		
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);

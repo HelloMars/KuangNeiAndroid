@@ -6,7 +6,7 @@ import me.kuangneipro.util.HttpHelper;
 import me.kuangneipro.util.HttpHelper.RequestCallBackListener;
 import android.support.v7.app.ActionBarActivity;
 /**
- * ¿É·¢ËÍHttpÇëÇóµÄ»ùÀà
+ * å¯å‘é€Httpè¯·æ±‚çš„åŸºç±»
  * @author connor
  */
 public class HttpActivity extends ActionBarActivity implements RequestCallBackListener {

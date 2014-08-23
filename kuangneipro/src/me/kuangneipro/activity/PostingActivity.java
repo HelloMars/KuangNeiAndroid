@@ -33,7 +33,7 @@ public class PostingActivity extends HttpActivity{
 	private String message;
 	
 	private static int RESULT_LOAD_IMAGE = 1;
-	private static final String TAG = PostingActivity.class.getSimpleName(); // tag ÓÃÓÚ²âÊÔlogÓÃ  
+	private static final String TAG = PostingActivity.class.getSimpleName(); // tag ç”¨äºæµ‹è¯•logç”¨  
 	
 	private MenuItem postingButton;
 	

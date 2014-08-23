@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 
 public class PostListAdapter extends ArrayAdapter<PostEntity> {
-	public String tag = this.getClass().getSimpleName(); // tag ÓÃÓÚ²âÊÔlogÓÃ  
+	public String tag = this.getClass().getSimpleName(); // tag ç”¨äºæµ‹è¯•logç”¨  
 	private final Activity context;
 	private final ArrayList<PostEntity> mPosts;
 

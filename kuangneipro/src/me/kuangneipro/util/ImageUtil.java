@@ -42,7 +42,7 @@ public class ImageUtil {
 	
 	public static File compressBmpToTmpFile(String srcPath) {  
         BitmapFactory.Options newOpts = new BitmapFactory.Options();  
-        newOpts.inJustDecodeBounds = true;//Ö»¶Á±ß,²»¶ÁÄÚÈİ  
+        newOpts.inJustDecodeBounds = true;//åªè¯»è¾¹,ä¸è¯»å†…å®¹  
         Bitmap bitmap = BitmapFactory.decodeFile(srcPath, newOpts);  
   
         newOpts.inJustDecodeBounds = false;  
@@ -58,15 +58,15 @@ public class ImageUtil {
         }  
         if (be <= 0)  
             be = 1;  
-        newOpts.inSampleSize = be;//ÉèÖÃ²ÉÑùÂÊ  
+        newOpts.inSampleSize = be;//è®¾ç½®é‡‡æ ·ç‡  
           
-        newOpts.inPreferredConfig = Config.ARGB_8888;//¸ÃÄ£Ê½ÊÇÄ¬ÈÏµÄ,¿É²»Éè  
-        newOpts.inPurgeable = true;// Í¬Ê±ÉèÖÃ²Å»áÓĞĞ§  
-        newOpts.inInputShareable = true;//¡£µ±ÏµÍ³ÄÚ´æ²»¹»Ê±ºòÍ¼Æ¬×Ô¶¯±»»ØÊÕ  
+        newOpts.inPreferredConfig = Config.ARGB_8888;//è¯¥æ¨¡å¼æ˜¯é»˜è®¤çš„,å¯ä¸è®¾  
+        newOpts.inPurgeable = true;// åŒæ—¶è®¾ç½®æ‰ä¼šæœ‰æ•ˆ  
+        newOpts.inInputShareable = true;//ã€‚å½“ç³»ç»Ÿå†…å­˜ä¸å¤Ÿæ—¶å€™å›¾ç‰‡è‡ªåŠ¨è¢«å›æ”¶  
           
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);  
-//      return compressBmpFromBmp(bitmap);//Ô­À´µÄ·½·¨µ÷ÓÃÁËÕâ¸ö·½·¨ÆóÍ¼½øĞĞ¶ş´ÎÑ¹Ëõ  
-                                    //ÆäÊµÊÇÎŞĞ§µÄ,´ó¼Ò¾¡¹Ü³¢ÊÔ  
+//      return compressBmpFromBmp(bitmap);//åŸæ¥çš„æ–¹æ³•è°ƒç”¨äº†è¿™ä¸ªæ–¹æ³•ä¼å›¾è¿›è¡ŒäºŒæ¬¡å‹ç¼©  
+                                    //å…¶å®æ˜¯æ— æ•ˆçš„,å¤§å®¶å°½ç®¡å°è¯•  
         checkImageTmpFolder();
 		
 		File file = new File(IMAGE_TMP_PATH+UUID.randomUUID().toString()+".jpg");
@@ -74,7 +74,7 @@ public class ImageUtil {
         try {  
         	file.createNewFile();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-            int options = 80;//¸öÈËÏ²»¶´Ó80¿ªÊ¼,  
+            int options = 80;//ä¸ªäººå–œæ¬¢ä»80å¼€å§‹,  
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);  
             while (baos.toByteArray().length > 102400) {   
                 baos.reset();  
@@ -101,7 +101,7 @@ public class ImageUtil {
         try {  
         	file.createNewFile();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-            int options = 80;//¸öÈËÏ²»¶´Ó80¿ªÊ¼,  
+            int options = 80;//ä¸ªäººå–œæ¬¢ä»80å¼€å§‹,  
             bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);  
             while (baos.toByteArray().length > 102400) {   
                 baos.reset();  

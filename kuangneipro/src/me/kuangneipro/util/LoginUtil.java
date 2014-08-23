@@ -52,7 +52,7 @@ public class LoginUtil {
 			Map<String, String> params, String encoding) {
 
 		try {
-			// 1> 组拼实体数据
+			// 1> 缁勬嫾瀹炰綋鏁版嵁
 			// method=save&name=liming&timelength=100
 			StringBuilder entityBuilder = new StringBuilder("");
 			if (params != null && !params.isEmpty()) {
@@ -78,7 +78,7 @@ public class LoginUtil {
 			}
 			conn.setConnectTimeout(5 * 1000);
 			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);// 允许输出数据
+			conn.setDoOutput(true);// 鍏佽杈撳嚭鏁版嵁
 			conn.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
 			conn.setRequestProperty("Content-Length",

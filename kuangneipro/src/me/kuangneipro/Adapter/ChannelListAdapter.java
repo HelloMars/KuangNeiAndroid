@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 
 public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
-	private static final String TAG = ChannelListAdapter.class.getSimpleName(); // tag ÓÃÓÚ²âÊÔlogÓÃ  
+	private static final String TAG = ChannelListAdapter.class.getSimpleName(); // tag ç”¨äºæµ‹è¯•logç”¨  
 	private final Activity context;
 	private final List<ChannelEntity> mChannels;
 

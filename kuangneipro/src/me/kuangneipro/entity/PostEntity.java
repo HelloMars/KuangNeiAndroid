@@ -50,18 +50,18 @@ public final class PostEntity {
     }
 	
 	public String getDate() {
-		String[] measure = {"Ãë", "·ÖÖÓ", "Ğ¡Ê±", "Ìì"};
+		String[] measure = {"ç§’", "åˆ†é’Ÿ", "å°æ—¶", "å¤©"};
 		int[] units = {60, 60, 24};
 		
-		long between=(new Date().getTime() - mDate.getTime())/1000;//³ıÒÔ1000ÊÇÎªÁË×ª»»³ÉÃë
+		long between=(new Date().getTime() - mDate.getTime())/1000;//é™¤ä»¥1000æ˜¯ä¸ºäº†è½¬æ¢æˆç§’
 		int i = 0;
 		for (; i < 3; ++i) {
 			if (between < units[i]) {
-				return between + measure[i] + "Ç°";
+				return between + measure[i] + "å‰";
 			} else {
 				between /= units[i];
 			}
 		}
-		return between + measure[i] + "Ç°";
+		return between + measure[i] + "å‰";
 	}
 }

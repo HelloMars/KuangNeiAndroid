@@ -23,7 +23,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class PostListActivity extends HttpActivity {
-	//private static final String TAG = PostListActivity.class.getSimpleName();  tag ÓÃÓÚ²âÊÔlogÓÃ  
+	//private static final String TAG = PostListActivity.class.getSimpleName();  tag ç”¨äºŽæµ‹è¯•logç”¨  
 	
 	public final static String SELECT_CHANNEL_INFO = "me.kuangnei.select.CHANNEL";
 	

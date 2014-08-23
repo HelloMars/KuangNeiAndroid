@@ -23,7 +23,7 @@ public class PushReceiver extends BroadcastReceiver {
 		Log.d("GetuiSdkDemo", "onReceive() action=" + bundle.getInt("action"));
 		switch (bundle.getInt(PushConsts.CMD_ACTION)) {
 			case PushConsts.GET_MSG_DATA:
-				// »ñÈ¡Í¸´«£¨payload£©Êı¾İ
+				// è·å–é€ä¼ ï¼ˆpayloadï¼‰æ•°æ®
 				byte[] payload = bundle.getByteArray("payload");
 				
 				if (payload != null)
@@ -31,18 +31,18 @@ public class PushReceiver extends BroadcastReceiver {
 					String data = new String(payload);
 					Log.d(TAG, "Got Payload:" + data);
 					Toast.makeText(context, TAG+" Payload:"+data, Toast.LENGTH_LONG).show();
-					// TODO:½ÓÊÕ´¦ÀíÍ¸´«£¨payload£©Êı¾İ 
+					// TODO:æ¥æ”¶å¤„ç†é€ä¼ ï¼ˆpayloadï¼‰æ•°æ® 
 				}
 				break;
 			case PushConsts.GET_CLIENTID:
-				// »ñÈ¡ClientID(CID)
+				// è·å–ClientID(CID)
 				String cid = bundle.getString("clientid");
 				Log.i(TAG, "Got ClientID:" + cid);
 				Toast.makeText(context, "clientID:"+cid, Toast.LENGTH_LONG).show();
 				PushUtil.saveToken(cid);
 				// TODO: 
-				/* µÚÈı·½Ó¦ÓÃĞèÒª½«ClientIDÉÏ´«µ½µÚÈı·½·şÎñÆ÷£¬²¢ÇÒ½«µ±Ç°ÓÃ»§ÕÊºÅºÍClientID½øĞĞ¹ØÁª£¬ÒÔ±ãÒÔºóÍ¨¹ıÓÃ»§ÕÊºÅ²éÕÒClientID½øĞĞÏûÏ¢ÍÆËÍ
-				ÓĞĞ©Çé¿öÏÂClientID¿ÉÄÜ»á·¢Éú±ä»¯£¬Îª±£Ö¤»ñÈ¡×îĞÂµÄClientID£¬ÇëÓ¦ÓÃ³ÌĞòÔÚÃ¿´Î»ñÈ¡ClientID¹ã²¥ºó£¬¶¼ÄÜ½øĞĞÒ»´Î¹ØÁª°ó¶¨ */
+				/* ç¬¬ä¸‰æ–¹åº”ç”¨éœ€è¦å°†ClientIDä¸Šä¼ åˆ°ç¬¬ä¸‰æ–¹æœåŠ¡å™¨ï¼Œå¹¶ä¸”å°†å½“å‰ç”¨æˆ·å¸å·å’ŒClientIDè¿›è¡Œå…³è”ï¼Œä»¥ä¾¿ä»¥åé€šè¿‡ç”¨æˆ·å¸å·æŸ¥æ‰¾ClientIDè¿›è¡Œæ¶ˆæ¯æ¨é€
+				æœ‰äº›æƒ…å†µä¸‹ClientIDå¯èƒ½ä¼šå‘ç”Ÿå˜åŒ–ï¼Œä¸ºä¿è¯è·å–æœ€æ–°çš„ClientIDï¼Œè¯·åº”ç”¨ç¨‹åºåœ¨æ¯æ¬¡è·å–ClientIDå¹¿æ’­åï¼Œéƒ½èƒ½è¿›è¡Œä¸€æ¬¡å…³è”ç»‘å®š */
 
 				break;
 		// case PushConsts.BIND_CELL_STATUS:

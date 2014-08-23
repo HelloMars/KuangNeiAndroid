@@ -30,7 +30,7 @@ public class SignInActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_signin);
-		//¸öÍÆÇëÇóclientid,²¢×¢²á½ÓÊÕ¼àÌı
+		//ä¸ªæ¨è¯·æ±‚clientid,å¹¶æ³¨å†Œæ¥æ”¶ç›‘å¬
 		PushManager.getInstance().initialize(this.getApplicationContext());
 		
 		signinButton = (Button)findViewById(R.id.btnSignin);
@@ -57,7 +57,7 @@ public class SignInActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(TextUtils.isEmpty(editPhone.getText())|| TextUtils.isEmpty(editPassword.getText())){
-					Toast.makeText(SignInActivity.this, "ÇëÊäÈëÕËºÅÃÜÂë", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SignInActivity.this, "è¯·è¾“å…¥è´¦å·å¯†ç ", Toast.LENGTH_SHORT).show();
 				}else{
 					LoginUtil.signin(editPhone.getText().toString(), editPassword.getText().toString(), new OnSignInLisener() {
 						
@@ -67,7 +67,7 @@ public class SignInActivity extends Activity {
 								Intent intent = new Intent(SignInActivity.this, MainActivity.class);
 						    	startActivity(intent);
 							}else{
-								Toast.makeText(SignInActivity.this, "µÇÂ¼Ê§°Ü£¬ÇëÖØÊÔ£¡", Toast.LENGTH_SHORT).show();
+								Toast.makeText(SignInActivity.this, "ç™»å½•å¤±è´¥ï¼Œè¯·é‡è¯•ï¼", Toast.LENGTH_SHORT).show();
 							}
 							
 						}
