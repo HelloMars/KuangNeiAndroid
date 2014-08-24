@@ -15,7 +15,7 @@ public class HttpActivity extends ActionBarActivity implements RequestCallBackLi
 	
 	
 	protected final HttpHelper getHttpRequest(int id){
-		httpRequest = new HttpHelper(id);
+		httpRequest = new HttpHelper(this,id);
 		httpRequest.setRequestCallBackListener(this);
 		return httpRequest;
 	}
@@ -28,15 +28,15 @@ public class HttpActivity extends ActionBarActivity implements RequestCallBackLi
 
 	@Override
 	public final void onRequestComplete(final int id,final JSONObject jsonObj) {
-		
-		runOnUiThread(new Runnable() {
+		if(!isFinishing())
+			runOnUiThread(new Runnable() {
 			
-			@Override
-			public void run() {
-				requestComplete(id,jsonObj);
-			}
-			
-		});
+				@Override
+				public void run() {
+					requestComplete(id,jsonObj);
+				}
+				
+			});
 		
 	}
 	

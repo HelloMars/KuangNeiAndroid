@@ -14,7 +14,7 @@ public class HttpListFragment extends ListFragment implements RequestCallBackLis
 	
 	
 	protected final HttpHelper getHttpRequest(int id){
-		httpRequest = new HttpHelper(id);
+		httpRequest = new HttpHelper(getActivity(),id);
 		httpRequest.setRequestCallBackListener(this);
 		return httpRequest;
 	}
@@ -27,15 +27,15 @@ public class HttpListFragment extends ListFragment implements RequestCallBackLis
 
 	@Override
 	public final void onRequestComplete(final int id,final JSONObject jsonObj) {
-		
-		getActivity().runOnUiThread(new Runnable() {
+		if(getActivity()!=null && !getActivity().isFinishing())
+			getActivity().runOnUiThread(new Runnable() {
 			
-			@Override
-			public void run() {
-				requestComplete(id,jsonObj);
-			}
-			
-		});
+				@Override
+				public void run() {
+					requestComplete(id,jsonObj);
+				}
+				
+			});
 		
 	}
 }

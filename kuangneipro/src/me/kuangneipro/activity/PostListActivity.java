@@ -7,7 +7,9 @@ import me.kuangneipro.Adapter.PostListAdapter;
 import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.manager.ChannelEntityManager;
 import me.kuangneipro.manager.PostEntityManager;
+import me.kuangneipro.util.ApplicationWorker;
 
 import org.json.JSONObject;
 
@@ -47,7 +49,19 @@ public class PostListActivity extends HttpActivity {
 
 		if(mChannel==null)
 			mChannel = savedInstanceState.getParcelable(SELECT_CHANNEL_INFO);
-
+		if(mChannel==null)
+			mChannel = ChannelEntityManager.loadChannel();
+		if(mChannel==null){
+			ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+				@Override
+				public void run() {
+					finish();
+				}
+			});
+			return;
+		}
+		
+		
 		getSupportActionBar().setTitle(mChannel.getTitle());
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
@@ -99,6 +113,13 @@ public class PostListActivity extends HttpActivity {
 		if(mChannel!=null)
 			outState.putParcelable(SELECT_CHANNEL_INFO, mChannel);
 		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
+	protected void onStop() {
+		if(mChannel!=null)
+			ChannelEntityManager.saveChannel(mChannel);
+		super.onStop();
 	}
 
 	@Override

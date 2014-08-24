@@ -116,7 +116,7 @@ public class PostingActivity extends HttpActivity{
     	} else {
     		mPostingInfo.setContent(message);
     		mPostingInfo.setUserid("123");
-    		PostEntityManager.doPostingTotal(mPostingInfo);
+    		PostEntityManager.doPostingTotal(this,mPostingInfo);
     		finish();
 //    		ImageUtil.gettingImageUploadToken(getHttpRequest(ImageUtil.GET_IMAGE_UPLOAD_TOKEN));
     	}

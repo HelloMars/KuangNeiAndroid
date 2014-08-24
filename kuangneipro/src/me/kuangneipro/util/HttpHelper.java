@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import me.kuangneipro.activity.RegisterActivity;
+import me.kuangneipro.activity.SignInActivity;
+import me.kuangneipro.entity.UserInfo;
+import me.kuangneipro.util.LoginUtil.OnSignInLisener;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -24,6 +29,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 
 
@@ -39,14 +46,17 @@ public class HttpHelper {
 	private final Map<String,String> params;
 	private volatile RequestCallBackListener requestCallBackListener;
 	private volatile String url;
+	private Activity activity;
+	private boolean isSync;
 	
-	public HttpHelper(int id){
-		this(id,null);
+	public HttpHelper(Activity activity,int id){
+		this(activity,id,null);
 	}
 	
-	public HttpHelper(int id,String url){
+	public HttpHelper(Activity activity,int id,String url){
 		this.id = id;
 		this.url = url;
+		this.activity = activity;
 		params = new HashMap<String,String>();;
 	}
 	
@@ -72,9 +82,6 @@ public class HttpHelper {
 	private HttpPost createHttpPost(){
 		
 		HttpPost httpPost = new HttpPost(url);
-		String sessionId = LoginUtil.loadSession();
-		if(!TextUtils.isEmpty(sessionId))
-			httpPost.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
 		List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 
 		if (params != null && !params.isEmpty()) {
@@ -121,14 +128,51 @@ public class HttpHelper {
 		return httpGet;
 	}
 	
+	private void checkSession(final HttpUriRequest request){
+		String sessionId = LoginUtil.loadSession();
+		if(!TextUtils.isEmpty(sessionId))
+			request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
+		else{
+			if(UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) )
+				LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), new OnSignInLisener() {
+					
+					@Override
+					public void onSignInFinish(boolean isSuccess, UserInfo userInfo) {
+						if(isSuccess){
+							String sessionId = LoginUtil.loadSession();
+							if(!TextUtils.isEmpty(sessionId))
+								request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
+						}else{
+							if(activity!=null){
+								Intent intent = new Intent(activity, RegisterActivity.class);
+								activity.startActivity(intent);
+								activity.finish();
+							}
+							
+						}
+						
+					}
+				});
+			else {
+				if(activity!=null){
+					Intent intent = new Intent(activity, SignInActivity.class);
+					activity.startActivity(intent);
+					activity.finish();
+				}
+			}
+		}
+	}
+	
 	public void asyncPost(){
-		
+		isSync = false;
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			
 			@Override
 			public void run() {
+				final HttpPost httpPost = createHttpPost();
+				checkSession(httpPost);
 				if(requestCallBackListener!=null)
-					requestCallBackListener.onRequestComplete(id,doHttpRequest(createHttpPost()));
+					requestCallBackListener.onRequestComplete(id,doHttpRequest(httpPost));
 			}
 			
 		});
@@ -136,19 +180,23 @@ public class HttpHelper {
 	}
 	
 	public JSONObject syncPost(){
-		
-		return doHttpRequest(createHttpPost());
+		isSync = true;
+		final HttpPost httpPost = createHttpPost();
+		checkSession(httpPost);
+		return doHttpRequest(httpPost);
 		
 	}
 	
 	public void asyncGet(){
-		
+		isSync = false;
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			
 			@Override
 			public void run() {
+				final HttpGet httpGet = createHttpGet();
+				checkSession(httpGet);
 				if(requestCallBackListener!=null)
-					requestCallBackListener.onRequestComplete(id,doHttpRequest(createHttpGet()));
+					requestCallBackListener.onRequestComplete(id,doHttpRequest(httpGet));
 			}
 			
 		});
@@ -156,18 +204,44 @@ public class HttpHelper {
 	}
 	
 	public JSONObject syncGet(){
-
-		return doHttpRequest(createHttpGet());
+		isSync = true;
+		final HttpGet httpGet = createHttpGet();
+		checkSession(httpGet);
+		return doHttpRequest(httpGet);
 		
 	}
 	
-	private JSONObject doHttpRequest(HttpUriRequest request){
+	private JSONObject doHttpRequest(final HttpUriRequest request){
 		
 		JSONObject returnJson = null;
 		HttpResponse httpResponse = null;
 		try {
 			httpResponse = new DefaultHttpClient().execute(request);
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
+			}else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY) {
+				if(!TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) )
+					if(LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword())){
+						String sessionId = LoginUtil.loadSession();
+						if(!TextUtils.isEmpty(sessionId))
+							request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
+						if(isSync){
+							return doHttpRequest(request);
+						}
+					}else{
+						if(activity!=null){
+							Intent intent = new Intent(activity, RegisterActivity.class);
+							activity.startActivity(intent);
+							activity.finish();
+						}
+					}
+				else {
+					if(activity!=null){
+						Intent intent = new Intent(activity, RegisterActivity.class);
+						activity.startActivity(intent);
+						activity.finish();
+					}
+				}
 				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}
 		} catch (ClientProtocolException e) {

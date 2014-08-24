@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class LoginUtil {
@@ -147,7 +148,8 @@ public class LoginUtil {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(USERNAME_KEY, username);
 				map.put(PASSWORD_KEY,password);
-				map.put(TOKEN_KEY, PushUtil.getToken());
+				if(!TextUtils.isEmpty(PushUtil.getToken()))
+					map.put(TOKEN_KEY, PushUtil.getToken());
 
 				try {
 					final boolean success = doHttpsPOSTRequest(HostUtil.REGISTER, map, CHARSET);
@@ -164,6 +166,23 @@ public class LoginUtil {
 		});
 	}
 	
+	public static boolean signin(final String username,final String password ){
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(USERNAME_KEY, username);
+		map.put(PASSWORD_KEY, password);
+		if(!TextUtils.isEmpty(PushUtil.getToken()))
+			map.put(TOKEN_KEY, PushUtil.getToken());
+
+		try {
+			return doHttpsPOSTRequest(HostUtil.SIGN_IN, map, CHARSET);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public static void signin(final String username,final String password,final OnSignInLisener onSignInLisener) {
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			@Override
@@ -171,7 +190,8 @@ public class LoginUtil {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(USERNAME_KEY, username);
 				map.put(PASSWORD_KEY,password);
-				map.put(TOKEN_KEY, PushUtil.getToken());
+				if(!TextUtils.isEmpty(PushUtil.getToken()))
+					map.put(TOKEN_KEY, PushUtil.getToken());
 				
 
 				try {
