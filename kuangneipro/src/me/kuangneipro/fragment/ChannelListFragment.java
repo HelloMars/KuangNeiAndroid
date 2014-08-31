@@ -12,6 +12,7 @@ import me.kuangneipro.manager.ChannelEntityManager;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,10 +60,19 @@ public class ChannelListFragment extends HttpListFragment {
 		View v = inflater.inflate(R.layout.fragment_channel_list, container, false);
 		mListView = (ListView) v.findViewById(android.R.id.list);
 
-		ChannelEntityManager.getChannelList(getHttpRequest(ChannelEntityManager.CHANNEL_LIST_KEY));
+		
 
 		Log.i(TAG, "onCreateView" + mSectionNum);
 		return v;
+	}
+	
+	
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		ChannelEntityManager.getChannelList(getHttpRequest(ChannelEntityManager.CHANNEL_LIST_KEY));
+		Log.i(TAG, "onAttach");
 	}
 
 	@Override

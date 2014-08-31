@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -72,13 +73,13 @@ public class PostEntityManager {
 	}
 	
 	
-	public static void doPostingTotal(final PostingInfo postingInfo){
+	public static void doPostingTotal(final Activity activity,final PostingInfo postingInfo){
 		
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			
 			@Override
 			public void run() {
-				HttpHelper httpTokenGet = new HttpHelper(ImageUtil.GET_IMAGE_UPLOAD_TOKEN);
+				HttpHelper httpTokenGet = new HttpHelper(activity,ImageUtil.GET_IMAGE_UPLOAD_TOKEN);
 				final List<UploadImage> uploadImages = postingInfo.getUploadImage();
 				final int imageSize = uploadImages.size();
 				final AtomicInteger index = new AtomicInteger(0);
@@ -104,7 +105,7 @@ public class PostEntityManager {
 												uploadImages.get(j).setRemotePath(redirect);
 												index.incrementAndGet();
 												if(index.get()>=imageSize){
-													doPosting(postingInfo);
+													doPosting(activity,postingInfo);
 												}
 												Log.i(TAG, redirect);
 											}
@@ -112,7 +113,7 @@ public class PostEntityManager {
 											public void onFailure(QiniuException ex) {
 												index.incrementAndGet();
 												if(index.get()>=imageSize){
-													doPosting(postingInfo);
+													doPosting(activity,postingInfo);
 												}
 												Log.i(TAG, ex.toString());
 											}
@@ -122,13 +123,13 @@ public class PostEntityManager {
 									}else{
 										index.incrementAndGet();
 										if(index.get()>=imageSize){
-											doPosting(postingInfo);
+											doPosting(activity,postingInfo);
 										}
 									}
 								}else{
 									index.incrementAndGet();
 									if(index.get()>=imageSize){
-										doPosting(postingInfo);
+										doPosting(activity,postingInfo);
 									}
 								}
 							}
@@ -137,15 +138,15 @@ public class PostEntityManager {
 					});
 					ImageUtil.gettingImageUploadToken(httpTokenGet);
 				}else{
-					doPosting(postingInfo);
+					doPosting(activity,postingInfo);
 				}
 				
 			}
 		});
 	}
 	
-	private static void doPosting(PostingInfo postingInfo){
-		HttpHelper httpPostingGet = new HttpHelper(POSTING_KEY_REFRESH);
+	private static void doPosting(Activity activity,PostingInfo postingInfo){
+		HttpHelper httpPostingGet = new HttpHelper(activity,POSTING_KEY_REFRESH);
 		
 		httpPostingGet.setRequestCallBackListener(new RequestCallBackListener() {
 			@Override
