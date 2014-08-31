@@ -53,7 +53,7 @@ public class PostListActivity extends HttpActivity {
 		
 		mChannel = (ChannelEntity) (getIntent().getParcelableExtra(SELECT_CHANNEL_INFO));
 
-		if(mChannel==null)
+		if(mChannel==null && savedInstanceState != null)
 			mChannel = savedInstanceState.getParcelable(SELECT_CHANNEL_INFO);
 		if(mChannel==null)
 			mChannel = ChannelEntityManager.loadChannel();
