@@ -119,7 +119,7 @@
 		        
         <activity
             android:name=".activity.SignInActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -141,6 +141,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kuangneipro.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="me.kuangneipro.activity.PostDetailActivity"
+            android:label="@string/title_activity_post_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.kuangneipro.activity.PostListActivity" />
         </activity>
 		<activity
             android:name=".activity.PostingActivity"

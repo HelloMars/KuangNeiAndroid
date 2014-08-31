@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:id="@+id/mainPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top" >
+
+        <RelativeLayout
+            android:id="@+id/userRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true" >
+
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:drawable/ic_menu_my_calendar" />
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/imgIcon"
+                android:text="孤独的夏娃" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imgIcon"
+                android:layout_alignLeft="@+id/txtName"
+                android:layout_marginBottom="2dp"
+                android:text="10秒前" />
+            
+			<RelativeLayout
+			    android:id="@+id/relativeLayoutReply"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:layout_marginRight="80dp" >
+		
+		        <TextView
+		            android:id="@+id/txtReplyNum"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_centerVertical="true"
+		            android:layout_marginLeft="5dp"
+		            android:layout_toRightOf="@+id/btnReply"
+		            android:text="2" />
+		
+		        <ImageButton
+		            android:id="@+id/btnReply"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentTop="true"
+		            android:src="@drawable/reply" />
+		    </RelativeLayout>
+		    
+			<RelativeLayout
+			    android:id="@+id/relativeLayoutLike"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:layout_marginRight="5dp" >
+		
+		        <TextView
+		            android:id="@+id/txtLikeNum"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_centerVertical="true"
+		            android:layout_marginLeft="5dp"
+		            android:layout_toRightOf="@+id/btnLike"
+		            android:text="3" />
+		
+		        <ImageButton
+		            android:id="@+id/btnLike"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_alignParentTop="true"
+		            android:src="@drawable/like" />
+		    </RelativeLayout>
+		    
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/userRow"
+            android:layout_marginTop="10dp"
+            android:text="我不该偷吃苹果的啊，我就是个愚蠢的老女人！请大家一定不要相信一条蛇。。。" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mainPost"
+        android:layout_marginTop="10dp" >
+
+    </ListView>
+
+</LinearLayout>

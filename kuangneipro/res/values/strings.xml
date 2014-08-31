@@ -12,6 +12,7 @@
     <string name="info_post_failure">发送失败，已存入草稿箱</string>
     
     <string name="title_activity_post_list">PostListActivity</string>
+    <string name="title_activity_post_detail">帖子详细</string>
     <string name="action_write_post">发帖</string>
 	<string name="notice">为了维护本频道内容的相关性，如果你方便的话请对与本频道无关的内容使用踩请不要因为个人喜好和个人恩怨而使用踩功能，谢谢</string>
 

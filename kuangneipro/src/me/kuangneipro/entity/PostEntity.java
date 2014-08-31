@@ -1,13 +1,20 @@
 package me.kuangneipro.entity;
 
 import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public final class PostEntity {
+import org.json.JSONArray;
+
+public final class PostEntity implements Parcelable {
 	public Date mDate;
 	public String mUserId;
 	public String mUserName;
@@ -18,7 +25,9 @@ public final class PostEntity {
 	public int mReplyNum;
 	public List<String> mPictures;
 	
-	@SuppressLint("SimpleDateFormat") 
+	public PostEntity(){}
+	
+	@SuppressLint("SimpleDateFormat")
 	public PostEntity(
 			String id,
 			String name,
@@ -64,4 +73,52 @@ public final class PostEntity {
 		}
 		return between + measure[i] + "前";
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeString(mUserId);
+		parcel.writeString(mUserName);
+		parcel.writeString(mUserAvatar);
+		parcel.writeString(mContent);
+		parcel.writeInt(mDislikeNum);
+		parcel.writeInt(mLikeNum);
+		parcel.writeInt(mReplyNum);
+		parcel.writeSerializable(mDate);
+		parcel.writeInt(mPictures.size());
+		for (int i = 0; i < mPictures.size(); ++i)
+			parcel.writeString(mPictures.get(i));
+	}
+	
+	public static final Parcelable.Creator<PostEntity> CREATOR = new Creator<PostEntity>() {
+
+		@Override
+		public PostEntity createFromParcel(Parcel source) {
+			PostEntity postEntity = new PostEntity();
+			postEntity.mUserId = source.readString();
+			postEntity.mUserName = source.readString();
+			postEntity.mUserAvatar = source.readString();
+			postEntity.mContent = source.readString();
+			postEntity.mDislikeNum = source.readInt();
+			postEntity.mLikeNum = source.readInt();
+			postEntity.mReplyNum = source.readInt();
+			postEntity.mDate = (Date)source.readSerializable();
+			postEntity.mPictures = new ArrayList<String>();
+			int picNum = source.readInt();
+			for (int i = 0; i < picNum; ++i)
+				postEntity.mPictures.add(source.readString());
+			return postEntity;
+		}
+
+		@Override
+		public PostEntity[] newArray(int size) {
+			return new PostEntity[size];
+		}
+		
+	};
 }

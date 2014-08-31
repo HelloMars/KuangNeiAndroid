@@ -82,6 +82,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 		// fill data
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		PostEntity post = mPosts.get(position);
+		Log.i(tag, "fill post data" + " " + post.mUserName + " " + post.mContent);
 		holder.name.setText(post.mUserName);
 		holder.dislikeNum.setText(Integer.toString(post.mDislikeNum));
 		holder.likeNum.setText(Integer.toString(post.mLikeNum));

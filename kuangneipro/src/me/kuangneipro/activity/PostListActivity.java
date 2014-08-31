@@ -11,11 +11,17 @@ import me.kuangneipro.manager.PostEntityManager;
 
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
@@ -23,7 +29,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class PostListActivity extends HttpActivity {
-	//private static final String TAG = PostListActivity.class.getSimpleName();  tag 用于测试log用  
+	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
 	
 	public final static String SELECT_CHANNEL_INFO = "me.kuangnei.select.CHANNEL";
 	
@@ -66,6 +72,23 @@ public class PostListActivity extends HttpActivity {
 				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH_MORE), mChannel.getId(), ++index);
 			}
 		});
+        
+        mListView.getRefreshableView().setOnItemClickListener(new OnItemClickListener() {
+
+			@SuppressLint("ShowToast")
+			@Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(PostListActivity.this, PostDetailActivity.class);
+
+        		Bundle bundle = new Bundle();
+        		PostEntity post = mPostList.get(position-1);
+        		Log.i(TAG, "clicked position " + position + " " + post.mContent + " " + post.mPictures.size());
+        	    bundle.putParcelable(PostDetailActivity.SELECT_POST_INFO, post);     
+        	    intent.putExtras(bundle);
+        		
+        		startActivity(intent);
+            }
+        });
         
         PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), mChannel.getId(), 1);
 	}
