@@ -26,7 +26,7 @@ public class ImageUtil {
 	public static final int GET_IMAGE_UPLOAD_TOKEN = -10000;
 	
 	public static void gettingImageUploadToken(HttpHelper httpRequest){
-		httpRequest.setUrl(HostUtil.GET_UP_TOKEN_URL).put("userid", PushUtil.getToken()).put("secretkey","xxxx***").asyncGet();
+		httpRequest.setUrl(HostUtil.GET_UP_TOKEN_URL).asyncGet();
 	}
 	
 	public static String getImageUploadToken(JSONObject jsonObj){

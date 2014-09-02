@@ -1,18 +1,14 @@
 package me.kuangneipro.entity;
 
-import android.annotation.SuppressLint;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONArray;
+import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 public final class PostEntity implements Parcelable {
 	public Date mDate;

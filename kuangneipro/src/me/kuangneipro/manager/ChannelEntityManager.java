@@ -31,8 +31,8 @@ public class ChannelEntityManager {
 		ChannelEntity ce = new ChannelEntity();
 
 		ce.setId(Integer.parseInt(DataStorage.load(CHANNEL_ID, "0")));
-		ce.setSubtitle(DataStorage.load(CHANNEL_SUBTITLE));
-		ce.setTitle(DataStorage.load(CHANNEL_TITLE));
+		ce.setSubtitle(DataStorage.loadString(CHANNEL_SUBTITLE));
+		ce.setTitle(DataStorage.loadString(CHANNEL_TITLE));
 		return ce;
 	}
 

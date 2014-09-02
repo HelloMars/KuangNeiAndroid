@@ -178,7 +178,7 @@ public class PostEntityManager {
 	
 	
 	private static void doPosting(HttpHelper httpRequest,int channelId,String content,List<UploadImage> updatedImagePath ){
-			httpRequest.setUrl(HostUtil.POSTING_URL).put("userid", PushUtil.getToken()).put("channelid",channelId+"").put("content", content);
+			httpRequest.setUrl(HostUtil.POSTING_URL).put("channelid",channelId+"").put("content", content);
 			
 			boolean isNotFirst = false;
 			StringBuilder sb = new StringBuilder();

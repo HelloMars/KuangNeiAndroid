@@ -8,6 +8,6 @@ public class PushUtil {
 	}
 	
 	public static String getToken(){
-		return DataStorage.load(TOKEN_KEY);
+		return DataStorage.loadString(TOKEN_KEY);
 	}
 }

@@ -1,16 +1,8 @@
 package me.kuangneipro.Adapter;
 
-import java.util.List;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
 import me.kuangneipro.R;
-import me.kuangneipro.Adapter.PostListAdapter.ViewHolder;
-import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostEntity;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +13,9 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class PostDetailAdapter extends BaseExpandableListAdapter {
 	private static final int POST_CONTENT = 0;

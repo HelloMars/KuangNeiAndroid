@@ -1,18 +1,15 @@
 package me.kuangneipro.activity;
 
-import com.squareup.picasso.Picasso;
-
+import me.kuangneipro.R;
+import me.kuangneipro.Adapter.PostDetailAdapter;
+import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.PostEntity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import me.kuangneipro.R;
-import me.kuangneipro.Adapter.PostDetailAdapter;
-import me.kuangneipro.Adapter.PostingImageAdapter;
-import me.kuangneipro.core.HttpActivity;
-import me.kuangneipro.entity.ChannelEntity;
-import me.kuangneipro.entity.PostEntity;
+
+import com.squareup.picasso.Picasso;
 
 public class PostDetailActivity extends HttpActivity {
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";

@@ -36,14 +36,14 @@ public class UserInfo {
 	
 	public static UserInfo loadSelfUserInfo(){
 		
-		if(!TextUtils.isEmpty(DataStorage.load(USERNAME_KEY))){
+		if(!TextUtils.isEmpty(DataStorage.loadString(USERNAME_KEY))){
 			UserInfo userInfo = new UserInfo();
-			userInfo.username = DataStorage.load(USERNAME_KEY);
-			userInfo.password = DataStorage.load(PASSWORD_KEY);
-			userInfo.avatar = DataStorage.load(AVATAR_KEY);
-			userInfo.name = DataStorage.load(NAME_KEY);
+			userInfo.username = DataStorage.loadString(USERNAME_KEY);
+			userInfo.password = DataStorage.loadString(PASSWORD_KEY);
+			userInfo.avatar = DataStorage.loadString(AVATAR_KEY);
+			userInfo.name = DataStorage.loadString(NAME_KEY);
 			userInfo.sex = Integer.parseInt(DataStorage.load(SEX_KEY,UserInfo.MAN+""));
-			userInfo.sign = DataStorage.load(SIGN_KEY);
+			userInfo.sign = DataStorage.loadString(SIGN_KEY);
 			return userInfo;
 		}
 		

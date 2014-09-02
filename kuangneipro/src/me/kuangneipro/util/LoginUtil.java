@@ -153,6 +153,9 @@ public class LoginUtil {
 
 				try {
 					final boolean success = doHttpsPOSTRequest(HostUtil.REGISTER, map, CHARSET);
+					
+					setSignIn(success);
+					
 					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
 						@Override
 						public void run() {
@@ -175,7 +178,11 @@ public class LoginUtil {
 			map.put(TOKEN_KEY, PushUtil.getToken());
 
 		try {
-			return doHttpsPOSTRequest(HostUtil.SIGN_IN, map, CHARSET);
+			boolean result = doHttpsPOSTRequest(HostUtil.SIGN_IN, map, CHARSET);
+					
+			setSignIn(result);
+			
+			return result;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -196,6 +203,9 @@ public class LoginUtil {
 
 				try {
 					final boolean success = doHttpsPOSTRequest(HostUtil.SIGN_IN, map, CHARSET);
+					
+					setSignIn(success);
+					
 					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
 						@Override
 						public void run() {
@@ -209,6 +219,7 @@ public class LoginUtil {
 		});
 	}
 
+	private static final String IS_SIGN_IN_KEY = "isSignIn";
 	private static final String USERNAME_KEY = "username";
 	private static final String PASSWORD_KEY = "password";
 	private static final String TOKEN_KEY = "token";
@@ -216,13 +227,22 @@ public class LoginUtil {
 	public static final String COOKIE_KEY = "Cookie";
 	public static final String SESSION_KEY = "sessionid";
 	private static final String SESSION = "session";
+	
+	
+	public static boolean isSignIn(){
+		return DataStorage.load(IS_SIGN_IN_KEY, false);
+	}
+	
+	private static void setSignIn(boolean isSignIn){
+		DataStorage.save(IS_SIGN_IN_KEY, isSignIn);
+	}
 
 	public static void saveSession(String session) {
 		DataStorage.save(SESSION, session);
 	}
 
 	public static String loadSession() {
-		return DataStorage.load(SESSION);
+		return DataStorage.loadString(SESSION);
 	}
 	
 	public static interface OnSignInLisener{

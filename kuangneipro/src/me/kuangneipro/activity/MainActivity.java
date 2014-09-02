@@ -33,7 +33,7 @@ public class MainActivity extends HttpActivity {
 		
 		//个推请求clientid,并注册接收监听
 		PushManager.getInstance().initialize(this.getApplicationContext());
-
+		
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		final ActionBar actionBar = getSupportActionBar();
 		
