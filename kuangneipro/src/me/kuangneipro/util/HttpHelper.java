@@ -134,7 +134,7 @@ public class HttpHelper {
 		if(!TextUtils.isEmpty(sessionId))
 			request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
 		else{
-			if(OpenUDID_manager.isInitialized() && UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
+			if(UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
 				String deviceID = OpenUDID_manager.getOpenUDID();
 				LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID, new OnSignInLisener() {
 					
@@ -223,7 +223,7 @@ public class HttpHelper {
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY) {
-				if(OpenUDID_manager.isInitialized() && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
+				if(!TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
 					String deviceID = OpenUDID_manager.getOpenUDID();
 					if(LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID)){
 						String sessionId = LoginUtil.loadSession();
