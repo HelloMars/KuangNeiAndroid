@@ -35,7 +35,6 @@ public class ChannelListFragment extends HttpListFragment {
 
 	
 	public static ChannelListFragment newInstance(int sectionNumber) {
-		Log.i(TAG, "newInstance" + sectionNumber);
 		ChannelListFragment fragment = new ChannelListFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -59,15 +58,9 @@ public class ChannelListFragment extends HttpListFragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_channel_list, container, false);
 		mListView = (ListView) v.findViewById(android.R.id.list);
-
-		
-
-		Log.i(TAG, "onCreateView" + mSectionNum);
 		return v;
 	}
 	
-	
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);

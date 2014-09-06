@@ -5,7 +5,9 @@ import java.util.List;
 import me.kuangneipro.R;
 import me.kuangneipro.entity.ChannelEntity;
 import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +65,12 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 		ViewHolder holder = (ViewHolder) convertView.getTag();
 		ChannelEntity channel = mChannels.get(position);
 		holder.title.setText(channel.getTitle());
-		holder.subtitle.setText(channel.getSubtitle());
+		if (channel.getSubtitle().isEmpty()) {
+			holder.subtitle.setVisibility(View.GONE);
+		}
+		else {
+			holder.subtitle.setText(channel.getSubtitle());
+		}
 		
 		return convertView;
 	}
