@@ -7,17 +7,15 @@ public class PostingInfo {
 	private List<UploadImage> uploadImage;
 	private String content;
 	private ChannelEntity channel;
-	private String userid;
 
 	public PostingInfo() {
 	}
 	
 	public PostingInfo(List<UploadImage> uploadImage, String content,
-			ChannelEntity channel, String userid) {
+			ChannelEntity channel) {
 		this.uploadImage = uploadImage;
 		this.content = content;
 		this.channel = channel;
-		this.userid = userid;
 	}
 
 	public List<UploadImage> getUploadImage() {
@@ -42,13 +40,5 @@ public class PostingInfo {
 
 	public void setChannel(ChannelEntity channel) {
 		this.channel = channel;
-	}
-
-	public String getUserid() {
-		return userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
 	}
 }

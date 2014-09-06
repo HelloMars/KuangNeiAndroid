@@ -13,6 +13,7 @@ import me.kuangneipro.activity.SignInActivity;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.LoginUtil.OnSignInLisener;
 
+import org.OpenUDID.OpenUDID_manager;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -133,8 +134,9 @@ public class HttpHelper {
 		if(!TextUtils.isEmpty(sessionId))
 			request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
 		else{
-			if(UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) )
-				LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), new OnSignInLisener() {
+			if(OpenUDID_manager.isInitialized() && UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
+				String deviceID = OpenUDID_manager.getOpenUDID();
+				LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID, new OnSignInLisener() {
 					
 					@Override
 					public void onSignInFinish(boolean isSuccess, UserInfo userInfo) {
@@ -153,6 +155,7 @@ public class HttpHelper {
 						
 					}
 				});
+			}
 			else {
 				if(activity!=null){
 					Intent intent = new Intent(activity, SignInActivity.class);
@@ -220,8 +223,9 @@ public class HttpHelper {
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY) {
-				if(!TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) )
-					if(LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword())){
+				if(OpenUDID_manager.isInitialized() && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
+					String deviceID = OpenUDID_manager.getOpenUDID();
+					if(LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID)){
 						String sessionId = LoginUtil.loadSession();
 						if(!TextUtils.isEmpty(sessionId))
 							request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
@@ -235,6 +239,7 @@ public class HttpHelper {
 							activity.finish();
 						}
 					}
+				}
 				else {
 					if(activity!=null){
 						Intent intent = new Intent(activity, RegisterActivity.class);

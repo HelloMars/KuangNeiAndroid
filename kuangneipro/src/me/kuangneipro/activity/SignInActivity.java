@@ -1,5 +1,8 @@
 package me.kuangneipro.activity;
 
+
+import org.OpenUDID.OpenUDID_manager;
+
 import com.igexin.sdk.PushManager;
 
 import me.kuangneipro.R;
@@ -28,6 +31,8 @@ public class SignInActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		OpenUDID_manager.sync(this);
 		
 		setContentView(R.layout.activity_signin);
 		//个推请求clientid,并注册接收监听
@@ -59,7 +64,9 @@ public class SignInActivity extends Activity {
 				if(TextUtils.isEmpty(editPhone.getText())|| TextUtils.isEmpty(editPassword.getText())){
 					Toast.makeText(SignInActivity.this, "请输入账号密码", Toast.LENGTH_SHORT).show();
 				}else{
-					LoginUtil.signin(editPhone.getText().toString(), editPassword.getText().toString(), new OnSignInLisener() {
+					String deviceID = OpenUDID_manager.getOpenUDID();
+					Toast.makeText(SignInActivity.this, "devicdID"+deviceID, Toast.LENGTH_SHORT).show();
+					LoginUtil.signin(editPhone.getText().toString(), editPassword.getText().toString(), deviceID, new OnSignInLisener() {
 						
 						@Override
 						public void onSignInFinish(boolean isSuccess, UserInfo userInfo) {

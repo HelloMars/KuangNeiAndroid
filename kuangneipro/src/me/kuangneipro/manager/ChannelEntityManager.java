@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class ChannelEntityManager {
 
 	public static final int CHANNEL_LIST_KEY = 0;
@@ -40,12 +42,13 @@ public class ChannelEntityManager {
 			List<ChannelEntity> channelList) {
 		try {
 			JSONArray jsonarray = jsonObj.getJSONArray("list");
+			Log.i("fillChannelListFromJson", jsonObj.toString());
 			for (int i = 0; i < jsonarray.length(); i++) {
 				JSONObject oneChannelJson = jsonarray.getJSONObject(i);
 				ChannelEntity channel = new ChannelEntity(
 						oneChannelJson.optInt("id"),
 						oneChannelJson.getString("title"),
-						oneChannelJson.getString("subtitle"));
+						oneChannelJson.optString("subtitle", ""));
 				if (channelList == null)
 					channelList = new ArrayList<ChannelEntity>();
 				channelList.add(channel);

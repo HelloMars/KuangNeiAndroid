@@ -1,5 +1,8 @@
 package me.kuangneipro.receiver;
 
+import org.OpenUDID.OpenUDID_manager;
+
+import me.kuangneipro.activity.RegisterActivity;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.LoginUtil;
 import me.kuangneipro.util.LoginUtil.OnSignInLisener;
@@ -51,7 +54,9 @@ public class PushReceiver extends BroadcastReceiver {
 					String ocid = PushUtil.getToken();
 					Log.i(TAG, "Got ClientID:" + cid);
 					if(!TextUtils.isEmpty(ocid) && !ocid.equals(cid) ){
-						LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), new OnSignInLisener() {
+						String deviceID = OpenUDID_manager.getOpenUDID();
+						Toast.makeText(context, "deviceID"+deviceID, Toast.LENGTH_SHORT).show();
+						LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID, new OnSignInLisener() {
 							@Override
 							public void onSignInFinish(boolean isSuccess, UserInfo userInfo) {
 								Toast.makeText(context, "newClientID:"+cid+" refresh failed!!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();

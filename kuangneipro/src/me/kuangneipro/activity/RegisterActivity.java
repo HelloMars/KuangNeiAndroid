@@ -1,5 +1,7 @@
 package me.kuangneipro.activity;
 
+import org.OpenUDID.OpenUDID_manager;
+
 import me.kuangneipro.R;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.LoginUtil;
@@ -34,10 +36,12 @@ public class RegisterActivity extends Activity {
 		registerButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if(TextUtils.isEmpty(editPhone.getText())|| TextUtils.isEmpty(editPassword.getText())){
+				if(!OpenUDID_manager.isInitialized() || TextUtils.isEmpty(editPhone.getText())|| TextUtils.isEmpty(editPassword.getText())){
 					Toast.makeText(RegisterActivity.this, "请输入账号密码", Toast.LENGTH_SHORT).show();
 				}else{
-					LoginUtil.register(editPhone.getText().toString(), editPassword.getText().toString(), new OnSignInLisener() {
+					String deviceID = OpenUDID_manager.getOpenUDID();
+					Toast.makeText(RegisterActivity.this, "devicdID"+deviceID, Toast.LENGTH_SHORT).show();
+					LoginUtil.register(editPhone.getText().toString(), editPassword.getText().toString(), deviceID, new OnSignInLisener() {
 						
 						@Override
 						public void onSignInFinish(boolean isSuccess, UserInfo userInfo) {

@@ -97,7 +97,7 @@
             <intent-filter>
                 <action android:name="com.igexin.sdk.action.BxYDvHaWgs5jvOZltpDGxA" />
             </intent-filter>
-　　　	</receiver>
+　　　		</receiver>
             
 		<service android:name="com.igexin.getuiext.service.GetuiExtService" 
 			android:process=":pushservice" />
@@ -164,7 +164,11 @@
                 android:value="me.kuangneipro.activity.PostListActivity" />
         </activity>
         
-		
+		<service android:name="org.openudid.OpenUDID_service">
+			<intent-filter>
+				<action android:name="org.openudid.GETUDID" />
+			</intent-filter>
+		</service>
 
     </application>
 	

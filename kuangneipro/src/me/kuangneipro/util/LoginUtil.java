@@ -141,13 +141,14 @@ public class LoginUtil {
 		return false;
 	}
 
-	public static void register(final String username,final String password,final OnSignInLisener onSignInLisener) {
+	public static void register(final String username,final String password, final String deviceID, final OnSignInLisener onSignInLisener) {
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			@Override
 			public void run() {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(USERNAME_KEY, username);
 				map.put(PASSWORD_KEY,password);
+				map.put(DEVICE_ID_KEY, deviceID);
 				if(!TextUtils.isEmpty(PushUtil.getToken()))
 					map.put(TOKEN_KEY, PushUtil.getToken());
 
@@ -169,11 +170,12 @@ public class LoginUtil {
 		});
 	}
 	
-	public static boolean signin(final String username,final String password ){
+	public static boolean signin(final String username,final String password, final String deviceID){
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(USERNAME_KEY, username);
 		map.put(PASSWORD_KEY, password);
+		map.put(DEVICE_ID_KEY, deviceID);
 		if(!TextUtils.isEmpty(PushUtil.getToken()))
 			map.put(TOKEN_KEY, PushUtil.getToken());
 
@@ -190,13 +192,14 @@ public class LoginUtil {
 		return false;
 	}
 	
-	public static void signin(final String username,final String password,final OnSignInLisener onSignInLisener) {
+	public static void signin(final String username,final String password, final String deviceID, final OnSignInLisener onSignInLisener) {
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			@Override
 			public void run() {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(USERNAME_KEY, username);
 				map.put(PASSWORD_KEY,password);
+				map.put(DEVICE_ID_KEY, deviceID);
 				if(!TextUtils.isEmpty(PushUtil.getToken()))
 					map.put(TOKEN_KEY, PushUtil.getToken());
 				
@@ -223,6 +226,7 @@ public class LoginUtil {
 	private static final String USERNAME_KEY = "username";
 	private static final String PASSWORD_KEY = "password";
 	private static final String TOKEN_KEY = "token";
+	private static final String DEVICE_ID_KEY = "deviceid";
 	private static final String SET_COOKIE_KEY = "set-cookie";
 	public static final String COOKIE_KEY = "Cookie";
 	public static final String SESSION_KEY = "sessionid";
