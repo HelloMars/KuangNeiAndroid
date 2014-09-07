@@ -1,7 +1,13 @@
 package me.kuangneipro.Adapter;
 
+import java.util.List;
+
 import me.kuangneipro.R;
+import me.kuangneipro.Adapter.PostListAdapter.ViewHolder;
+import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.entity.SecondLevelReplyEntity;
+import me.kuangneipro.util.ListUtil;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -12,6 +18,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -20,36 +27,40 @@ import com.squareup.picasso.Transformation;
 public class PostDetailAdapter extends BaseExpandableListAdapter {
 	private static final int POST_CONTENT = 0;
 	private static final int IMAGE_LIST = 1;
-	private static final int HOTTEST_REPLY_LIST = 2;
-	private static final int LATEST_REPLY_LIST = 3;
+	private static final int REPLY_LIST = 2;
+	//private static final int HOTTEST_REPLY_LIST = 2;
+	//private static final int LATEST_REPLY_LIST = 3;
 	
 	private static final String TAG = PostDetailAdapter.class.getSimpleName(); // tag 用于测试log用  
 	
 	private final Activity mContext;
 	private final PostEntity mPost;
+	private List<FirstLevelReplyEntity> mReplyList;
 	
-	static class ContentViewHolder {
+	private static class ContentViewHolder {
 		TextView content;
 	}
 	
-	static class ImageViewHolder {
+	private static class ImageViewHolder {
 		public ImageView image;
 	}
 	
-	public PostDetailAdapter(Activity context, PostEntity post) {
+	public PostDetailAdapter(Activity context, PostEntity post, List<FirstLevelReplyEntity> replyList) {
 		this.mContext = context;
 		this.mPost = post;
+		this.mReplyList = replyList;
 	}
 	
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		Log.i(TAG, "getChild " + groupPosition + childPosition);
-		// TODO Auto-generated method stub
 		switch(groupPosition) {
 		case POST_CONTENT:
 			return mPost.mContent;
 		case IMAGE_LIST:
 			return mPost.mPictures.get(childPosition);
+		case REPLY_LIST:
+			return mReplyList.get(childPosition);
 		}
 		return null;
 	}
@@ -62,7 +73,6 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		Log.i(TAG, "getChildView " + groupPosition + " " + childPosition);
 		switch(groupPosition) {
 			case POST_CONTENT: {
@@ -121,6 +131,50 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 		        	.into(imageHolder.image);
 				break;
 			}
+			case REPLY_LIST: {
+				LayoutInflater inflater = mContext.getLayoutInflater();
+				convertView = inflater.inflate(R.layout.post_detail_row_reply, parent, false);
+
+				ImageView icon = (ImageView) convertView.findViewById(R.id.imgIcon);
+				TextView name = (TextView) convertView.findViewById(R.id.txtName);
+				TextView date = (TextView) convertView.findViewById(R.id.txtDate);
+				TextView likeNum = (TextView) convertView.findViewById(R.id.txtLikeNum);
+				TextView replyNum = (TextView) convertView.findViewById(R.id.txtReplyNum);
+				TextView content = (TextView) convertView.findViewById(R.id.txtContent);
+				ListView replyList = (ListView) convertView.findViewById(R.id.list_reply);
+				
+				// fill data
+				FirstLevelReplyEntity firstReply = mReplyList.get(childPosition);
+				Log.i(TAG, firstReply.mUserName + " " + firstReply.mContent);
+				Log.i(TAG, "!!!!downloading user avatar " + firstReply.mUserAvatar);
+				Picasso.with(mContext)
+		        	.load(firstReply.mUserAvatar)
+		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
+		        	.placeholder(R.drawable.ic_launcher)
+		        	.error(android.R.drawable.ic_menu_report_image)
+		        	.resize(80, 80)
+		        	.centerCrop()
+		        	.into(icon);
+				name.setText(firstReply.mUserName);
+				date.setText(firstReply.getDate());
+				likeNum.setText(Integer.toString(firstReply.mLikeNum));
+				replyNum.setText(Integer.toString(firstReply.mReplyNum));
+				content.setText(firstReply.mContent);
+				
+				Log.i(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!before set second level reply adatper");
+				if (firstReply.mSecondlevelReplyList.size() > 0) {
+					if(firstReply.mAdapter==null){
+						SecondLevelReplyEntity secondReply = firstReply.mSecondlevelReplyList.get(0);
+						Log.i(TAG, secondReply.mUserName + " " + secondReply.mContent);
+						firstReply.mAdapter = new SecondLevelReplyAdapter(mContext, firstReply.mSecondlevelReplyList);
+						replyList.setAdapter(firstReply.mAdapter);
+					}else{
+						firstReply.mAdapter.notifyDataSetChanged();
+					}
+					ListUtil.setListViewHeightBasedOnChildren(replyList);
+				}
+				break;
+			}
 		}
 		return convertView;
 	}
@@ -134,6 +188,9 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 		case IMAGE_LIST:
 			Log.i(TAG, "getChildrenCount " + groupPosition + " " + mPost.mPictures.size());
 			return mPost.mPictures.size();
+		case REPLY_LIST:
+			Log.i(TAG, "getChildrenCount " + groupPosition + "" + mReplyList.size());
+			return mReplyList.size();
 		}
 		return 0;
 	}
@@ -146,7 +203,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getGroupCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -172,5 +229,4 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return true;
 	}
-
 }

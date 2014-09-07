@@ -39,4 +39,13 @@ public class HostUtil {
 	 */
 	public static final String SIGN_IN =  KUANG_NEI_HOST_HTTPS +"signin/";
 	
+	/**
+	 * 一级回复列表
+	 */
+	public static final String REPLY_FIRST_LEVEL = KUANG_NEI_HOST + "firstLevelReplyList/";
+	
+	/**
+	 * 二级回复列表
+	 */
+	public static final String REPLY_SECOND_LEVEL = KUANG_NEI_HOST + "secondLevelReplyList/";
 }

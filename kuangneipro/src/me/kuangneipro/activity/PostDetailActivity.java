@@ -1,10 +1,21 @@
 package me.kuangneipro.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
+
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.PostDetailAdapter;
+import me.kuangneipro.Adapter.PostListAdapter;
 import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.entity.SecondLevelReplyEntity;
+import me.kuangneipro.manager.PostEntityManager;
+import me.kuangneipro.manager.PostReplyManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,12 +23,21 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class PostDetailActivity extends HttpActivity {
+	private static final String TAG = "PostDetailActivity";
+	
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";
 	
 	private PostEntity mPost;
+	private List<FirstLevelReplyEntity> mReplyList;
+	private List<FirstLevelReplyEntity> mTempReplyList;
 	
 	private ExpandableListView mExpandableList;
 	private PostDetailAdapter mPostDetailAdapter;
+	
+	public PostDetailActivity() {
+		mReplyList = new ArrayList<FirstLevelReplyEntity>();
+		mTempReplyList = new ArrayList<FirstLevelReplyEntity>();
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +52,50 @@ public class PostDetailActivity extends HttpActivity {
 		
 		mExpandableList = (ExpandableListView) findViewById(R.id.expandableListView);
 		
-		mPostDetailAdapter = new PostDetailAdapter(this, mPost);
+		mPostDetailAdapter = new PostDetailAdapter(this, mPost, mReplyList);
 		mExpandableList.setAdapter(mPostDetailAdapter);
 		
 		this.fillDetailData();
+		
+		PostReplyManager.getFirstlevelReplyList(getHttpRequest(PostReplyManager.POST_REPLY_FIRST), mPost.mPostId, 1);
+	}
+	
+	@Override
+	protected void requestComplete(int id,JSONObject jsonObj) {
+		super.requestComplete(id,jsonObj);
+		switch (id) {
+		case PostReplyManager.POST_REPLY_FIRST:
+			mReplyList.clear();
+			mTempReplyList.clear();
+			PostReplyManager.fillFirstReplyListFromJson(jsonObj, mTempReplyList);
+			Log.i(TAG, "requestComplete " + mTempReplyList.size());
+			for (int i = 0; i < mTempReplyList.size(); ++i) {
+				FirstLevelReplyEntity reply = mTempReplyList.get(i);
+				Log.i(TAG, "FirstLevelReplyEntity:" + reply.mContent);
+				PostReplyManager.getSecondlevelReplyList(getHttpRequest(PostReplyManager.POST_REPLY_SECOND), reply.mFirstLevelReplyId, 1);
+			}
+			break;
+		case PostReplyManager.POST_REPLY_SECOND:
+			int firstLevelReplyId = PostReplyManager.peekFirstLevelReplyId(jsonObj);
+			FirstLevelReplyEntity firstReply = getFirstLevelReply(firstLevelReplyId);
+			firstReply.mSecondlevelReplyList.clear();
+			PostReplyManager.fillSecondReplyListFromJson(jsonObj, firstReply.mSecondlevelReplyList);
+			mReplyList.add(firstReply);
+			mPostDetailAdapter.notifyDataSetChanged();
+			break;
+			
+		default:
+			break;
+		}
+	}
+	
+	private FirstLevelReplyEntity getFirstLevelReply(int firstLevelReplyId) {
+		for (int i = 0; i < mTempReplyList.size(); ++i) {
+			FirstLevelReplyEntity reply = mTempReplyList.get(i);
+			if (firstLevelReplyId == reply.mFirstLevelReplyId)
+				return reply;
+		}
+		return null;
 	}
 	
 	private void fillDetailData() {

@@ -56,6 +56,8 @@ public class PostEntityManager {
 	    		for (int j = 0; j < pictures.length(); ++j)
 	    			pictureList.add(pictures.getString(j));
 	    		PostEntity channel = new PostEntity(
+	    				oneJson.getInt("postId"),
+	    				oneJson.getInt("channelId"),
 	    				user.getString("id"),
 	    				user.getString("name"),
 	    				user.getString("avatar"),

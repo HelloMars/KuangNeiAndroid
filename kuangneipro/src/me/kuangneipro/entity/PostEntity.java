@@ -1,10 +1,10 @@
 package me.kuangneipro.entity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import me.kuangneipro.util.DateUtil;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
@@ -12,6 +12,8 @@ import android.os.Parcelable;
 
 public final class PostEntity implements Parcelable {
 	public Date mDate;
+	public int mPostId;
+	public int mChannelId;
 	public String mUserId;
 	public String mUserName;
 	public String mUserAvatar;
@@ -25,7 +27,9 @@ public final class PostEntity implements Parcelable {
 	
 	@SuppressLint("SimpleDateFormat")
 	public PostEntity(
-			String id,
+			int postId,
+			int channelId,
+			String userId,
 			String name,
 			String avatar,
 			String content,
@@ -35,8 +39,9 @@ public final class PostEntity implements Parcelable {
 			String date,
 			List<String> picList
 			){
-		
-		mUserId = id;
+		mPostId = postId;
+		mChannelId = channelId;
+		mUserId = userId;
 		mUserName = name;
 		mUserAvatar = avatar;
         mContent = content;
@@ -44,30 +49,11 @@ public final class PostEntity implements Parcelable {
         mLikeNum = likeNum;
         mReplyNum = replyNum;
         mPictures = picList;
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			mDate = formatter.parse(date);
-		} catch (ParseException e) {
-			mDate = new Date();
-			e.printStackTrace();
-		}
+        mDate = DateUtil.parseDateFromStr(date);
     }
 	
 	public String getDate() {
-		String[] measure = {"秒", "分钟", "小时", "天"};
-		int[] units = {60, 60, 24};
-		
-		long between=(new Date().getTime() - mDate.getTime())/1000;//除以1000是为了转换成秒
-		int i = 0;
-		for (; i < 3; ++i) {
-			if (between < units[i]) {
-				return between + measure[i] + "前";
-			} else {
-				between /= units[i];
-			}
-		}
-		return between + measure[i] + "前";
+		return DateUtil.getReadableDateStr(mDate);
 	}
 
 	@Override
@@ -78,6 +64,8 @@ public final class PostEntity implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeInt(mPostId);
+		parcel.writeInt(mChannelId);
 		parcel.writeString(mUserId);
 		parcel.writeString(mUserName);
 		parcel.writeString(mUserAvatar);
@@ -96,6 +84,8 @@ public final class PostEntity implements Parcelable {
 		@Override
 		public PostEntity createFromParcel(Parcel source) {
 			PostEntity postEntity = new PostEntity();
+			postEntity.mPostId = source.readInt();
+			postEntity.mChannelId = source.readInt();
 			postEntity.mUserId = source.readString();
 			postEntity.mUserName = source.readString();
 			postEntity.mUserAvatar = source.readString();

@@ -8,6 +8,7 @@ import me.kuangneipro.Adapter.ChannelListAdapter;
 import me.kuangneipro.activity.PostListActivity;
 import me.kuangneipro.core.HttpListFragment;
 import me.kuangneipro.entity.ChannelEntity;
+import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.manager.ChannelEntityManager;
 
 import org.json.JSONObject;
@@ -72,6 +73,9 @@ public class ChannelListFragment extends HttpListFragment {
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
 		mChannelList.clear();
+		ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
+		Log.i(TAG, "jsonObj == null ?" + (jsonObj == null));
+		Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
 		ChannelEntityManager.fillChannelListFromJson(jsonObj, mChannelList);
 		if(mChannelListAdapter==null){
 			mChannelListAdapter = new ChannelListAdapter(getActivity(), mChannelList);

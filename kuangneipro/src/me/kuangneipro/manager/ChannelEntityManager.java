@@ -41,8 +41,8 @@ public class ChannelEntityManager {
 	public static void fillChannelListFromJson(JSONObject jsonObj,
 			List<ChannelEntity> channelList) {
 		try {
-			JSONArray jsonarray = jsonObj.getJSONArray("list");
 			Log.i("fillChannelListFromJson", jsonObj.toString());
+			JSONArray jsonarray = jsonObj.getJSONArray("list");
 			for (int i = 0; i < jsonarray.length(); i++) {
 				JSONObject oneChannelJson = jsonarray.getJSONObject(i);
 				ChannelEntity channel = new ChannelEntity(
