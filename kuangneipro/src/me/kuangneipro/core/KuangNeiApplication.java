@@ -19,8 +19,8 @@ public class KuangNeiApplication extends Application {
 		instance = this;
 		super.onCreate();
 		//错误信息捕获
-//		CrashHandler catchHandler = CrashHandler.getInstance();
-//		catchHandler.init(getApplicationContext());
+		CrashHandler catchHandler = CrashHandler.getInstance();
+		catchHandler.init(getApplicationContext());
 
 		// 初始化存储文件管理器
 		DataStorage.init(this);
