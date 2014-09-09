@@ -6,6 +6,10 @@ import java.util.List;
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.PostingImageAdapter;
 import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.emoticon.EmoticonEditText;
+import me.kuangneipro.emoticon.EmoticonInputPopupView;
+import me.kuangneipro.emoticon.EmoticonPopupable;
+import me.kuangneipro.emoticon.EmoticonRelativeLayout;
 import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostingInfo;
 import me.kuangneipro.entity.UploadImage;
@@ -20,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -29,13 +32,13 @@ public class PostingActivity extends HttpActivity{
 	private static final int RESULT_LOAD_IMAGE = 1;
 	private static final String TAG = PostingActivity.class.getSimpleName();
 	
-	private EditText mEditText;
+	private EmoticonEditText mEditText;
 	private GridView mImageGrid;
 	private MenuItem mSendPostButton;
 	
 	private ChannelEntity mChannel;
 	private PostingInfo mPostingInfo;
-	
+	private EmoticonPopupable mEmoticonPopupable;
 	private final List<UploadImage> mUploadImages;
 	private PostingImageAdapter mPostingImageAdapter;
 	
@@ -56,10 +59,17 @@ public class PostingActivity extends HttpActivity{
 		mChannel = (ChannelEntity)getIntent().getParcelableExtra(PostListActivity.SELECT_CHANNEL_INFO);
 		mPostingInfo.setChannel(mChannel);
 		
-		mEditText = (EditText) findViewById(R.id.editTextPost);
+		mEditText = (EmoticonEditText) findViewById(R.id.editTextPost);
 		mImageGrid = (GridView) findViewById(R.id.imageGrid);
 		mPostingImageAdapter = new PostingImageAdapter(this, mUploadImages);
 		mImageGrid.setAdapter(mPostingImageAdapter);
+		
+		mEmoticonPopupable = new EmoticonInputPopupView(this);
+		mEmoticonPopupable.setParentView( findViewById(R.id.inputContainer));
+		mEmoticonPopupable.bindEmoticonEditText(mEditText,null,800);
+		EmoticonRelativeLayout rootLayout = (EmoticonRelativeLayout) findViewById(R.id.RelativeLayout1);
+		rootLayout.setEmoticonInputPopupView((EmoticonInputPopupView)mEmoticonPopupable);
+		
 		ImageButton imgBtnChoose = (ImageButton) findViewById(R.id.imgBtnChoose);
 		imgBtnChoose.setOnClickListener(new Button.OnClickListener() {
 			@Override
@@ -99,7 +109,7 @@ public class PostingActivity extends HttpActivity{
 	}
 	
 	private void sendPost() {
-    	String message = mEditText.getText().toString();
+    	String message = mEditText.toString();
     	if (message.isEmpty()) {
     		String warnning = this.getString(R.string.info_post_empty);
     		Toast.makeText(this, warnning, Toast.LENGTH_LONG).show();

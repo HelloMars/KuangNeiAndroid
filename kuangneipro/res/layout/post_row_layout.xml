@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emoticon="http://schemas.android.com/apk/res/me.kuangneipro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
@@ -40,7 +41,7 @@
             android:text="10秒前" />
     </RelativeLayout>
 
-    <TextView
+    <me.kuangneipro.emoticon.EmoticonTextView
         android:id="@+id/txtContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +49,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/userRow"
         android:layout_marginTop="10dp"
+        emoticon:emoticonHeight="line_height"
+        emoticon:emoticonWidth="line_height"
         android:text="我不该偷吃苹果的啊，我就是个愚蠢的老女人！请大家一定不要相信一条蛇。。。" />
 
     <RelativeLayout

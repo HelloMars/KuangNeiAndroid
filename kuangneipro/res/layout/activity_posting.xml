@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<me.kuangneipro.emoticon.EmoticonRelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emoticon="http://schemas.android.com/apk/res/me.kuangneipro"
     android:id="@+id/RelativeLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/color_comm_bg"
     android:orientation="vertical" >
 
-    <EditText
+    <me.kuangneipro.emoticon.EmoticonEditText
         android:id="@+id/editTextPost"
+        android:singleLine="false"
+        android:textSize="16sp"
+        emoticon:emoticonHeight="line_height"
+        emoticon:emoticonWidth="line_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -32,5 +39,14 @@
         
     </GridView>
     
-
-</RelativeLayout>
+    <LinearLayout 
+        android:id="@+id/inputContainer"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
+    </LinearLayout>
+    
+</me.kuangneipro.emoticon.EmoticonRelativeLayout>

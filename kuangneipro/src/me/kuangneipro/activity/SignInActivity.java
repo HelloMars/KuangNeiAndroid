@@ -33,6 +33,7 @@ public class SignInActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		OpenUDID_manager.sync(this);
+
 		
 		setContentView(R.layout.activity_signin);
 		//个推请求clientid,并注册接收监听

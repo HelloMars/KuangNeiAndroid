@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.PostListAdapter;
 import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.emoticon.EmoticonInputDialog;
+import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
+import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.manager.ChannelEntityManager;
 import me.kuangneipro.manager.PostEntityManager;
+import me.kuangneipro.manager.PostReplyManager;
 import me.kuangneipro.util.ApplicationWorker;
 
 import org.json.JSONObject;
@@ -16,6 +21,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,13 +29,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class PostListActivity extends HttpActivity {
+public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
 	
 	public final static String SELECT_CHANNEL_INFO = "me.kuangnei.select.CHANNEL";
@@ -40,6 +47,7 @@ public class PostListActivity extends HttpActivity {
 	private ArrayList<PostEntity> mPostList;
 	private PostListAdapter mPostListAdapter;
 	private int index = 1;
+	private EmoticonPopupable mEmoticonPopupable;
 	
 	public PostListActivity() {
 		mPostList = new ArrayList<PostEntity>();
@@ -64,6 +72,13 @@ public class PostListActivity extends HttpActivity {
 				}
 			});
 			return;
+		}
+		
+
+		if (mEmoticonPopupable == null) {
+			mEmoticonPopupable = new EmoticonInputDialog(this, this);
+			//下方输入字数限制.
+			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
 		}
 		
 		
@@ -123,7 +138,14 @@ public class PostListActivity extends HttpActivity {
 				mListView.onRefreshComplete();
 			}
 			break;
-
+		case PostReplyManager.DO_REPLAY_FIRST:
+			ReturnInfo ri = PostReplyManager.getReplyReturnInfo(jsonObj);
+			if(ri!=null&& ri.getReturnCode() == ReturnInfo.SUCCESS){
+				Toast.makeText(this, "回复成功", Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
+			}
+			break;
 		default:
 			break;
 		}
@@ -172,6 +194,22 @@ public class PostListActivity extends HttpActivity {
 		
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	public void doReplay(int postId){
+		if(mEmoticonPopupable!=null){
+			mEmoticonPopupable.show();
+			mEmoticonPopupable.getEmoticonSendButton().setTag(postId);
+		}
+	}
+
+	@Override
+	public void onSend(View v, String text) {
+		if(!TextUtils.isEmpty(text)){
+			PostReplyManager.doReplayFirst(getHttpRequest(PostReplyManager.DO_REPLAY_FIRST), text, (Integer)v.getTag());
+		}else{
+			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();
 		}
 	}
 }

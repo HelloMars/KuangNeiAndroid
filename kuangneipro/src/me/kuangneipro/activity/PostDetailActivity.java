@@ -78,10 +78,12 @@ public class PostDetailActivity extends HttpActivity {
 		case PostReplyManager.POST_REPLY_SECOND:
 			int firstLevelReplyId = PostReplyManager.peekFirstLevelReplyId(jsonObj);
 			FirstLevelReplyEntity firstReply = getFirstLevelReply(firstLevelReplyId);
+			if(firstReply!=null){
 			firstReply.mSecondlevelReplyList.clear();
 			PostReplyManager.fillSecondReplyListFromJson(jsonObj, firstReply.mSecondlevelReplyList);
 			mReplyList.add(firstReply);
 			mPostDetailAdapter.notifyDataSetChanged();
+			}
 			break;
 			
 		default:

@@ -1,13 +1,13 @@
 package me.kuangneipro.receiver;
 
-import org.OpenUDID.OpenUDID_manager;
-
-import me.kuangneipro.activity.RegisterActivity;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.LoginUtil;
 import me.kuangneipro.util.LoginUtil.OnSignInLisener;
 import me.kuangneipro.util.NotificationUtil;
 import me.kuangneipro.util.PushUtil;
+
+import org.OpenUDID.OpenUDID_manager;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

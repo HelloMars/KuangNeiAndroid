@@ -2,39 +2,43 @@ package me.kuangneipro.Adapter;
 
 import java.util.ArrayList;
 
-import com.squareup.picasso.Picasso;
-
 import me.kuangneipro.R;
+import me.kuangneipro.activity.PostListActivity;
 import me.kuangneipro.entity.PostEntity;
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 
-public class PostListAdapter extends ArrayAdapter<PostEntity> {
+
+public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClickListener {
 	public String tag = this.getClass().getSimpleName(); // tag 用于测试log用  
-	private final Activity context;
+	private final PostListActivity context;
 	private final ArrayList<PostEntity> mPosts;
 
 	static class ViewHolder {
-		public ImageView icon;
-		public TextView name;
-		public TextView content;
-		public TextView date;
-		public TextView dislikeNum;
-		public TextView likeNum;
-		public TextView replyNum;
-		public ImageView[] pictures;
+		private ImageView icon;
+		private TextView name;
+		private TextView content;
+		private TextView date;
+		private TextView dislikeNum;
+		private TextView likeNum;
+		private TextView replyNum;
+		private ImageView[] pictures;
+		private ImageButton btnReply;
 	}
 
 	public PostListAdapter(Activity context, ArrayList<PostEntity> posts) {
 		super(context, R.layout.post_row_layout, posts);
-		this.context = context;
+		this.context = (PostListActivity) context;
 		this.mPosts = posts;
 	}
 	
@@ -72,6 +76,9 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 			viewHolder.dislikeNum = (TextView) rowView.findViewById(R.id.txtDislikeNum);
 			viewHolder.likeNum = (TextView) rowView.findViewById(R.id.txtLikeNum);
 			viewHolder.replyNum = (TextView) rowView.findViewById(R.id.txtReplyNum);
+			viewHolder.btnReply = (ImageButton) rowView.findViewById(R.id.btnReply);
+			viewHolder.btnReply.setOnClickListener(this);
+			viewHolder.btnReply.setTag(mPosts.get(position));
 			viewHolder.pictures = new ImageView[3];
 			viewHolder.pictures[0] = (ImageView) rowView.findViewById(R.id.imageView1);
 			viewHolder.pictures[1] = (ImageView) rowView.findViewById(R.id.imageView2);
@@ -120,5 +127,19 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> {
 		}
 		
 		return rowView;
+	}
+
+	@Override
+	public void onClick(View view) {
+		if(view!=null){
+			switch (view.getId()) {
+			case R.id.btnReply:
+				context.doReplay(((PostEntity)view.getTag()).mPostId);
+				break;
+			default:
+				break;
+			}
+		}
+		
 	}
 } 

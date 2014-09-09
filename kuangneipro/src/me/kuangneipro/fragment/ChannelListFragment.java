@@ -73,15 +73,17 @@ public class ChannelListFragment extends HttpListFragment {
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
 		mChannelList.clear();
-		ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
-		Log.i(TAG, "jsonObj == null ?" + (jsonObj == null));
-		Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
-		ChannelEntityManager.fillChannelListFromJson(jsonObj, mChannelList);
-		if(mChannelListAdapter==null){
-			mChannelListAdapter = new ChannelListAdapter(getActivity(), mChannelList);
-			mListView.setAdapter(mChannelListAdapter);
-		}else{
-			mChannelListAdapter.notifyDataSetChanged();
+		if(jsonObj!=null){
+			ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
+			Log.i(TAG, "jsonObj == null ?" + (jsonObj == null));
+			Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
+			ChannelEntityManager.fillChannelListFromJson(jsonObj, mChannelList);
+			if(mChannelListAdapter==null){
+				mChannelListAdapter = new ChannelListAdapter(getActivity(), mChannelList);
+				mListView.setAdapter(mChannelListAdapter);
+			}else{
+				mChannelListAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 

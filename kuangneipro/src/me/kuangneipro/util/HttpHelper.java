@@ -19,12 +19,15 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
@@ -219,11 +222,14 @@ public class HttpHelper {
 		JSONObject returnJson = null;
 		HttpResponse httpResponse = null;
 		try {
-			httpResponse = new DefaultHttpClient().execute(request);
+			HttpClient httpclient= new DefaultHttpClient();
+			HttpParams params = httpclient.getParams();  
+			params.setParameter(ClientPNames.HANDLE_REDIRECTS, false);  
+			httpResponse = httpclient.execute(request);
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY) {
-				if(!TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
+				if(UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {
 					String deviceID = OpenUDID_manager.getOpenUDID();
 					if(LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID)){
 						String sessionId = LoginUtil.loadSession();
@@ -234,7 +240,7 @@ public class HttpHelper {
 						}
 					}else{
 						if(activity!=null){
-							Intent intent = new Intent(activity, RegisterActivity.class);
+							Intent intent = new Intent(activity, SignInActivity.class);
 							activity.startActivity(intent);
 							activity.finish();
 						}
@@ -242,7 +248,7 @@ public class HttpHelper {
 				}
 				else {
 					if(activity!=null){
-						Intent intent = new Intent(activity, RegisterActivity.class);
+						Intent intent = new Intent(activity, SignInActivity.class);
 						activity.startActivity(intent);
 						activity.finish();
 					}

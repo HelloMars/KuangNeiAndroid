@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emoticon="http://schemas.android.com/apk/res/me.kuangneipro"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#999999" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/background_white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp" >
+
+            <ToggleButton
+                android:id="@+id/emoticon_togglebutton"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/emoticon_bt"
+                android:textOff=""
+                android:textOn="" />
+
+            <Button
+                android:id="@+id/emoticon_sendbutton"
+                android:layout_width="60dp"
+                android:layout_height="27dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/emoticon_send_bt"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <me.kuangneipro.emoticon.EmoticonEditText
+                android:id="@+id/emoticon_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/emoticon_sendbutton"
+                android:layout_toRightOf="@id/emoticon_togglebutton"
+                android:background="@drawable/emoticon_bg_edit_normal"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textMultiLine"
+                android:maxLines="6"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="3dp"
+                android:singleLine="false"
+                android:textSize="16sp"
+                emoticon:emoticonHeight="line_height"
+                emoticon:emoticonWidth="line_height" />
+
+            <TextView
+                android:id="@+id/emoticon_edittext_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/emoticon_edittext"
+                android:layout_alignRight="@id/emoticon_edittext"
+                android:layout_marginBottom="6dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/red"
+                android:textSize="13sp"
+                android:textStyle="italic"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#999999" />
+
+    <me.kuangneipro.emoticon.EmoticonPicker
+        android:id="@+id/emoticonpicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        emoticon:emoticonPickerCount="port"
+        android:background="#F2F2F2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" />
+
+</LinearLayout>

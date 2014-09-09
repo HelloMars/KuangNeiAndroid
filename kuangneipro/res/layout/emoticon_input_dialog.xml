@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.kuangneipro.emoticon.EmoticonRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical" >
+
+    
+	<me.kuangneipro.emoticon.EmoticonInputView 
+	    android:id="@+id/emoticon_input_view"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@color/white"
+	    android:layout_alignParentBottom="true"/>
+	    
+</me.kuangneipro.emoticon.EmoticonRelativeLayout>

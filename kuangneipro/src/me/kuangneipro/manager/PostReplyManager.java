@@ -19,6 +19,13 @@ public class PostReplyManager {
 	public static final int POST_REPLY_FIRST = 0;
 	public static final int POST_REPLY_SECOND = 1;
 	
+	public static final int DO_REPLAY_FIRST = 20;
+	
+	public static void doReplayFirst(HttpHelper httpRequest,String content,int postId){
+		Log.i(TAG, "doReplayFirst:" + content + " " + postId);
+		httpRequest.setUrl(HostUtil.DO_REPLY_FIRST_LEVEL).put("postId", postId+"").put("content", content).asyncPost();
+	}
+	
 	public static void getFirstlevelReplyList(HttpHelper httpRequest, int postId, int page){
 		Log.i(TAG, "getFirstlevelReplyList:" + postId + " " + page);
 		httpRequest.setUrl(HostUtil.REPLY_FIRST_LEVEL).put("postId", postId+"").put("page", page+"").asyncGet();
