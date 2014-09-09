@@ -44,7 +44,9 @@ public class PostEntityManager {
 	}
 	
 	public static void fillPostListFromJson(JSONObject jsonObj , List<PostEntity> mPostList){
+		if(jsonObj!=null){
 		try {
+			
 			JSONArray jsonarray = jsonObj.getJSONArray("list");
 			for (int i = 0; i < jsonarray.length(); i++) {
 	    		JSONObject oneJson = jsonarray.getJSONObject(i);
@@ -71,6 +73,7 @@ public class PostEntityManager {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+		}
 		}
 	}
 	
