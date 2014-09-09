@@ -38,7 +38,7 @@ public class PushReceiver extends BroadcastReceiver {
 				{
 					String data = new String(payload);
 					if(!TextUtils.isEmpty(data)  && LoginUtil.isSignIn()){
-						NotificationUtil.makeANotification(data);
+						NotificationUtil.makeANotification(context,data);
 //						Log.d(TAG, "Got Payload:" + data);
 //						Toast.makeText(context, TAG+" Payload:"+data, Toast.LENGTH_LONG).show();
 						// TODO:接收处理透传（payload）数据 

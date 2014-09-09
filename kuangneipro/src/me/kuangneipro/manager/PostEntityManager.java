@@ -153,10 +153,11 @@ public class PostEntityManager {
 		httpPostingGet.setRequestCallBackListener(new RequestCallBackListener() {
 			@Override
 			public void onRequestComplete(int id, JSONObject jsonObj) {
+				if(jsonObj!=null)
 				Log.i("**************jsonObj", ""+jsonObj.toString());
 				ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
 				final Context context = KuangNeiApplication.getInstance();
-				if(returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+				if(returnInfo!=null && returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
 					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
 						@Override
 						public void run() {
