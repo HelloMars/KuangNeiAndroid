@@ -177,8 +177,11 @@ public class HttpHelper {
 			public void run() {
 				final HttpPost httpPost = createHttpPost();
 				checkSession(httpPost);
-				if(requestCallBackListener!=null)
-					requestCallBackListener.onRequestComplete(id,doHttpRequest(httpPost));
+				if(requestCallBackListener!=null){
+					JSONObject jsonObject = doHttpRequest(httpPost);
+					if(jsonObject!=null)
+						requestCallBackListener.onRequestComplete(id,jsonObject);
+				}
 			}
 			
 		});
@@ -201,8 +204,11 @@ public class HttpHelper {
 			public void run() {
 				final HttpGet httpGet = createHttpGet();
 				checkSession(httpGet);
-				if(requestCallBackListener!=null)
-					requestCallBackListener.onRequestComplete(id,doHttpRequest(httpGet));
+				if(requestCallBackListener!=null){
+					JSONObject jsonObject = doHttpRequest(httpGet);
+					if(jsonObject!=null)
+						requestCallBackListener.onRequestComplete(id,jsonObject);
+				}
 			}
 			
 		});
