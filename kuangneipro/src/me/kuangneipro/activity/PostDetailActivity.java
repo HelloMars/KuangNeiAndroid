@@ -27,6 +27,7 @@ public class PostDetailActivity extends HttpActivity {
 	
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";
 	
+	private int firstReplyIndex;
 	private PostEntity mPost;
 	private List<FirstLevelReplyEntity> mReplyList;
 	private List<FirstLevelReplyEntity> mTempReplyList;
@@ -35,6 +36,7 @@ public class PostDetailActivity extends HttpActivity {
 	private PostDetailAdapter mPostDetailAdapter;
 	
 	public PostDetailActivity() {
+		firstReplyIndex = 0;
 		mReplyList = new ArrayList<FirstLevelReplyEntity>();
 		mTempReplyList = new ArrayList<FirstLevelReplyEntity>();
 	}
@@ -69,6 +71,7 @@ public class PostDetailActivity extends HttpActivity {
 			mTempReplyList.clear();
 			PostReplyManager.fillFirstReplyListFromJson(jsonObj, mTempReplyList);
 			Log.i(TAG, "requestComplete " + mTempReplyList.size());
+			firstReplyIndex = 0;
 			for (int i = 0; i < mTempReplyList.size(); ++i) {
 				FirstLevelReplyEntity reply = mTempReplyList.get(i);
 				Log.i(TAG, "FirstLevelReplyEntity:" + reply.mContent);
@@ -77,13 +80,16 @@ public class PostDetailActivity extends HttpActivity {
 			break;
 		case PostReplyManager.POST_REPLY_SECOND:
 			int firstLevelReplyId = PostReplyManager.peekFirstLevelReplyId(jsonObj);
-			FirstLevelReplyEntity firstReply = getFirstLevelReply(firstLevelReplyId);
-			if(firstReply!=null){
-			firstReply.mSecondlevelReplyList.clear();
-			PostReplyManager.fillSecondReplyListFromJson(jsonObj, firstReply.mSecondlevelReplyList);
-			mReplyList.add(firstReply);
-			mPostDetailAdapter.notifyDataSetChanged();
+			//int firstLevelReplyId = PostReplyManager.peekFirstLevelReplyId(jsonObj);
+			if (firstLevelReplyId > 0) {
+				FirstLevelReplyEntity firstReply = getFirstLevelReply(firstLevelReplyId);
+				if(firstReply!=null){
+					firstReply.mSecondlevelReplyList.clear();
+					PostReplyManager.fillSecondReplyListFromJson(jsonObj, firstReply.mSecondlevelReplyList);
+					mReplyList.add(firstReply);
+				}
 			}
+			mPostDetailAdapter.notifyDataSetChanged();
 			break;
 			
 		default:

@@ -41,7 +41,7 @@ public class PostReplyManager {
 			assert (jsonarray != null);
 			ReturnInfo info = PostReplyManager.getReplyReturnInfo(jsonObj);
 			Log.i(TAG, "ReturnInfo:" + info.getReturnMessage());
-			Log.i(TAG, "fillReplyListFromJson " + jsonarray.length());
+			Log.i(TAG, "fillFirstReplyListFromJson " + jsonarray.length());
 			for (int i = 0; i < jsonarray.length(); i++) {
 	    		JSONObject oneJson = jsonarray.getJSONObject(i);
 	    		Log.i(TAG, oneJson.toString());
@@ -59,7 +59,7 @@ public class PostReplyManager {
 			assert (jsonarray != null);
 			ReturnInfo info = PostReplyManager.getReplyReturnInfo(jsonObj);
 			Log.i(TAG, "ReturnInfo:" + info.getReturnMessage());
-			Log.i(TAG, "fillReplyListFromJson " + jsonarray.length());
+			Log.i(TAG, "fillSecondReplyListFromJson " + jsonarray.length());
 			
 			for (int i = 0; i < jsonarray.length(); i++) {
 	    		JSONObject oneJson = jsonarray.getJSONObject(0);
@@ -74,14 +74,14 @@ public class PostReplyManager {
 	
 	public static int peekFirstLevelReplyId(JSONObject jsonObj){
 		try {
+			Log.i(TAG, jsonObj.toString());
 			JSONArray jsonarray = jsonObj.getJSONArray("list");
 			assert (jsonarray != null);
 			ReturnInfo info = PostReplyManager.getReplyReturnInfo(jsonObj);
 			Log.i(TAG, "ReturnInfo:" + info.getReturnMessage());
 			Log.i(TAG, "peekFirstLevelReplyId " + jsonarray.length());
 			
-    		JSONObject oneJson = jsonarray.getJSONObject(0);
-    		return oneJson.getInt("secondLevelReplyId");
+			return jsonObj.getInt("firstLevelReplyId");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
