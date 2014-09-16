@@ -66,7 +66,7 @@ public class SignInActivity extends Activity {
 					Toast.makeText(SignInActivity.this, "请输入账号密码", Toast.LENGTH_SHORT).show();
 				}else{
 					String deviceID = OpenUDID_manager.getOpenUDID();
-					Toast.makeText(SignInActivity.this, "devicdID"+deviceID, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(SignInActivity.this, "devicdID"+deviceID, Toast.LENGTH_SHORT).show();
 					LoginUtil.signin(editPhone.getText().toString(), editPassword.getText().toString(), deviceID, new OnSignInLisener() {
 						
 						@Override
@@ -74,8 +74,6 @@ public class SignInActivity extends Activity {
 							if(isSuccess){
 								Intent intent = new Intent(SignInActivity.this, MainActivity.class);
 						    	startActivity(intent);
-							}else{
-								Toast.makeText(SignInActivity.this, "登录失败，请重试！", Toast.LENGTH_SHORT).show();
 							}
 							
 						}

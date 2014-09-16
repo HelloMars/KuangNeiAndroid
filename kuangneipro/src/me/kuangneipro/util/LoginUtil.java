@@ -19,6 +19,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
+import me.kuangneipro.core.KuangNeiApplication;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UserInfo;
 
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 public class LoginUtil {
 	private static final String TAG = "LoginUtil";
@@ -119,11 +121,30 @@ public class LoginUtil {
 			JSONObject JSONObject = new JSONObject(returnJsonStr);
 			
 				
+			final ReturnInfo returnInfo = ReturnInfo.fromJSONObject(JSONObject);
 
-			if(ReturnInfo.fromJSONObject(JSONObject).getReturnCode() == ReturnInfo.SUCCESS){
+			if(returnInfo != null && returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
 				if(HostUtil.SIGN_IN.equals(path))
 					UserInfo.saveSelfUserInfo(UserInfo.fromJson(params.get(USERNAME_KEY), params.get(PASSWORD_KEY), JSONObject));
 				return true;
+			}else if(returnInfo != null){
+				ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(KuangNeiApplication.getInstance(), returnInfo.getReturnMessage(), Toast.LENGTH_LONG).show();
+					}
+				});
+				
+			}else{
+				ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast.makeText(KuangNeiApplication.getInstance(), "登录失败，请重试！", Toast.LENGTH_LONG).show();
+					}
+				});
+				
 			}
 			
 			

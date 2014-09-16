@@ -40,7 +40,7 @@ public class RegisterActivity extends Activity {
 					Toast.makeText(RegisterActivity.this, "请输入账号密码", Toast.LENGTH_SHORT).show();
 				}else{
 					String deviceID = OpenUDID_manager.getOpenUDID();
-					Toast.makeText(RegisterActivity.this, "devicdID"+deviceID, Toast.LENGTH_SHORT).show();
+//					Toast.makeText(RegisterActivity.this, "devicdID"+deviceID, Toast.LENGTH_SHORT).show();
 					LoginUtil.register(editPhone.getText().toString(), editPassword.getText().toString(), deviceID, new OnSignInLisener() {
 						
 						@Override
@@ -48,8 +48,6 @@ public class RegisterActivity extends Activity {
 							if(isSuccess){
 								Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
 						    	startActivity(intent);
-							}else{
-								Toast.makeText(RegisterActivity.this, "登录失败，请重试！", Toast.LENGTH_SHORT).show();
 							}
 							
 						}
