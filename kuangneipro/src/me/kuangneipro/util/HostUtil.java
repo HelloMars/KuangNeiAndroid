@@ -53,4 +53,9 @@ public class HostUtil {
 	 * 一级回复
 	 */
 	public static final String DO_REPLY_FIRST_LEVEL = KUANG_NEI_HOST + "replyFirstLevel/";
+	
+	/**
+	 * 二级回复
+	 */
+	public static final String DO_REPLY_SECOND_LEVEL = KUANG_NEI_HOST + "replySecondLevel/";
 }

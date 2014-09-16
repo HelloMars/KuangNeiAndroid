@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import me.kuangneipro.util.HostUtil;
 import me.kuangneipro.util.HttpHelper;
+import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.SecondLevelReplyEntity;
@@ -20,6 +21,14 @@ public class PostReplyManager {
 	public static final int POST_REPLY_SECOND = 1;
 	
 	public static final int DO_REPLAY_FIRST = 20;
+	public static final int DO_REPLAY_SECOND = 21;
+	
+	
+	
+	public static void doReplaySecond(HttpHelper httpRequest,String content,int postId,int firstLevelReplyId){
+		Log.i(TAG, "doReplayFirst:" + content + " " + postId);
+		httpRequest.setUrl(HostUtil.DO_REPLY_SECOND_LEVEL).put("postId", postId+"").put("firstLevelReplyId", firstLevelReplyId+"").put("content", content).asyncPost();
+	}
 	
 	public static void doReplayFirst(HttpHelper httpRequest,String content,int postId){
 		Log.i(TAG, "doReplayFirst:" + content + " " + postId);

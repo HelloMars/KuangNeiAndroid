@@ -208,6 +208,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	public void onSend(View v, String text) {
 		if(!TextUtils.isEmpty(text)){
 			PostReplyManager.doReplayFirst(getHttpRequest(PostReplyManager.DO_REPLAY_FIRST), text, (Integer)v.getTag());
+			mEmoticonPopupable.cleatEmoticonEditText();
 		}else{
 			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();
 		}

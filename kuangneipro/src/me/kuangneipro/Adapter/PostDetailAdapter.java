@@ -3,19 +3,20 @@ package me.kuangneipro.Adapter;
 import java.util.List;
 
 import me.kuangneipro.R;
-import me.kuangneipro.Adapter.PostListAdapter.ViewHolder;
+import me.kuangneipro.activity.PostDetailActivity;
 import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.SecondLevelReplyEntity;
 import me.kuangneipro.util.ListUtil;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,7 +34,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 	
 	private static final String TAG = PostDetailAdapter.class.getSimpleName(); // tag 用于测试log用  
 	
-	private final Activity mContext;
+	private final PostDetailActivity mPostDetailActivity;
 	private final PostEntity mPost;
 	private List<FirstLevelReplyEntity> mReplyList;
 	
@@ -45,8 +46,8 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 		public ImageView image;
 	}
 	
-	public PostDetailAdapter(Activity context, PostEntity post, List<FirstLevelReplyEntity> replyList) {
-		this.mContext = context;
+	public PostDetailAdapter(PostDetailActivity postDetailActivity, PostEntity post, List<FirstLevelReplyEntity> replyList) {
+		this.mPostDetailActivity = postDetailActivity;
 		this.mPost = post;
 		this.mReplyList = replyList;
 	}
@@ -77,7 +78,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 		switch(groupPosition) {
 			case POST_CONTENT: {
 				if (convertView == null) {
-					LayoutInflater inflater = mContext.getLayoutInflater();
+					LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
 					convertView = inflater.inflate(R.layout.post_detail_row_content, parent, false);
 					ContentViewHolder viewHolder = new ContentViewHolder();
 					viewHolder.content = (TextView) convertView.findViewById(R.id.txtContent);
@@ -89,7 +90,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 			}
 			case IMAGE_LIST: {
 				if (convertView == null) {
-					LayoutInflater inflater = mContext.getLayoutInflater();
+					LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
 					//LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 					convertView = inflater.inflate(R.layout.post_detail_row_image, parent, false);
 					ImageViewHolder viewHolder = new ImageViewHolder();
@@ -120,7 +121,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 
                 };
                 
-				Picasso.with(mContext)
+				Picasso.with(mPostDetailActivity)
 		        	.load(picUrl)
 		        	.placeholder(android.R.drawable.ic_menu_gallery)
 		        	.error(android.R.drawable.ic_menu_report_image)
@@ -132,7 +133,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 				break;
 			}
 			case REPLY_LIST: {
-				LayoutInflater inflater = mContext.getLayoutInflater();
+				LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
 				convertView = inflater.inflate(R.layout.post_detail_row_reply, parent, false);
 
 				ImageView icon = (ImageView) convertView.findViewById(R.id.imgIcon);
@@ -140,14 +141,15 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 				TextView date = (TextView) convertView.findViewById(R.id.txtDate);
 				TextView likeNum = (TextView) convertView.findViewById(R.id.txtLikeNum);
 				TextView replyNum = (TextView) convertView.findViewById(R.id.txtReplyNum);
+				ImageButton btnReply = (ImageButton)convertView.findViewById(R.id.btnReply);
 				TextView content = (TextView) convertView.findViewById(R.id.txtContent);
 				ListView replyList = (ListView) convertView.findViewById(R.id.list_reply);
 				
 				// fill data
-				FirstLevelReplyEntity firstReply = mReplyList.get(childPosition);
+				final FirstLevelReplyEntity firstReply = mReplyList.get(childPosition);
 				Log.i(TAG, firstReply.mUserName + " " + firstReply.mContent);
 				Log.i(TAG, "!!!!downloading user avatar " + firstReply.mUserAvatar);
-				Picasso.with(mContext)
+				Picasso.with(mPostDetailActivity)
 		        	.load(firstReply.mUserAvatar)
 		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
 		        	.placeholder(R.drawable.ic_launcher)
@@ -159,6 +161,13 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 				date.setText(firstReply.getDate());
 				likeNum.setText(Integer.toString(firstReply.mLikeNum));
 				replyNum.setText(Integer.toString(firstReply.mReplyNum));
+				btnReply.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+//						Toast.makeText(mPostDetailActivity, firstReply.mPostId +"  "+firstReply.mFirstLevelReplyId, Toast.LENGTH_LONG).show();
+						mPostDetailActivity.doReplaySecond(firstReply.mFirstLevelReplyId);
+					}
+				});
 				content.setText(firstReply.mContent);
 				
 				Log.i(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!before set second level reply adatper");
@@ -166,7 +175,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 					if(firstReply.mAdapter==null){
 						SecondLevelReplyEntity secondReply = firstReply.mSecondlevelReplyList.get(0);
 						Log.i(TAG, secondReply.mUserName + " " + secondReply.mContent);
-						firstReply.mAdapter = new SecondLevelReplyAdapter(mContext, firstReply.mSecondlevelReplyList);
+						firstReply.mAdapter = new SecondLevelReplyAdapter(mPostDetailActivity, firstReply.mSecondlevelReplyList);
 						replyList.setAdapter(firstReply.mAdapter);
 					}else{
 						firstReply.mAdapter.notifyDataSetChanged();
@@ -214,7 +223,7 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		if (convertView == null)
-			convertView = new LinearLayout(mContext);
+			convertView = new LinearLayout(mPostDetailActivity);
 	    ExpandableListView list = (ExpandableListView) parent;
 	    list.expandGroup(groupPosition);
 	    return convertView;
