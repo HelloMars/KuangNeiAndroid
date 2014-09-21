@@ -90,16 +90,18 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 				break;
 			}
 			case IMAGE_LIST: {
-				if (convertView == null) {
-					LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
-					//LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-					convertView = inflater.inflate(R.layout.post_detail_row_image, parent, false);
-					ImageViewHolder viewHolder = new ImageViewHolder();
-					viewHolder.image = (ImageView) convertView.findViewById(R.id.imageView);
-					convertView.setTag(viewHolder);
-				}
+				Log.i(TAG, "convertView == null");
+				LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
+				//LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.post_detail_row_image, parent, false);
+				ImageViewHolder viewHolder = new ImageViewHolder();
+				viewHolder.image = (ImageView) convertView.findViewById(R.id.imageView);
+				convertView.setTag(viewHolder);
+				
 				final ImageViewHolder imageHolder = (ImageViewHolder) convertView.getTag();
 				String picUrl = (String)getChild(groupPosition, childPosition);
+				Log.i(TAG, "imageHolder == null ? " + (imageHolder == null));
+				Log.i(TAG, "imageHolder.image == null ? " + (imageHolder.image == null));
 				
 				Transformation transformation = new Transformation() {
                     @Override
