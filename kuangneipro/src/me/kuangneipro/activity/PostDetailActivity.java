@@ -1,6 +1,7 @@
 package me.kuangneipro.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import me.kuangneipro.R;
@@ -155,6 +156,7 @@ public class PostDetailActivity extends HttpActivity {
 					mReplyList.add(firstReply);
 				}
 			}
+			Collections.sort(mReplyList);
 			mPostDetailAdapter.notifyDataSetChanged();
 			break;
 		case PostReplyManager.DO_REPLAY_FIRST:

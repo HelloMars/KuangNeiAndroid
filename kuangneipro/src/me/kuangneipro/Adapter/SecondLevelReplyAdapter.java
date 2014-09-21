@@ -6,6 +6,7 @@ import me.kuangneipro.R;
 import me.kuangneipro.entity.SecondLevelReplyEntity;
 import me.kuangneipro.util.ListUtil;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.text.Html;
 import android.util.Log;
@@ -38,7 +39,7 @@ public class SecondLevelReplyAdapter extends ArrayAdapter<SecondLevelReplyEntity
     
     @Override  
     public SecondLevelReplyEntity getItem(int position) {  
-        return null;  
+        return mReplys.get(position);  
     }
       
     @Override  
@@ -46,23 +47,21 @@ public class SecondLevelReplyAdapter extends ArrayAdapter<SecondLevelReplyEntity
         return position;  
     }
 
+	@SuppressLint("ViewHolder")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Log.i(TAG, "getView" + position);
 
-		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			LayoutInflater inflater = context.getLayoutInflater();
 			convertView = inflater.inflate(R.layout.post_detail_row_second_reply, parent, false);
-			viewHolder = new ViewHolder();
+			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.content = (TextView) convertView.findViewById(R.id.txtSecondContent);
 			convertView.setTag(viewHolder);
 		}
 		
 		ViewHolder holder = (ViewHolder) convertView.getTag();
 		SecondLevelReplyEntity reply = mReplys.get(position);
-		Log.i(TAG, "mReplys.size(): " + mReplys.size());
-		Log.i(TAG, "reply == null ?" + (reply == null));
 		Log.i(TAG, "username: " + reply.mUserName);
 		Log.i(TAG, "content: " + reply.mContent);
 		String content = String.format("<font color=#6495ED>%s:</font><font color=#000000>%s %s</font>",

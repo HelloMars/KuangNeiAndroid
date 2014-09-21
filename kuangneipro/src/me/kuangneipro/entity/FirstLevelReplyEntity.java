@@ -13,7 +13,7 @@ import org.json.JSONException;
 
 import android.util.Log;
 
-public class FirstLevelReplyEntity {
+public class FirstLevelReplyEntity implements Comparable<FirstLevelReplyEntity>{
 	private static final String TAG = FirstLevelReplyEntity.class.getSimpleName();
 	
 	public Date mDate;
@@ -71,5 +71,10 @@ public class FirstLevelReplyEntity {
 	
 	public String getDate() {
 		return DateUtil.getReadableDateStr(mDate);
+	}
+
+	@Override
+	public int compareTo(FirstLevelReplyEntity other) {
+		return this.mFloor - other.mFloor;
 	}
 }

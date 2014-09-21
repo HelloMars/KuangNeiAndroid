@@ -71,7 +71,7 @@ public class PostReplyManager {
 			Log.i(TAG, "fillSecondReplyListFromJson " + jsonarray.length());
 			
 			for (int i = 0; i < jsonarray.length(); i++) {
-	    		JSONObject oneJson = jsonarray.getJSONObject(0);
+	    		JSONObject oneJson = jsonarray.getJSONObject(i);
 	    		Log.i(TAG, oneJson.toString());
 	    		SecondLevelReplyEntity reply = SecondLevelReplyEntity.fromJson(oneJson);
 	    		replyList.add(reply);

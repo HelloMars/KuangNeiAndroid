@@ -8,6 +8,7 @@ import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.SecondLevelReplyEntity;
 import me.kuangneipro.util.ListUtil;
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+@SuppressLint("CutPasteId")
 public class PostDetailAdapter extends BaseExpandableListAdapter {
 	private static final int POST_CONTENT = 0;
 	private static final int IMAGE_LIST = 1;
@@ -77,13 +79,12 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 		Log.i(TAG, "getChildView " + groupPosition + " " + childPosition);
 		switch(groupPosition) {
 			case POST_CONTENT: {
-				if (convertView == null) {
-					LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
-					convertView = inflater.inflate(R.layout.post_detail_row_content, parent, false);
-					ContentViewHolder viewHolder = new ContentViewHolder();
-					viewHolder.content = (TextView) convertView.findViewById(R.id.txtContent);
-					convertView.setTag(viewHolder);
-				}
+				LayoutInflater inflater = mPostDetailActivity.getLayoutInflater();
+				convertView = inflater.inflate(R.layout.post_detail_row_content, parent, false);
+				ContentViewHolder viewHolder = new ContentViewHolder();
+				viewHolder.content = (TextView) convertView.findViewById(R.id.txtContent);
+				convertView.setTag(viewHolder);
+
 				ContentViewHolder contentHolder = (ContentViewHolder) convertView.getTag();
 				contentHolder.content.setText(mPost.mContent);
 				break;
@@ -172,14 +173,13 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 				
 				Log.i(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!before set second level reply adatper");
 				if (firstReply.mSecondlevelReplyList.size() > 0) {
-					if(firstReply.mAdapter==null){
-						SecondLevelReplyEntity secondReply = firstReply.mSecondlevelReplyList.get(0);
-						Log.i(TAG, secondReply.mUserName + " " + secondReply.mContent);
+					Log.i(TAG, firstReply.mUserName + " " + firstReply.mContent);
+					//if(firstReply.mAdapter==null){
 						firstReply.mAdapter = new SecondLevelReplyAdapter(mPostDetailActivity, firstReply.mSecondlevelReplyList);
 						replyList.setAdapter(firstReply.mAdapter);
-					}else{
+					/*}else{
 						firstReply.mAdapter.notifyDataSetChanged();
-					}
+					}*/
 					ListUtil.setListViewHeightBasedOnChildren(replyList);
 				}
 				break;
