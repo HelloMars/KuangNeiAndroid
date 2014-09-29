@@ -2,7 +2,9 @@ package me.kuangneipro.activity;
 
 import me.kuangneipro.R;
 import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.fragment.ChannelListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -96,6 +98,8 @@ public class MainActivity extends HttpActivity {
 		case R.id.action_search:
 			return true;
 		case R.id.action_settings:
+			Intent intent = new Intent(MainActivity.this, PersonalInfoActivity.class);
+    		startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

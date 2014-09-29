@@ -58,4 +58,9 @@ public class HostUtil {
 	 * 二级回复
 	 */
 	public static final String DO_REPLY_SECOND_LEVEL = KUANG_NEI_HOST + "replySecondLevel/";
+	
+	/**
+	 * 设置用户信息
+	 */
+	public static final String ADD_USER_INFO = KUANG_NEI_HOST + "addUserInfo/";
 }

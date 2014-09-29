@@ -52,6 +52,8 @@ public class HttpHelper {
 	private volatile String url;
 	private Activity activity;
 	private boolean isSync;
+	private int retryCount = 0;
+	public static final int MAX_RETRY_COUNT = 2;
 	
 	public HttpHelper(Activity activity,int id){
 		this(activity,id,null);
@@ -171,6 +173,7 @@ public class HttpHelper {
 	
 	public void asyncPost(){
 		isSync = false;
+		retryCount = 0;
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			
 			@Override
@@ -190,6 +193,7 @@ public class HttpHelper {
 	
 	public JSONObject syncPost(){
 		isSync = true;
+		retryCount = 0;
 		final HttpPost httpPost = createHttpPost();
 		checkSession(httpPost);
 		return doHttpRequest(httpPost);
@@ -198,6 +202,7 @@ public class HttpHelper {
 	
 	public void asyncGet(){
 		isSync = false;
+		retryCount = 0;
 		ApplicationWorker.getInstance().execute(new Runnable() {
 			
 			@Override
@@ -217,6 +222,7 @@ public class HttpHelper {
 	
 	public JSONObject syncGet(){
 		isSync = true;
+		retryCount = 0;
 		final HttpGet httpGet = createHttpGet();
 		checkSession(httpGet);
 		return doHttpRequest(httpGet);
@@ -241,14 +247,20 @@ public class HttpHelper {
 						String sessionId = LoginUtil.loadSession();
 						if(!TextUtils.isEmpty(sessionId))
 							request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
-						if(isSync){
+						if(retryCount<MAX_RETRY_COUNT){
 							return doHttpRequest(request);
+						}else{
+							Intent intent = new Intent(activity, SignInActivity.class);
+							activity.startActivity(intent);
+							activity.finish();
+							returnJson = new JSONObject();
 						}
 					}else{
 						if(activity!=null){
 							Intent intent = new Intent(activity, SignInActivity.class);
 							activity.startActivity(intent);
 							activity.finish();
+							returnJson = new JSONObject();
 						}
 					}
 				}
@@ -257,9 +269,9 @@ public class HttpHelper {
 						Intent intent = new Intent(activity, SignInActivity.class);
 						activity.startActivity(intent);
 						activity.finish();
+						returnJson = new JSONObject();
 					}
 				}
-				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

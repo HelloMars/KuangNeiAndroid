@@ -165,7 +165,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kuangneipro.activity.PostListActivity" />
         </activity>
-        
+        <activity
+            android:name=".activity.PersonalInfoActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:label="@string/title_activity_posting"
+            android:parentActivityName="me.kuangneipro.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.kuangneipro.activity.MainActivity" />
+        </activity>
+		
+		
+		
+		
 		<service android:name="org.openudid.OpenUDID_service">
 			<intent-filter>
 				<action android:name="org.openudid.GETUDID" />

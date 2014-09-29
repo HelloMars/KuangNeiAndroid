@@ -1,5 +1,7 @@
 package me.kuangneipro.entity;
 
+import java.util.Date;
+
 import me.kuangneipro.util.DataStorage;
 
 import org.json.JSONObject;
@@ -13,10 +15,15 @@ public class UserInfo {
 	private String avatar;
 	private String name;
 	
-	public static final int MAN = 0;
-	public static final int WOMAN = 1;
+	public static final int WOMAN = 0;
+	public static final int MAN = 1;
+	public static final int NEUTRAL = 2;
+	public static final int NOT_SET = 3;
 	private int sex;	
 	private String sign;
+	
+	private Date birthday;
+	
 	
 	private static final String USERNAME_KEY = "username";
 	private static final String PASSWORD_KEY = "password";
@@ -24,6 +31,7 @@ public class UserInfo {
 	private static final String NAME_KEY = "name";
 	private static final String SEX_KEY = "sex";
 	private static final String SIGN_KEY = "sign";
+	private static final String BIRTHDAY_KEY = "birthday";
 	
 	public static void saveSelfUserInfo(UserInfo userInfo){
 		DataStorage.save(USERNAME_KEY, userInfo.getUsername());
@@ -32,6 +40,7 @@ public class UserInfo {
 		DataStorage.save(NAME_KEY, userInfo.getName());
 		DataStorage.save(SEX_KEY, userInfo.getSex()+"");
 		DataStorage.save(SIGN_KEY, userInfo.getSign());
+		DataStorage.save(BIRTHDAY_KEY, userInfo.getBirthday().getTime());
 	}
 	
 	public static UserInfo loadSelfUserInfo(){
@@ -44,6 +53,7 @@ public class UserInfo {
 			userInfo.name = DataStorage.loadString(NAME_KEY);
 			userInfo.sex = Integer.parseInt(DataStorage.load(SEX_KEY,UserInfo.MAN+""));
 			userInfo.sign = DataStorage.loadString(SIGN_KEY);
+			userInfo.birthday = new Date(DataStorage.loadLong(BIRTHDAY_KEY));
 			return userInfo;
 		}
 		
@@ -58,9 +68,9 @@ public class UserInfo {
 			userInfo.password = password;
 			userInfo.avatar = jObject.optString("avatar", "");
 			userInfo.name = jObject.optString("name", "");
-			userInfo.sex = jObject.optInt("sex", 0);
+			userInfo.sex = jObject.optInt("sex", NOT_SET);
 			userInfo.sign = jObject.optString("sign", "");
-			
+			userInfo.birthday = new Date(jObject.optLong("birthday", 0));
 			return userInfo;
 		}
 		
@@ -107,5 +117,14 @@ public class UserInfo {
 	public boolean isMan(){
 		return sex == MAN;
 	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	
 	
 }
