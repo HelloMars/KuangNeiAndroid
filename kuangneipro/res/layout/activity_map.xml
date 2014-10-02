@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="me.kuangneipro.activity.MapActivity" >
 
     <com.baidu.mapapi.map.MapView  
@@ -15,8 +11,10 @@
     android:clickable="true" />
     
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/state"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:lines="3"
+        android:text="点击、长按、双击地图以获取经纬度和地图状态" />
 
 </RelativeLayout>

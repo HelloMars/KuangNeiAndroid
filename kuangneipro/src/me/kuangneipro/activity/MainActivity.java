@@ -74,9 +74,6 @@ public class MainActivity extends HttpActivity {
 	                	getSupportActionBar().setSelectedNavigationItem(position);
 	                }
 	            });
-		
-		Intent intent = new Intent(this, MapActivity.class);
-		startActivity(intent);
 	}
 
 	@Override

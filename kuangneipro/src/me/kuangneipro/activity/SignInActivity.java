@@ -23,6 +23,7 @@ public class SignInActivity extends Activity {
 	
 	private Button signinButton;
 	private Button registerButton;
+	private Button mapButton;
 	private EditText editPhone;
 	private EditText editPassword;
 	
@@ -43,6 +44,7 @@ public class SignInActivity extends Activity {
 		editPhone = (EditText)findViewById(R.id.editPhone);
 		editPassword = (EditText)findViewById(R.id.editPassword);
 		registerButton = (Button)findViewById(R.id.btnSigninRegister);
+		mapButton = (Button)findViewById(R.id.btnMap);
 		
 		
 		UserInfo userInfo = UserInfo.loadSelfUserInfo();
@@ -51,7 +53,6 @@ public class SignInActivity extends Activity {
 			editPassword.setText(userInfo.getPassword());
 		}
 		
-		
 		registerButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -59,6 +60,15 @@ public class SignInActivity extends Activity {
 		    	startActivity(intent);
 			}
 		});
+		
+		mapButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(SignInActivity.this, MapActivity.class);
+		    	startActivity(intent);
+			}
+		});
+		
 		signinButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

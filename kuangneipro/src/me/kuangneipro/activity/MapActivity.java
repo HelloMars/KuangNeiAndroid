@@ -6,16 +6,23 @@ import java.util.List;
 import me.kuangneipro.R;
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapDoubleClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapLongClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapStatusChangeListener;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -32,6 +39,19 @@ public class MapActivity extends Activity  {
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
+	
+	/**
+	 * 当前地点击点
+	 */
+	private LatLng currentPt;
+	private String touchType;
+	private String locationType = "UNKNOWN";
+	private int locType;
+
+	/**
+	 * 用于显示地图状态的面板
+	 */
+	private TextView mStateBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +63,7 @@ public class MapActivity extends Activity  {
 
         mBaiduMap = mMapView.getMap();
 
+        // zhumeng
         //定义多边形
         List<LatLng> pts = new ArrayList<LatLng>();
         pts.add(new LatLng(39.998559, 116.347083));
@@ -62,6 +83,53 @@ public class MapActivity extends Activity  {
             .fillColor(0x10101010);
         //在地图上添加多边形Option，用于显示
         mBaiduMap.addOverlay(polygonOption);
+        
+        // yangze_hebei
+        pts.clear();
+        pts.add(new LatLng(39.438210,118.893864));
+        pts.add(new LatLng(39.439429,118.893721));
+        pts.add(new LatLng(39.440704,118.893595));
+        pts.add(new LatLng(39.440961,118.892733));
+        pts.add(new LatLng(39.440871,118.891511));
+        pts.add(new LatLng(39.440843,118.890271));
+        pts.add(new LatLng(39.439742,118.890361));
+        pts.add(new LatLng(39.439101,118.890361));
+        pts.add(new LatLng(39.437994,118.890496));
+        pts.add(new LatLng(39.438071,118.891484));
+        polygonOption = new PolygonOptions()
+	        .points(pts)
+	        .stroke(new Stroke(5, 0xAAFF0000))
+	        .fillColor(0x10101010);
+        mBaiduMap.addOverlay(polygonOption);
+        
+        // yangze
+        pts.clear();
+        pts.add(new LatLng(39.986279,116.423740));
+        pts.add(new LatLng(39.987080,116.423767));
+        pts.add(new LatLng(39.988110,116.423749));
+        pts.add(new LatLng(39.989571,116.423655));
+        pts.add(new LatLng(39.989571,116.422370));
+        pts.add(new LatLng(39.989509,116.421068));
+        pts.add(new LatLng(39.988072,116.421023));
+        pts.add(new LatLng(39.986448,116.421014));
+        pts.add(new LatLng(39.986275,116.422388));
+        polygonOption = new PolygonOptions()
+	        .points(pts)
+	        .stroke(new Stroke(5, 0xAAFF0000))
+	        .fillColor(0x10101010);
+        mBaiduMap.addOverlay(polygonOption);
+        
+        // zhangjijian
+        pts.clear();
+        pts.add(new LatLng(31.291121,120.751078));
+        pts.add(new LatLng(31.291098,120.751563));
+        pts.add(new LatLng(31.290974,120.751581));
+        pts.add(new LatLng(31.290986,120.751064));
+        polygonOption = new PolygonOptions()
+	        .points(pts)
+	        .stroke(new Stroke(5, 0xAAFF0000))
+	        .fillColor(0x10101010);
+        mBaiduMap.addOverlay(polygonOption);
 
         // 开启定位图层
  		mBaiduMap.setMyLocationEnabled(true);
@@ -76,10 +144,81 @@ public class MapActivity extends Activity  {
  		option.setOpenGps(true);// 打开gps
  		option.setCoorType("bd09ll"); // 设置坐标类型
  		option.setScanSpan(1000);
+ 		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+ 		
  		mLocClient.setLocOption(option);
  		mLocClient.start();
+ 		
+ 		mStateBar = (TextView) findViewById(R.id.state);
+		initListener();
+		
+		MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
+		mBaiduMap.animateMapStatus(u);
     }
+    
+	private void initListener() {
+		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
+			public void onMapClick(LatLng point) {
+				touchType = "单击";
+				currentPt = point;
+				updateMapState();
+			}
 
+			public boolean onMapPoiClick(MapPoi poi) {
+				return false;
+			}
+		});
+		mBaiduMap.setOnMapLongClickListener(new OnMapLongClickListener() {
+			public void onMapLongClick(LatLng point) {
+				touchType = "长按";
+				currentPt = point;
+				updateMapState();
+			}
+		});
+		mBaiduMap.setOnMapDoubleClickListener(new OnMapDoubleClickListener() {
+			public void onMapDoubleClick(LatLng point) {
+				touchType = "双击";
+				currentPt = point;
+				updateMapState();
+			}
+		});
+		mBaiduMap.setOnMapStatusChangeListener(new OnMapStatusChangeListener() {
+			public void onMapStatusChangeStart(MapStatus status) {
+				updateMapState();
+			}
+
+			public void onMapStatusChangeFinish(MapStatus status) {
+				updateMapState();
+			}
+
+			public void onMapStatusChange(MapStatus status) {
+				updateMapState();
+			}
+		});
+	}
+
+	/**
+	 * 更新地图状态显示面板
+	 */
+	private void updateMapState() {
+		if (mStateBar == null) {
+			return;
+		}
+		String state = "";
+		if (currentPt == null) {
+			state = "点击、长按、双击地图以获取经纬度和地图状态";
+		} else {
+			state = String.format(touchType + ",当前经度： %f 当前纬度：%f",
+					currentPt.longitude, currentPt.latitude);
+		}
+		state += "\n";
+		MapStatus ms = mBaiduMap.getMapStatus();
+		state += String.format(
+				"zoom=%.1f rotate=%d overlook=%d, [%d,%s]",
+				ms.zoom, (int) ms.rotate, (int) ms.overlook, locType, locationType);
+		mStateBar.setText(state);
+	}
+    
 	/**
 	 * 定位SDK监听函数
 	 */
@@ -90,10 +229,12 @@ public class MapActivity extends Activity  {
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mMapView == null)
 				return;
+			locType = location.getLocType();
+			locationType = location.getNetworkLocationType();
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
 					// 此处设置开发者获取到的方向信息，顺时针0-360
-					.direction(100).latitude(location.getLatitude())
+					.latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);
 			if (isFirstLoc) {
