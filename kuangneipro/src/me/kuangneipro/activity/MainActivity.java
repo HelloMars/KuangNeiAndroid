@@ -76,12 +76,8 @@ public class MainActivity extends HttpActivity {
 	                }
 	            });
 		
-		
-		
-		
-
-	    
-
+		//Intent intent = new Intent(this, MapActivity.class);
+		//startActivity(intent);
 	}
 
 	@Override
