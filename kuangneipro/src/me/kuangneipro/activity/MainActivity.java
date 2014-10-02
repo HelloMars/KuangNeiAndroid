@@ -2,7 +2,6 @@ package me.kuangneipro.activity;
 
 import me.kuangneipro.R;
 import me.kuangneipro.core.HttpActivity;
-import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.fragment.ChannelListFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,8 +75,8 @@ public class MainActivity extends HttpActivity {
 	                }
 	            });
 		
-		//Intent intent = new Intent(this, MapActivity.class);
-		//startActivity(intent);
+		Intent intent = new Intent(this, MapActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
