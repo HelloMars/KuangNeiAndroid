@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kuangneipro.R;
+import me.kuangneipro.util.GeoUtil;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -13,16 +14,16 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapDoubleClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapLongClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapStatusChangeListener;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
-import com.baidu.mapapi.map.BaiduMap.OnMapDoubleClickListener;
-import com.baidu.mapapi.map.BaiduMap.OnMapLongClickListener;
-import com.baidu.mapapi.map.BaiduMap.OnMapStatusChangeListener;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -40,13 +41,14 @@ public class MapActivity extends Activity  {
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
 	
+	private List<List<LatLng>> mPolygons = new ArrayList<List<LatLng>>();
+	
 	/**
 	 * 当前地点击点
 	 */
 	private LatLng currentPt;
 	private String touchType;
-	private String locationType = "UNKNOWN";
-	private int locType;
+	private String locInfo = "UNKNOWN";
 
 	/**
 	 * 用于显示地图状态的面板
@@ -76,6 +78,7 @@ public class MapActivity extends Activity  {
         pts.add(new LatLng(39.996666, 116.351969));
         pts.add(new LatLng(39.996680, 116.350065));
         pts.add(new LatLng(39.998656, 116.349939));
+        mPolygons.add(new ArrayList<LatLng>(pts));
         //构建用户绘制多边形的Option对象
         OverlayOptions polygonOption = new PolygonOptions()
             .points(pts)
@@ -96,6 +99,7 @@ public class MapActivity extends Activity  {
         pts.add(new LatLng(39.439101,118.890361));
         pts.add(new LatLng(39.437994,118.890496));
         pts.add(new LatLng(39.438071,118.891484));
+        mPolygons.add(new ArrayList<LatLng>(pts));
         polygonOption = new PolygonOptions()
 	        .points(pts)
 	        .stroke(new Stroke(5, 0xAAFF0000))
@@ -113,6 +117,7 @@ public class MapActivity extends Activity  {
         pts.add(new LatLng(39.988072,116.421023));
         pts.add(new LatLng(39.986448,116.421014));
         pts.add(new LatLng(39.986275,116.422388));
+        mPolygons.add(new ArrayList<LatLng>(pts));
         polygonOption = new PolygonOptions()
 	        .points(pts)
 	        .stroke(new Stroke(5, 0xAAFF0000))
@@ -125,6 +130,7 @@ public class MapActivity extends Activity  {
         pts.add(new LatLng(31.291098,120.751563));
         pts.add(new LatLng(31.290974,120.751581));
         pts.add(new LatLng(31.290986,120.751064));
+        mPolygons.add(new ArrayList<LatLng>(pts));
         polygonOption = new PolygonOptions()
 	        .points(pts)
 	        .stroke(new Stroke(5, 0xAAFF0000))
@@ -214,8 +220,8 @@ public class MapActivity extends Activity  {
 		state += "\n";
 		MapStatus ms = mBaiduMap.getMapStatus();
 		state += String.format(
-				"zoom=%.1f rotate=%d overlook=%d, [%d,%s]",
-				ms.zoom, (int) ms.rotate, (int) ms.overlook, locType, locationType);
+				"zoom=%.1f rotate=%d overlook=%d, %s",
+				ms.zoom, (int) ms.rotate, (int) ms.overlook, locInfo);
 		mStateBar.setText(state);
 	}
     
@@ -229,11 +235,20 @@ public class MapActivity extends Activity  {
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mMapView == null)
 				return;
-			locType = location.getLocType();
-			locationType = location.getNetworkLocationType();
+			boolean isIn = false;
+			for (List<LatLng> pts : mPolygons) {
+				isIn = (isIn || GeoUtil.isPointInPolygon(
+						new LatLng(location.getLatitude(), location.getLongitude()), pts));
+			}
+			locInfo = String.format("[%d,%s,%d],%s",
+					location.getLocType(),
+					location.getNetworkLocationType(),
+					location.getSatelliteNumber(),
+					isIn ? "In":"Out");
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
 					// 此处设置开发者获取到的方向信息，顺时针0-360
+					.direction(-1)
 					.latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);
