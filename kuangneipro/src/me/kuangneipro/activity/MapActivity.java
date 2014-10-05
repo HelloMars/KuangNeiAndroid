@@ -54,11 +54,15 @@ public class MapActivity extends Activity  {
 	 * 用于显示地图状态的面板
 	 */
 	private TextView mStateBar;
+	private TextView mState2Bar;
+	
+	private MapActivity mActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mActivity = this;
+        
         setContentView(R.layout.activity_map);
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
@@ -156,16 +160,42 @@ public class MapActivity extends Activity  {
  		mLocClient.start();
  		
  		mStateBar = (TextView) findViewById(R.id.state);
+ 		mState2Bar = (TextView) findViewById(R.id.state2);
 		initListener();
 		
 		MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
 		mBaiduMap.animateMapStatus(u);
+		
+		boolean isGPSEnabled = GeoUtil.isGPSEnabled(mActivity);
+		boolean isWifiEnabled = GeoUtil.isWifiEnabled(mActivity);
+		if (!GeoUtil.isOnline(mActivity)) {
+			mState2Bar.setText("请连接网络");
+		} else if (!isGPSEnabled && !isWifiEnabled) {
+			mState2Bar.setText("请打开wifi或者GPS");
+		} else {
+			if (isGPSEnabled && !isWifiEnabled) {
+				mState2Bar.setText("GPS定位中(仅室外可用)...");
+			} else if (!isGPSEnabled && isWifiEnabled) {
+				mState2Bar.setText("wifi定位中...");
+			} else {
+				mState2Bar.setText("定位中...");
+			}
+		}
+    }
+    
+    private boolean isIn(LatLng point) {
+    	boolean isIn = false;
+		for (List<LatLng> pts : mPolygons) {
+			isIn = (isIn || GeoUtil.isPointInPolygon(point, pts));
+		}
+		return isIn;
     }
     
 	private void initListener() {
 		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
 			public void onMapClick(LatLng point) {
-				touchType = "单击";
+				boolean isIn = isIn(point);
+				touchType = "单击" + (isIn ? "In":"Out");
 				currentPt = point;
 				updateMapState();
 			}
@@ -176,14 +206,16 @@ public class MapActivity extends Activity  {
 		});
 		mBaiduMap.setOnMapLongClickListener(new OnMapLongClickListener() {
 			public void onMapLongClick(LatLng point) {
-				touchType = "长按";
+				boolean isIn = isIn(point);
+				touchType = "长按" + (isIn ? "In":"Out");
 				currentPt = point;
 				updateMapState();
 			}
 		});
 		mBaiduMap.setOnMapDoubleClickListener(new OnMapDoubleClickListener() {
 			public void onMapDoubleClick(LatLng point) {
-				touchType = "双击";
+				boolean isIn = isIn(point);
+				touchType = "双击" + (isIn ? "In":"Out");
 				currentPt = point;
 				updateMapState();
 			}
@@ -235,16 +267,40 @@ public class MapActivity extends Activity  {
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mMapView == null)
 				return;
-			boolean isIn = false;
-			for (List<LatLng> pts : mPolygons) {
-				isIn = (isIn || GeoUtil.isPointInPolygon(
-						new LatLng(location.getLatitude(), location.getLongitude()), pts));
+
+			boolean isGPSEnabled = GeoUtil.isGPSEnabled(mActivity);
+			boolean isWifiEnabled = GeoUtil.isWifiEnabled(mActivity);
+			if (!GeoUtil.isOnline(mActivity)) {
+				mState2Bar.setText("请连接网络");
+			} else if (!isGPSEnabled && !isWifiEnabled) {
+				mState2Bar.setText("请打开wifi或者GPS");
+			} else {
+				boolean isIn = isIn(new LatLng(location.getLatitude(), location.getLongitude()));
+				if (location.getLocType() == 61) { // GPS 定位结果
+					if (isIn) {
+						mState2Bar.setText("定位认证成功");
+					} else {
+						mState2Bar.setText("定位不在框内，无法进入(等待GPS调整位置中...)");
+					}
+				} else if (location.getLocType() == 161 && location.getNetworkLocationType().equals("wf")) { // wifi 定位结果
+					if (isIn) {
+						mState2Bar.setText("定位认证成功");
+					} else {
+						if (isGPSEnabled) {
+							mState2Bar.setText("wifi定位不在框内，请等待更精确的GPS定位(仅室外可用)结果");
+						} else {
+							mState2Bar.setText("wifi定位不在框内，请打开GPS尝试更精确的定位(仅室外可用)");
+						}
+					}
+				} else {
+					mState2Bar.setText("非wifi或GPS定位结果，请稍等...");
+				}
 			}
-			locInfo = String.format("[%d,%s,%d],%s",
+			
+			locInfo = String.format("[%d,%s,%d]",
 					location.getLocType(),
 					location.getNetworkLocationType(),
-					location.getSatelliteNumber(),
-					isIn ? "In":"Out");
+					location.getSatelliteNumber());
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
 					// 此处设置开发者获取到的方向信息，顺时针0-360

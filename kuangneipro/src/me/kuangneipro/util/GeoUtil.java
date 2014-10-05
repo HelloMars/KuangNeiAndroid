@@ -2,12 +2,47 @@ package me.kuangneipro.util;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 
 
 public class GeoUtil
 {
+	
+	//if wifi or mobile is connected, return true
+	public static boolean isOnline(Activity activity) 
+	{
+	    ConnectivityManager connMgr = (ConnectivityManager) 
+	    		activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+	    return (networkInfo != null && networkInfo.isConnected());
+	}  
+	
+	//if wifi is open
+	public static boolean isWifiEnabled(Activity activity)
+	{
+		WifiManager wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
+		if (wifiManager != null && wifiManager.isWifiEnabled()) 
+			return true;
+		return false;
+	}
+	
+	//if GPS is open
+	public static boolean isGPSEnabled(Activity activity)
+	{
+		LocationManager locationManager = (LocationManager)activity.getSystemService(Context.LOCATION_SERVICE);
+    	if(locationManager != null && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+			return true;
+		return false;
+	}
+		
 	public static LatLngBounds buildBounds(List<LatLng> points) {
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
 		for (LatLng point : points) {
