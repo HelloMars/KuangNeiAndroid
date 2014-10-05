@@ -60,5 +60,13 @@
         android:layout_below="@+id/btnSignin"
         android:layout_marginTop="19dp"
         android:text="@string/find_password_title" />
+    
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/map_button_title" />
 
 </RelativeLayout>

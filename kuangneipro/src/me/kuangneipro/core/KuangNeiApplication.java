@@ -1,5 +1,7 @@
 package me.kuangneipro.core;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import me.kuangneipro.util.ApplicationWorker;
 import me.kuangneipro.util.DataStorage;
 import android.app.Application;
@@ -27,6 +29,8 @@ public class KuangNeiApplication extends Application {
 		// 初始化线程池
 		ApplicationWorker.getInstance();
 		
+		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+		SDKInitializer.initialize(this);
 	}
 
 	public static KuangNeiApplication getInstance() {
