@@ -14,7 +14,9 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class MessageEntityManager {
-	public static final int MESSAGE_LIST_KEY = 0;
+
+	public static final int MESSAGE_KEY_REFRESH = 1;
+	public static final int MESSAGE_KEY_REFRESH_MORE = 2;
 
 	// flag=1代表是对帖子的回复，2代表是对一级回复的回复，3代表对二级回复的回复
 	public static int getId(JSONObject json, int flag) throws JSONException {
