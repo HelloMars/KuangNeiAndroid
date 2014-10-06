@@ -19,7 +19,6 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 	static class ViewHolder {
 		public TextView title;
 		public TextView subtitle;
-		//public ImageView image;
 	}
 
 	public ChannelListAdapter(Activity context, List<ChannelEntity> channels) {
