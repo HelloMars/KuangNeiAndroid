@@ -64,16 +64,15 @@ public class MainActivity extends HttpActivity {
         }
 		
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
 		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOnPageChangeListener(
-	            new ViewPager.SimpleOnPageChangeListener() {
-	                @Override
-	                public void onPageSelected(int position) {
-	                	getSupportActionBar().setSelectedNavigationItem(position);
-	                }
-	            });
+			new ViewPager.SimpleOnPageChangeListener() {
+			    @Override
+			    public void onPageSelected(int position) {
+			    	getSupportActionBar().setSelectedNavigationItem(position);
+			    }
+			});
 	}
 
 	@Override
@@ -117,7 +116,6 @@ public class MainActivity extends HttpActivity {
 
 		@Override
 		public int getCount() {
-			Log.i(tag, "getCount" + TAB_NUM);
 			return TAB_NUM;
 		}
 	}

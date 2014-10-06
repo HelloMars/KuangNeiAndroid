@@ -5,9 +5,7 @@ import java.util.List;
 import me.kuangneipro.R;
 import me.kuangneipro.entity.ChannelEntity;
 import android.app.Activity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,6 @@ import android.widget.TextView;
 
 public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 	private static final String TAG = ChannelListAdapter.class.getSimpleName(); // tag 用于测试log用  
-	private final Activity context;
-	private final List<ChannelEntity> mChannels;
 
 	static class ViewHolder {
 		public TextView title;
@@ -27,51 +23,38 @@ public class ChannelListAdapter extends ArrayAdapter<ChannelEntity> {
 	}
 
 	public ChannelListAdapter(Activity context, List<ChannelEntity> channels) {
-		super(context, R.layout.channel_row_layout, channels);
-		this.context = context;
-		this.mChannels = channels;
+		super(context, 0, channels);
 	}
 	
-    @Override  
-    public int getCount() {
-    	Log.i(TAG, "getCount " + mChannels.size());
-        return mChannels.size();  
-    }
-    
-    @Override  
-    public ChannelEntity getItem(int position) {  
-        return null;  
-    }
-      
-    @Override  
-    public long getItemId(int position) {  
-        return position;  
-    }
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.i(TAG, "getView" + position);
+		Log.i(TAG, "getView" + position + ", " + getCount());
 
-		ViewHolder viewHolder = null;
+		// Get the data item for this position
+		ChannelEntity channel = getItem(position);  
+
+		ViewHolder viewHolder; // view lookup cache stored in tag
 		if (convertView == null) {
-			LayoutInflater inflater = context.getLayoutInflater();
-			convertView = inflater.inflate(R.layout.channel_row_layout, parent, false);
 			viewHolder = new ViewHolder();
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.channel_row_layout, parent, false);
+			// Lookup view for data population
 			viewHolder.title = (TextView) convertView.findViewById(R.id.title);
 			viewHolder.subtitle = (TextView) convertView.findViewById(R.id.subtitle);
 			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		ViewHolder holder = (ViewHolder) convertView.getTag();
-		ChannelEntity channel = mChannels.get(position);
-		holder.title.setText(channel.getTitle());
+		// Populate the data into the template view using the data object
+		viewHolder.title.setText(channel.getTitle());
 		if (channel.getSubtitle().isEmpty()) {
-			holder.subtitle.setVisibility(View.GONE);
+			viewHolder.subtitle.setVisibility(View.GONE);
+		} else {
+			viewHolder.subtitle.setText(channel.getSubtitle());
 		}
-		else {
-			holder.subtitle.setText(channel.getSubtitle());
-		}
+		viewHolder.subtitle.setText(channel.getSubtitle());
 		
+		// Return the completed view to render on screen
 		return convertView;
 	}
 } 
