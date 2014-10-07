@@ -366,4 +366,9 @@
 	<!-- unicom -->
 	<color name="unicom_order_button_textcolor">#FF7F00</color>
 	<color name="unicom_order_content_textcolor">#666666</color>
+	
+	
+	<!-- 框内文字颜色 -->
+	<color name="normal_text_color">#111111</color>
+	<color name="default_text_color">#666666</color>
 </resources>

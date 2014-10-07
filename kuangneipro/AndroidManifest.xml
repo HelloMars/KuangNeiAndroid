@@ -168,7 +168,7 @@
         <activity
             android:name=".activity.PersonalInfoActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
-            android:label="@string/title_activity_posting"
+            android:label="@string/action_settings"
             android:parentActivityName="me.kuangneipro.activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

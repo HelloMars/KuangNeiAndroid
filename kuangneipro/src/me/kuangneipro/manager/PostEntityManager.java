@@ -158,7 +158,7 @@ public class PostEntityManager {
 			public void onRequestComplete(int id, JSONObject jsonObj) {
 				if(jsonObj!=null)
 				Log.i("**************jsonObj", ""+jsonObj.toString());
-				ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
+				final ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
 				final Context context = KuangNeiApplication.getInstance();
 				if(returnInfo!=null && returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
 					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
@@ -172,7 +172,7 @@ public class PostEntityManager {
 					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
 						@Override
 						public void run() {
-							Toast.makeText( context, context.getString(R.string.info_post_failure), Toast.LENGTH_SHORT).show();
+							Toast.makeText( context, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
 						}
 					});
 				}

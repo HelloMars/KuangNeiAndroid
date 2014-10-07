@@ -1,6 +1,7 @@
 package me.kuangneipro.core;
 
 import me.kuangneipro.util.ApplicationWorker;
+import me.kuangneipro.util.ColorUtil;
 import me.kuangneipro.util.DataStorage;
 import android.app.Application;
 
@@ -26,6 +27,8 @@ public class KuangNeiApplication extends Application {
 		DataStorage.init(this);
 		// 初始化线程池
 		ApplicationWorker.getInstance();
+		
+		ColorUtil.init(this);
 		
 	}
 

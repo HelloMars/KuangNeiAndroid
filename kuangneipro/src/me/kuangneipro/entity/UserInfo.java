@@ -28,7 +28,7 @@ public class UserInfo {
 	private static final String USERNAME_KEY = "username";
 	private static final String PASSWORD_KEY = "password";
 	private static final String AVATAR_KEY = "avatar";
-	private static final String NAME_KEY = "name";
+	private static final String NAME_KEY = "nickname";
 	private static final String SEX_KEY = "sex";
 	private static final String SIGN_KEY = "sign";
 	private static final String BIRTHDAY_KEY = "birthday";
@@ -67,7 +67,7 @@ public class UserInfo {
 			userInfo.username = username;
 			userInfo.password = password;
 			userInfo.avatar = jObject.optString("avatar", "");
-			userInfo.name = jObject.optString("name", "");
+			userInfo.name = jObject.optString("nickname", "");
 			userInfo.sex = jObject.optInt("sex", NOT_SET);
 			userInfo.sign = jObject.optString("sign", "");
 			userInfo.birthday = new Date(jObject.optLong("birthday", 0));

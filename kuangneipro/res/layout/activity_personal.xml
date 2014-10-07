@@ -17,105 +17,117 @@
 	        android:id="@+id/avatar"
 	        android:layout_width="100dp"
 	        android:layout_height="100dp"
+	        android:layout_margin="24dp"
 	        android:scaleType="centerCrop"
 	        android:contentDescription="@null"/>
 	    
 	    <View 
 	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
+	        android:layout_height="1px"
 	        android:background="#333333"/>
 	    
-	    <TextView 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/name_title"/>
 	    
-	    
-	    <FrameLayout
+	    <LinearLayout
+	        android:id="@+id/name_layout"
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="70dp" 
+	        android:orientation="vertical"
+	        android:gravity="center">
 	        <TextView 
 		        android:id="@+id/name"
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"/>
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:textSize="16sp"
+		        android:text="@string/name_title"/>
 		    <EditText 
 		        android:id="@+id/name_edit"
 		        android:layout_width="wrap_content"
-		        android:maxLength="10"
-		        android:visibility="gone"
 		        android:layout_height="wrap_content"
-		        android:inputType="text"/>
-	    </FrameLayout>
+		        android:layout_gravity="center"
+		        android:maxLength="10"
+		        android:textSize="16sp"
+		        android:visibility="gone"
+		        android:inputType="text"
+		        android:hint="@string/name_title"/>
+	    </LinearLayout>
 	  
 	    
 	    <View 
 	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
+	        android:layout_height="1px"
 	        android:background="#333333"/>
 	    
-	     <TextView 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/sex_title"/>
-	    
-	    
-	    <FrameLayout
+	    <LinearLayout
+	        android:id="@+id/sex_layout"
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="70dp" 
+	        android:orientation="vertical"
+	        android:gravity="center" >
 	        <TextView 
 		        android:id="@+id/sex"
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"/>
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp"
+		        android:text="@string/sex_title"/>
 	         <Spinner android:id="@+id/sex_edit"
 	           android:layout_width="fill_parent"
 	           android:visibility="gone"
+	           android:textSize="16sp"
 	           android:layout_height="wrap_content"></Spinner>
-	    </FrameLayout>
+	    </LinearLayout>
 	    
 	    
 	     <View 
 	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
+	        android:layout_height="1px"
 	        android:background="#333333"/>
 	    
-	     <TextView 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/birthday_title"/>
-	    
-	    
-	    <FrameLayout
+	    <LinearLayout
+	        android:id="@+id/birthday_layout"
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="70dp" 
+	        android:orientation="vertical"
+	        android:gravity="center">
 	        <TextView 
 		        android:id="@+id/birthday"
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"/>
-	    </FrameLayout>
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp"
+		        android:text="@string/birthday_title"/>
+	    </LinearLayout>
 	    
-	    
-	     <TextView 
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/sign_title"/>
-	    
-	    
-	    <FrameLayout
+	    <View 
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="1px"
+	        android:background="#333333"/>
+	    
+	    <LinearLayout
+	        android:id="@+id/sign_layout"
+	        android:layout_width="match_parent"
+	        android:layout_height="70dp" 
+	        android:orientation="vertical"
+	        android:gravity="center" >
 	        <TextView 
 		        android:id="@+id/sign"
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"/>
+		        android:layout_height="wrap_content"
+		        android:textSize="16sp"
+		        android:text="@string/sign_title"/>
 	        <EditText 
 		        android:id="@+id/sign_edit"
 		        android:layout_width="wrap_content"
 		        android:maxLength="10"
 		        android:visibility="gone"
+		        android:textSize="16sp"
 		        android:layout_height="wrap_content"
-		        android:inputType="text"/>
-	    </FrameLayout>
-	    
+		        android:inputType="text"
+		        android:hint="@string/sign_title"/>
+	    </LinearLayout>
+	    <View 
+	        android:layout_width="match_parent"
+	        android:layout_height="1px"
+	        android:background="#333333"/>
 	</LinearLayout>
     
 </FrameLayout>

@@ -134,8 +134,6 @@ public class PostingActivity extends HttpActivity{
 			setPostingButtonEable(false);
 			sendPost();
 			return true;
-		case R.id.action_settings:
-			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

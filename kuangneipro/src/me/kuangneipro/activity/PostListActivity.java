@@ -11,14 +11,19 @@ import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.ChannelEntityManager;
 import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.PostReplyManager;
 import me.kuangneipro.util.ApplicationWorker;
+import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -173,13 +178,30 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	}
 	
 	private void writePost() {
-		Intent intent = new Intent(this, PostingActivity.class);
-		
-		Bundle bundle = new Bundle();     
-	    bundle.putParcelable(PostListActivity.SELECT_CHANNEL_INFO, mChannel);     
-	    intent.putExtras(bundle);
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName()) && userInfo.getBirthday()!=null && userInfo.getBirthday().getTime()!=0 && SexUtil.isValid(userInfo.getSex()) && !TextUtils.isEmpty(userInfo.getAvatar())){
+			Intent intent = new Intent(this, PostingActivity.class);
+			
+			Bundle bundle = new Bundle();     
+		    bundle.putParcelable(PostListActivity.SELECT_CHANNEL_INFO, mChannel);     
+		    intent.putExtras(bundle);
 
-    	startActivity(intent);
+	    	startActivity(intent);
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称，性别，生日和头像后发送帖子")
+			 .setPositiveButton("确定", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(PostListActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
+
+		}
+		
+		
 	}
 
 	@Override
@@ -189,9 +211,6 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		case R.id.action_write_post:
 			writePost();
 			return true;
-		case R.id.action_settings:
-			return true;
-		
 		default:
 			return super.onOptionsItemSelected(item);
 		}

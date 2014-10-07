@@ -84,27 +84,7 @@ public class MainActivity extends HttpActivity {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
 
-		int id = item.getItemId();
-		switch (id) {
-		case R.id.action_search:
-			return true;
-		case R.id.action_settings:
-			Intent intent = new Intent(MainActivity.this, PersonalInfoActivity.class);
-    		startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

@@ -5,8 +5,8 @@ public class HostUtil {
 	/**
 	 * 框内服务器地址
 	 */
-	public static final String KUANG_NEI_HOST = "http://kuangnei.me/zhumeng/kuangnei/api/";
-	public static final String KUANG_NEI_HOST_HTTPS = "https://kuangnei.me/zhumeng/kuangnei/api/";
+	public static final String KUANG_NEI_HOST = "http://kuangnei.me/kuangnei/api/";
+	public static final String KUANG_NEI_HOST_HTTPS = "https://kuangnei.me/kuangnei/api/";
 	
 	/**
 	 * 频道列表协议地址
