@@ -5,5 +5,12 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/android_api_1.1_forsdk.jar"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/BaiduLBS_Android.jar"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/galaxy_mini.jar"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/GetuiExt-1.2.2.jar"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/GetuiSdk-2.2.5.2.jar"/>
+	<classpathentry kind="lib" path="E:/KuangNeiAndroid/kuangneipro/libs/picasso-2.3.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
