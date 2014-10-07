@@ -2,8 +2,8 @@ package me.kuangneipro.activity;
 
 import me.kuangneipro.R;
 import me.kuangneipro.core.HttpActivity;
-import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.fragment.ChannelListFragment;
+import me.kuangneipro.fragment.MessageListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,23 +65,15 @@ public class MainActivity extends HttpActivity {
         }
 		
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
 		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOnPageChangeListener(
-	            new ViewPager.SimpleOnPageChangeListener() {
-	                @Override
-	                public void onPageSelected(int position) {
-	                	getSupportActionBar().setSelectedNavigationItem(position);
-	                }
-	            });
-		
-		
-		
-		
-
-	    
-
+			new ViewPager.SimpleOnPageChangeListener() {
+			    @Override
+			    public void onPageSelected(int position) {
+			    	getSupportActionBar().setSelectedNavigationItem(position);
+			    }
+			});
 	}
 
 
@@ -100,17 +92,21 @@ public class MainActivity extends HttpActivity {
 		@Override
 		public Fragment getItem(int position) {
 			Log.i(tag, "getItem" + position);
-			return ChannelListFragment.newInstance(position);
+			switch (position) {
+			case 0: // 频道
+				return ChannelListFragment.newInstance(position);
+			case 1: // 消息
+				return MessageListFragment.newInstance(position);
+			case 2: // 发现
+				return ChannelListFragment.newInstance(position);
+			default:
+				return ChannelListFragment.newInstance(position);
+			}
 		}
 
 		@Override
 		public int getCount() {
-			Log.i(tag, "getCount" + TAB_NUM);
 			return TAB_NUM;
 		}
 	}
-
-	
-	
-
 }

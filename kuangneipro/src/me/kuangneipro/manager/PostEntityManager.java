@@ -16,7 +16,6 @@ import me.kuangneipro.util.HostUtil;
 import me.kuangneipro.util.HttpHelper;
 import me.kuangneipro.util.HttpHelper.RequestCallBackListener;
 import me.kuangneipro.util.ImageUtil;
-import me.kuangneipro.util.PushUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,12 +34,11 @@ import com.qiniu.utils.QiniuException;
 public class PostEntityManager {
 	private static final String TAG = "PostEntityManager";
 	
-	public static final int POST_LIST_KEY = 0;
 	public static final int POSTING_KEY_REFRESH = 1;
 	public static final int POSTING_KEY_REFRESH_MORE = 2;
 
 	public static void getPostList(HttpHelper httpRequest, int channelId, int page){
-		httpRequest.setUrl(HostUtil.POST_LIST_URL).put("userid", "1").put("channelid", channelId+"").put("page", page+"").asyncGet();
+		httpRequest.setUrl(HostUtil.POST_LIST_URL).put("channelid", channelId+"").put("page", page+"").asyncGet();
 	}
 	
 	public static void fillPostListFromJson(JSONObject jsonObj , List<PostEntity> mPostList){

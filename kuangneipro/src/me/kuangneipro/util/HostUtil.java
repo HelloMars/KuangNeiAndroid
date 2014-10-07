@@ -14,6 +14,11 @@ public class HostUtil {
 	public static final String CHANNEL_LIST_URL = KUANG_NEI_HOST+"channellist/";
 	
 	/**
+	 * 消息列表协议地址
+	 */
+	public static final String MESSAGE_LIST_URL = KUANG_NEI_HOST+"replyToMine/";
+	
+	/**
 	 * 帖子列表协议地址
 	 */
 	public static final String POST_LIST_URL = KUANG_NEI_HOST+"postlist/";

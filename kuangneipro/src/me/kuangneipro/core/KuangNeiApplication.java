@@ -1,5 +1,7 @@
 package me.kuangneipro.core;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import me.kuangneipro.util.ApplicationWorker;
 import me.kuangneipro.util.ColorUtil;
 import me.kuangneipro.util.DataStorage;
@@ -30,6 +32,8 @@ public class KuangNeiApplication extends Application {
 		
 		ColorUtil.init(this);
 		
+		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+		SDKInitializer.initialize(this);
 	}
 
 	public static KuangNeiApplication getInstance() {
