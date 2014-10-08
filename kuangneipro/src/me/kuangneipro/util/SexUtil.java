@@ -1,5 +1,16 @@
 package me.kuangneipro.util;
 
+import me.kuangneipro.R;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 public class SexUtil {
 	//默认3 {0:female, 1:male, 2:neutral, 3:未设置})
 	public static final int FEMALE = 0;
@@ -53,6 +64,38 @@ public class SexUtil {
 	
 	public static String[] getAllSex(){
 		return ALL_SEXS;
+	}
+	
+	public static void selectSex(Activity activity,OnSexSelectListener onSexSelectListener){
+		sOnSexSelectListener = onSexSelectListener;
+		LayoutInflater inflater = activity.getLayoutInflater();  
+		View sexDialogView = inflater.inflate(R.layout.dialog_sex_select, null);
+		ListView sexListView = (ListView)sexDialogView.findViewById(R.id.list_view);
+		sexListView.setAdapter(new ArrayAdapter<String>(activity,android.R.layout.simple_spinner_item, SexUtil.getAllSex()));
+		sexListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				if(sDialog!=null){
+					sDialog.dismiss();
+					sDialog = null;
+				}
+				if(sOnSexSelectListener!=null)
+					sOnSexSelectListener.onSexSelected(fromString(SexUtil.getAllSex()[arg2]));
+				sOnSexSelectListener = null;
+			}
+		});
+		AlertDialog.Builder facotry = new AlertDialog.Builder(activity);  
+		facotry.setView(sexDialogView); 
+		sDialog = facotry.create();
+		sDialog.show();
+	}
+	
+	private static OnSexSelectListener sOnSexSelectListener;
+	private static Dialog sDialog;
+	
+	public static interface OnSexSelectListener{
+		public void onSexSelected(int sex);
 	}
 	
 }

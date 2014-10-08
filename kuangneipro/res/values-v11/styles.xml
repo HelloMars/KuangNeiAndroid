@@ -7,5 +7,21 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <!-- API 11 theme customizations can go here. -->
     </style>
+    
+    
+     <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/action_bar_style</item>  
+    </style>
+    
+    <style name="action_bar_style" parent="@style/Widget.AppCompat.Light.ActionBar">  
+        <item name="android:background">#14c7b1</item>  
+        <item name="android:titleTextStyle">@style/action_bar_title_style</item> 
+    </style>
+    
+    <style name="action_bar_title_style" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">  
+        <item name="android:textColor">@android:color/white</item>  
+    </style> 
 
 </resources>

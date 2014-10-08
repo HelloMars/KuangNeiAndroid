@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout 
+<RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <View 
@@ -24,7 +25,7 @@
 	    <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1px"
-	        android:background="#333333"/>
+	        android:background="#d9d9d9"/>
 	    
 	    
 	    <LinearLayout
@@ -56,7 +57,7 @@
 	    <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1px"
-	        android:background="#333333"/>
+	        android:background="#d9d9d9"/>
 	    
 	    <LinearLayout
 	        android:id="@+id/sex_layout"
@@ -70,18 +71,13 @@
 		        android:layout_height="wrap_content"
 		        android:textSize="16sp"
 		        android:text="@string/sex_title"/>
-	         <Spinner android:id="@+id/sex_edit"
-	           android:layout_width="fill_parent"
-	           android:visibility="gone"
-	           android:textSize="16sp"
-	           android:layout_height="wrap_content"></Spinner>
 	    </LinearLayout>
 	    
 	    
 	     <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1px"
-	        android:background="#333333"/>
+	        android:background="#d9d9d9"/>
 	    
 	    <LinearLayout
 	        android:id="@+id/birthday_layout"
@@ -97,10 +93,10 @@
 		        android:text="@string/birthday_title"/>
 	    </LinearLayout>
 	    
-	    <View 
+	   <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1px"
-	        android:background="#333333"/>
+	        android:background="#d9d9d9"/>
 	    
 	    <LinearLayout
 	        android:id="@+id/sign_layout"
@@ -127,7 +123,7 @@
 	    <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1px"
-	        android:background="#333333"/>
+	        android:background="#d9d9d9"/>
 	</LinearLayout>
     
-</FrameLayout>
+</RelativeLayout>
