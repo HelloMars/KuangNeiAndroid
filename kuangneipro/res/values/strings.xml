@@ -38,7 +38,7 @@
     <!-- 个人信息 -->
     <string name="name_title">昵称</string>
     <string name="sex_title">性别</string>
-    <string name="birthday_title">性别</string>
+    <string name="birthday_title">生日</string>
     <string name="sign_title">签名</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="hello_world">Hello world!</string>

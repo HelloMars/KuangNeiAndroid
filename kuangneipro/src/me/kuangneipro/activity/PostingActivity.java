@@ -53,8 +53,6 @@ public class PostingActivity extends HttpActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
 		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
 		
 		mChannel = (ChannelEntity)getIntent().getParcelableExtra(PostListActivity.SELECT_CHANNEL_INFO);
 		mPostingInfo.setChannel(mChannel);

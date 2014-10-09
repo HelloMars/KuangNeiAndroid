@@ -8,6 +8,7 @@ import me.kuangneipro.util.HttpHelper.RequestCallBackListener;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,15 @@ import android.view.MenuItem;
 public class HttpActivity extends ActionBarActivity implements RequestCallBackListener {
 
 	private HttpHelper httpRequest;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(false); 
+	}
 	
 	protected final HttpHelper getHttpRequest(int id){
 		httpRequest = new HttpHelper(this,id);

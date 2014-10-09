@@ -16,7 +16,7 @@
     </style>
     
     <style name="action_bar_style" parent="@style/Widget.AppCompat.Light.ActionBar">  
-        <item name="android:background">#14c7b1</item>  
+        <item name="android:background">#1E5782</item>  
         <item name="android:titleTextStyle">@style/action_bar_title_style</item> 
     </style>
     

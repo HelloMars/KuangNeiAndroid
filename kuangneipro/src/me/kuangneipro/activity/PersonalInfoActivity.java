@@ -72,8 +72,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal);
 //		getSupportActionBar().setCustomView(R.layout.title_bar_save);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
+
 		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 		canSave = false;
@@ -118,6 +117,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		switch (id) {
 		case R.id.save:
 			disableEdit(true);
+			save();
 			return true;
 		case R.id.action_settings:
 			return true;
@@ -127,9 +127,9 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	}
 	
 	@Override
-	protected void onStop() {
+	protected void onDestroy() {
 		save();
-		super.onStop();
+		super.onDestroy();
 	}
 	
 	@Override
@@ -209,6 +209,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		}else{
 			name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			name.setText(nameEdit.getText());
+			lastName = null;
 		}
 		
 		sex.setVisibility(View.VISIBLE);
@@ -224,17 +225,17 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		if(TextUtils.isEmpty(signEdit.getText())||getResources().getString(R.string.sign_title).equals(signEdit.getText().toString())){
 			sign.setText(getResources().getString(R.string.sign_title));
 			sign.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
-		}else if(isSaveText && lastSign!=null){
+		}else if(!isSaveText && lastSign!=null){
 			sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			sign.setText(lastSign);
 		}else{
 			sign.setText(signEdit.getText());
 			sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
+			lastSign = null;
 		}
 	}
 	
 	private void save(){
-		disableEdit(false);
 		UserInfo userInfo = UserInfo.loadSelfUserInfo();
 		if(!TextUtils.isEmpty(name.getText()) && !getResources().getString(R.string.name_title).equals(name.getText().toString()))
 			userInfo.setName(name.getText().toString());
@@ -280,6 +281,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
         	.into(avatar);
             
             disableEdit(false);
+            save();
         }
     }
 
@@ -295,6 +297,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
             startActivityForResult(i, RESULT_LOAD_IMAGE);
             break;
 		case R.id.name_layout:
+			lastName = null;
 			disableEdit(false);
 			saveButton.setVisible(true);
 			name.setVisibility(View.GONE);
@@ -319,6 +322,12 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				@Override
 				public void onSexSelected(int sexValue) {
 					sex.setText(SexUtil.toString(sexValue));
+					if(SexUtil.isValid(sex.getText().toString())){
+						sex.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
+					}else{
+						sex.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+					}
+					save();
 				}
 			});
             
@@ -328,6 +337,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 			showDialog(SELECT_DATE); 
 			break;
 		case R.id.sign_layout:
+			lastSign = null;
 			disableEdit(false);
 			saveButton.setVisible(true);
 			sign.setVisibility(View.GONE);
@@ -367,6 +377,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		birthdayCalendar.clear();
 		birthdayCalendar.set(year, month, day);
 		birthday.setText(DateFormat.format("yyyy-MM-dd",birthdayCalendar));
+		save();
 	}
 
 }

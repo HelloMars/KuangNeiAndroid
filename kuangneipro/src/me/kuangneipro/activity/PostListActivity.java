@@ -86,10 +86,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
 		}
 		
-		
 		getSupportActionBar().setTitle(mChannel.getTitle());
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
 
         mListView = (PullToRefreshListView)findViewById(R.id.pull_to_refresh_listview);
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {

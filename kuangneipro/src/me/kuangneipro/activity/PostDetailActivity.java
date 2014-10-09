@@ -68,9 +68,6 @@ public class PostDetailActivity extends HttpActivity {
 			}
 		});
 		
-		//getSupportActionBar().setTitle(mChannel.getTitle());
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_dark);
 		
 		mExpandableList = (ExpandableListView) findViewById(R.id.expandableListView);
 		

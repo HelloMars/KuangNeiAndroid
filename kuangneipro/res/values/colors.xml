@@ -368,7 +368,12 @@
 	<color name="unicom_order_content_textcolor">#666666</color>
 	
 	
-	<!-- 框内文字颜色 -->
+	<!-- 框内颜色 -->
+	<!-- 文字颜色 -->
 	<color name="normal_text_color">#111111</color>
 	<color name="default_text_color">#666666</color>
+	
+	<!-- 分割线颜色 -->
+	<color name="default_split_color">#d9d9d9</color>
+	
 </resources>
