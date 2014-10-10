@@ -211,8 +211,18 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		nameEditLayout.setVisibility(View.GONE);
 		imm.hideSoftInputFromWindow(nameEdit.getWindowToken(), 0);
 		if(TextUtils.isEmpty(nameEdit.getText())||getResources().getString(R.string.name_title).equals(nameEdit.getText().toString())){
-			name.setText(getResources().getString(R.string.name_title));
-			name.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+			if(lastName!=null){
+				name.setText(lastName);
+				if(getResources().getString(R.string.name_title).equals(nameEdit.getText().toString()))
+					name.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+				else
+					name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
+				nameEdit.setText(lastName);
+				lastName = null;
+			}else{
+				name.setText(getResources().getString(R.string.name_title));
+				name.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+			}
 		}else if(!isSaveText && lastName!=null){
 			name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			name.setText(lastName);
@@ -235,8 +245,19 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		signEditLayout.setVisibility(View.GONE);
 		imm.hideSoftInputFromWindow(signEdit.getWindowToken(), 0);
 		if(TextUtils.isEmpty(signEdit.getText())||getResources().getString(R.string.sign_title).equals(signEdit.getText().toString())){
-			sign.setText(getResources().getString(R.string.sign_title));
-			sign.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+			if(lastSign!=null){
+				sign.setText(lastSign);
+				if(getResources().getString(R.string.name_title).equals(signEdit.getText().toString()))
+					sign.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+				else
+					sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
+				signEdit.setText(lastSign);
+				lastSign = null;
+			}else{
+				sign.setText(getResources().getString(R.string.sign_title));
+				sign.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+			}
+			
 		}else if(!isSaveText && lastSign!=null){
 			sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			sign.setText(lastSign);

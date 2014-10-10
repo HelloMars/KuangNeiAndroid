@@ -56,7 +56,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_centerVertical="true"
 					android:layout_marginRight="16dp"
-			        android:src="@drawable/abc_ic_cab_done_holo_light"
+			        android:src="@drawable/done"
 			        android:contentDescription="@null"/>
 			    <EditText 
 			        android:id="@+id/name_edit"
@@ -143,7 +143,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_centerVertical="true"
 					android:layout_marginRight="16dp"
-			        android:src="@drawable/abc_ic_cab_done_holo_light"
+			        android:src="@drawable/done"
 			        android:contentDescription="@null"/>
 			    <EditText 
 			        android:id="@+id/sign_edit"
