@@ -51,6 +51,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private View nameLayout;
 	private TextView name;
 	private EditText nameEdit;
+	private View nameEditLayout;
+	private View nameSubmit;
 	private View sexLayout;
 	private TextView sex;
 	private View birthdayLayout;
@@ -58,6 +60,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private View signLayout;
 	private TextView sign;
 	private EditText signEdit;
+	private View signEditLayout;
+	private View signSubmit;
 	
 	private boolean canSave;
 	
@@ -84,12 +88,16 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		nameLayout = findViewById(R.id.name_layout);
 		name = (TextView)findViewById(R.id.name);
 		nameEdit = (EditText)findViewById(R.id.name_edit);
+		nameEditLayout = findViewById(R.id.name_edit_layout);
+		nameSubmit = findViewById(R.id.name_submit);
 		sexLayout = findViewById(R.id.sex_layout);
 		sex = (TextView)findViewById(R.id.sex);
 		birthdayLayout = findViewById(R.id.birthday_layout);
 		birthday = (TextView)findViewById(R.id.birthday);
 		signLayout = findViewById(R.id.sign_layout);
 		sign = (TextView)findViewById(R.id.sign);
+		signEditLayout = findViewById(R.id.sign_edit_layout);
+		signSubmit = findViewById(R.id.sign_submit);
 		signEdit = (EditText)findViewById(R.id.sign_edit);
 		
 		
@@ -100,6 +108,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		sexLayout.setOnClickListener(this);
 		birthdayLayout.setOnClickListener(this);
 		signLayout.setOnClickListener(this);
+		nameSubmit.setOnClickListener(this);
+		signSubmit.setOnClickListener(this);
 		background.requestFocus();
 	}
 	
@@ -153,7 +163,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	        	.centerCrop()
 	        	.into(avatar);
 				
-				if(!TextUtils.isEmpty(userInfo.getName())){
+				if(!TextUtils.isEmpty(userInfo.getName()) && !getResources().getString(R.string.name_title).equals(userInfo.getName())){
 					name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 					name.setText(userInfo.getName());
 					nameEdit.setText(userInfo.getName());
@@ -168,7 +178,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 					birthday.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
 				}
 				
-				if(!TextUtils.isEmpty(userInfo.getSign())){
+				if(!TextUtils.isEmpty(userInfo.getSign()) && !getResources().getString(R.string.sign_title).equals(userInfo.getSign())){
 					sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 					sign.setText(userInfo.getSign());
 					signEdit.setText(userInfo.getSign());
@@ -198,7 +208,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private void disableEdit(boolean isSaveText){
 		saveButton.setVisible(false);
 		name.setVisibility(View.VISIBLE);
-		nameEdit.setVisibility(View.GONE);
+		nameEditLayout.setVisibility(View.GONE);
 		imm.hideSoftInputFromWindow(nameEdit.getWindowToken(), 0);
 		if(TextUtils.isEmpty(nameEdit.getText())||getResources().getString(R.string.name_title).equals(nameEdit.getText().toString())){
 			name.setText(getResources().getString(R.string.name_title));
@@ -206,6 +216,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		}else if(!isSaveText && lastName!=null){
 			name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			name.setText(lastName);
+			nameEdit.setText(lastName);
+			lastName = null;
 		}else{
 			name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			name.setText(nameEdit.getText());
@@ -220,7 +232,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		}
 		
 		sign.setVisibility(View.VISIBLE);
-		signEdit.setVisibility(View.GONE);
+		signEditLayout.setVisibility(View.GONE);
 		imm.hideSoftInputFromWindow(signEdit.getWindowToken(), 0);
 		if(TextUtils.isEmpty(signEdit.getText())||getResources().getString(R.string.sign_title).equals(signEdit.getText().toString())){
 			sign.setText(getResources().getString(R.string.sign_title));
@@ -228,6 +240,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		}else if(!isSaveText && lastSign!=null){
 			sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 			sign.setText(lastSign);
+			signEdit.setText(lastSign);
+			lastSign = null;
 		}else{
 			sign.setText(signEdit.getText());
 			sign.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
@@ -237,7 +251,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	
 	private void save(){
 		UserInfo userInfo = UserInfo.loadSelfUserInfo();
-		if(!TextUtils.isEmpty(name.getText()) && !getResources().getString(R.string.name_title).equals(name.getText().toString()))
+		
+		if(!TextUtils.isEmpty(name.getText().toString()) && !getResources().getString(R.string.name_title).equals(name.getText().toString()))
 			userInfo.setName(name.getText().toString());
 		
 		if(!TextUtils.isEmpty(userSeletedImagePath))
@@ -246,8 +261,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		if(birthdayCalendar!=null && !TextUtils.isEmpty(birthday.getText()) && !getResources().getString(R.string.birthday_title).equals(birthday.getText().toString()))
 			userInfo.setBirthday(birthdayCalendar.getTime());
 		
-		if(!TextUtils.isEmpty(sign.getText()) && !getResources().getString(R.string.sign_title).equals(sign.getText().toString()))
-			userInfo.setSign(sign.getText().toString());
+		userInfo.setSign(sign.getText().toString());
 		
 		if(!TextUtils.isEmpty(sex.getText()) &&! getResources().getString(R.string.sex_title).equals(sex.getText().toString()))
 			userInfo.setSex(SexUtil.fromString(sex.getText().toString()));
@@ -299,10 +313,10 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		case R.id.name_layout:
 			lastName = null;
 			disableEdit(false);
-			saveButton.setVisible(true);
+//			saveButton.setVisible(true);
 			name.setVisibility(View.GONE);
 			
-			nameEdit.setVisibility(View.VISIBLE);
+			nameEditLayout.setVisibility(View.VISIBLE);
 			if(TextUtils.isEmpty(name.getText())||getResources().getString(R.string.name_title).equals(name.getText().toString())){
 				nameEdit.setText("");
 			}else{
@@ -339,9 +353,9 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		case R.id.sign_layout:
 			lastSign = null;
 			disableEdit(false);
-			saveButton.setVisible(true);
+//			saveButton.setVisible(true);
 			sign.setVisibility(View.GONE);
-			signEdit.setVisibility(View.VISIBLE);
+			signEditLayout.setVisibility(View.VISIBLE);
 			if(TextUtils.isEmpty(sign.getText())||getResources().getString(R.string.sign_title).equals(sign.getText().toString())){
 				signEdit.setText("");
 			}else{
@@ -354,6 +368,15 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 			signEdit.requestFocus();
 			imm.showSoftInput(signEdit, 0);
 //			imm.showSoftInputFromInputMethod(signEdit.getWindowToken(), 1);
+			break;
+		case R.id.name_submit:
+			if(TextUtils.isEmpty(nameEdit.getText())){
+				Toast.makeText(this, "昵称不能为空", Toast.LENGTH_LONG).show();
+				break;
+			}
+		case R.id.sign_submit:
+			disableEdit(true);
+			save();
 			break;
 		default:
 			break;

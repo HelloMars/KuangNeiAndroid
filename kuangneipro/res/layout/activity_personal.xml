@@ -34,6 +34,8 @@
 	        android:layout_height="70dp" 
 	        android:orientation="vertical"
 	        android:gravity="center">
+	        
+	      
 	        <TextView 
 		        android:id="@+id/name"
 		        android:layout_width="wrap_content"
@@ -41,16 +43,32 @@
 		        android:layout_gravity="center"
 		        android:textSize="16sp"
 		        android:text="@string/name_title"/>
-		    <EditText 
-		        android:id="@+id/name_edit"
-		        android:layout_width="wrap_content"
+	        <RelativeLayout 
+	            android:id="@+id/name_edit_layout"
+	            android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:maxLength="10"
-		        android:textSize="16sp"
 		        android:visibility="gone"
-		        android:inputType="text"
-		        android:hint="@string/name_title"/>
+		        android:layout_gravity="center">
+		        <ImageView 
+		            android:id="@+id/name_submit"
+		            android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="16dp"
+			        android:src="@drawable/abc_ic_cab_done_holo_light"
+			        android:contentDescription="@null"/>
+			    <EditText 
+			        android:id="@+id/name_edit"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center"
+			        android:layout_centerInParent="true"
+			        android:maxLength="10"
+			        android:textSize="16sp"
+			        android:inputType="text"
+			        android:hint="@string/name_title"/>
+		    </RelativeLayout>
 	    </LinearLayout>
 	  
 	    
@@ -108,22 +126,43 @@
 		        android:id="@+id/sign"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="60dp"
+		        android:layout_marginRight="60dp"
 		        android:textSize="16sp"
 		        android:text="@string/sign_title"/>
-	        <EditText 
-		        android:id="@+id/sign_edit"
-		        android:layout_width="wrap_content"
-		        android:maxLength="30"
-		        android:visibility="gone"
-		        android:textSize="16sp"
+	        <RelativeLayout 
+	            android:id="@+id/sign_edit_layout"
+	            android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:inputType="text"
-		        android:hint="@string/sign_title"/>
+		        android:visibility="gone"
+		        android:layout_gravity="center">
+			     <ImageView 
+		            android:id="@+id/sign_submit"
+		            android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="16dp"
+			        android:src="@drawable/abc_ic_cab_done_holo_light"
+			        android:contentDescription="@null"/>
+			    <EditText 
+			        android:id="@+id/sign_edit"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_marginLeft="16dp"
+			        android:layout_marginRight="70dp"
+			        android:layout_centerInParent="true"
+			        android:maxLength="30"
+			        android:textSize="16sp"
+			        android:inputType="textMultiLine"
+			        android:hint="@string/sign_title"/>
+	        </RelativeLayout>
 	    </LinearLayout>
 	    <View 
 	        android:layout_width="match_parent"
 	        android:layout_height="1px"
-	        android:background="@color/default_split_color"/>
+	        android:background="@color/default_split_color"
+	        android:layout_marginBottom="16dp"/>
 	</LinearLayout>
     
 </RelativeLayout>
