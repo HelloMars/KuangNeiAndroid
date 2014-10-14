@@ -9,8 +9,8 @@
     android:paddingTop="0px"
     tools:context="me.kuangneipro.MainActivity$PlaceholderFragment" >
 
-    <ListView
-        android:id="@android:id/list"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"

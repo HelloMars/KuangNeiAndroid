@@ -18,12 +18,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 public class MessageListFragment extends HttpListFragment {
     private static final String TAG = MessageListFragment.class.getSimpleName(); // tag 用于测试log用
     private int mSectionNum;
     private List<MessageEntity> mMessageList;
     private MessageListAdapter mMessageListAdapter;
+    private int index = 1;
+    private PullToRefreshListView mListView;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -54,6 +64,29 @@ public class MessageListFragment extends HttpListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_message_list, container, false);
+        mListView = (PullToRefreshListView) v.findViewById(R.id.list);
+        mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                index = 1;
+                MessageEntityManager.getMessageList(
+                        getHttpRequest(MessageEntityManager.MESSAGE_KEY_REFRESH), 1);
+            }
+        });
+        mListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
+            @Override
+            public void onLastItemVisible() {
+                MessageEntityManager.getMessageList(
+                        getHttpRequest(MessageEntityManager.MESSAGE_KEY_REFRESH_MORE), ++index);
+            }
+        });
+
+        mListView.getRefreshableView().setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, "clicked position " + position);
+            }
+        });
         return v;
     }
 
@@ -61,23 +94,29 @@ public class MessageListFragment extends HttpListFragment {
     public void onAttach(Activity activity) {
         Log.i(TAG, "onAttach");
         super.onAttach(activity);
-        MessageEntityManager.getMessageList(getHttpRequest(MessageEntityManager.MESSAGE_LIST_KEY), 1);
+        MessageEntityManager.getMessageList(getHttpRequest(MessageEntityManager.MESSAGE_KEY_REFRESH), 1);
     }
 
     @Override
     protected void requestComplete(int id, JSONObject jsonObj) {
         super.requestComplete(id, jsonObj);
-        mMessageList.clear();
-        if (jsonObj != null) {
-            ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
-            Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
-            MessageEntityManager.fillMessageListFromJson(jsonObj, mMessageList);
-            if (mMessageListAdapter == null) {
-                mMessageListAdapter = new MessageListAdapter(getActivity(), mMessageList);
-                setListAdapter(mMessageListAdapter);
-            } else {
-                mMessageListAdapter.notifyDataSetChanged();
-            }
+        switch (id) {
+            case MessageEntityManager.MESSAGE_KEY_REFRESH:
+                mMessageList.clear();
+            case MessageEntityManager.MESSAGE_KEY_REFRESH_MORE:
+                ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
+                Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
+                MessageEntityManager.fillMessageListFromJson(jsonObj, mMessageList);
+                if(mMessageListAdapter==null){
+                    mMessageListAdapter = new MessageListAdapter(getActivity(), mMessageList);
+                    mListView.setAdapter(mMessageListAdapter);
+                }else{
+                    mMessageListAdapter.notifyDataSetChanged();
+                    mListView.onRefreshComplete();
+                }
+                break;
+            default:
+                break;
         }
     }
 }
