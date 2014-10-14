@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">框内</string>
+    <string name="action_search">搜索</string>
+    <string name="action_settings">个人信息</string>
+    
+    <string name="title_activity_posting">发帖</string>
+    <string name="action_post">发帖</string>
+    <string name="info_post_empty">输入呢</string>
+    <string name="info_post_success">发送成功</string>
+    <string name="info_post_failure">发送失败，已存入草稿箱</string>
+    <string name="title_save">保存</string>
+    <string name="title_activity_post_list">PostListActivity</string>
+    <string name="title_activity_post_detail">帖子详细</string>
+    <string name="action_write_post">发帖</string>
+    <string name="notice">为了维护本频道内容的相关性，如果你方便的话请对与本频道无关的内容使用踩请不要因为个人喜好和个人恩怨而使用踩功能，谢谢</string>
+    <string name="select_picture">选择图片</string>
+
+    <string-array name="tab_names">
+        <item>频道</item>
+        <item>消息</item>
+        <item>发现</item>
+    </string-array>
+    <string-array name="post_list_tab_names">
+        <item>最新</item>
+        <item>最热</item>
+    </string-array>
+
+    <string name="phone_number_hit">手机号</string>
+    <string name="password_hit">密码为6到10位数字、字母</string>
+    <string name="register_button_title">注册</string>
+    <string name="password_hint_signin">密码</string>
+    <string name="signin_button_title">登陆</string>
+    <string name="find_password_title"><u>找回密码</u></string>
+    <string name="map_button_title"><u>地图认证</u></string>
+
+    <!-- 个人信息 -->
+    <string name="name_title">昵称</string>
+    <string name="sex_title">性别</string>
+    <string name="birthday_title">生日</string>
+    <string name="sign_title">签名</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>

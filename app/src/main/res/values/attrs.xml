@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 定义表情的宽度和高度的两种特殊值，分别是对齐行高和表情图片原大小 -->
+    <declare-styleable name="Emoticon">
+        <attr name="emoticonWidth" format="integer" >
+        	<flag name="line_height" value="-1" />
+        	<flag name="image_size" value="0" />
+        </attr>
+        <attr name="emoticonHeight" format="integer" >
+            <flag name="line_height" value="-1" />
+        	<flag name="image_size" value="0" />
+        </attr>
+        <attr name="emoticonPickerCount" format="integer" >
+            <flag name="land" value="13" />
+        	<flag name="port" value="27" />
+        </attr>
+    </declare-styleable>
+    
+    <!-- 定义AutoHeightImageView的宽高比参数 -->
+    <declare-styleable name="AutoHeightImageView">
+        <attr name="aspectRatio" format="float" >
+        </attr>
+    </declare-styleable>
+</resources>
