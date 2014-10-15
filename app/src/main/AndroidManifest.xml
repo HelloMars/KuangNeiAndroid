@@ -35,6 +35,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".core.KuangNeiApplication"
@@ -62,7 +63,7 @@
         <!-- 百度地图SDK配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="jYyDphqDzlSsKGZIIZk70BkM" />
+            android:value="GNu5WjdaWhiPHufoeyOZ6hdW" />
 
         <!-- 配置SDK核心服务 -->
         <service
