@@ -20,9 +20,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -34,13 +34,15 @@ public class PostingActivity extends HttpActivity{
 	
 	private EmoticonEditText mEditText;
 	private GridView mImageGrid;
-	private MenuItem mSendPostButton;
 	
 	private ChannelEntity mChannel;
 	private PostingInfo mPostingInfo;
 	private EmoticonPopupable mEmoticonPopupable;
 	private final List<UploadImage> mUploadImages;
 	private PostingImageAdapter mPostingImageAdapter;
+	
+	private View back;
+	private View posting;
 	
 	public PostingActivity(){
 		mUploadImages = new ArrayList<UploadImage>();
@@ -52,6 +54,23 @@ public class PostingActivity extends HttpActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
+		
+		back = findViewById(R.id.back);
+		posting = findViewById(R.id.posting);
+		back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		posting.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				sendPost();
+			}
+		});
 		
 		
 		mChannel = (ChannelEntity)getIntent().getParcelableExtra(PostListActivity.SELECT_CHANNEL_INFO);
@@ -99,12 +118,6 @@ public class PostingActivity extends HttpActivity{
         }
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.posting, menu);
-		mSendPostButton = menu.findItem(R.id.action_post);
-		return true;
-	}
 	
 	private void sendPost() {
     	String message = mEditText.toString();
@@ -120,8 +133,8 @@ public class PostingActivity extends HttpActivity{
 	}
 	
 	private void setPostingButtonEable(boolean enable){
-		if(mSendPostButton!=null)
-			mSendPostButton.setEnabled(enable);
+		if(posting!=null)
+			posting.setEnabled(enable);
 	}
 	
 	@Override

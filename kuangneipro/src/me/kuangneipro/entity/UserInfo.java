@@ -40,6 +40,7 @@ public class UserInfo {
 		DataStorage.save(NAME_KEY, userInfo.getName());
 		DataStorage.save(SEX_KEY, userInfo.getSex()+"");
 		DataStorage.save(SIGN_KEY, userInfo.getSign());
+		if( userInfo.getBirthday()!= null)
 		DataStorage.save(BIRTHDAY_KEY, userInfo.getBirthday().getTime());
 	}
 	

@@ -8,14 +8,12 @@ import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.emoticon.EmoticonInputDialog;
 import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
-import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UserInfo;
-import me.kuangneipro.manager.ChannelEntityManager;
 import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.PostReplyManager;
-import me.kuangneipro.util.ApplicationWorker;
+import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
@@ -28,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,19 +37,24 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.igexin.sdk.PushManager;
 
 public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
 	
 	public final static String SELECT_CHANNEL_INFO = "me.kuangnei.select.CHANNEL";
 	
-	private ChannelEntity mChannel;
+	private static final int channelID = 1;
 	
 	private PullToRefreshListView mListView;
 	private ArrayList<PostEntity> mPostList;
 	private PostListAdapter mPostListAdapter;
 	private int index = 1;
 	private EmoticonPopupable mEmoticonPopupable;
+	
+	private View posting;
+	private View setting;
+	private View message;
 	
 	public PostListActivity() {
 		mPostList = new ArrayList<PostEntity>();
@@ -63,43 +65,56 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_list);
 		
-		mChannel = (ChannelEntity) (getIntent().getParcelableExtra(SELECT_CHANNEL_INFO));
-
-		if(mChannel==null && savedInstanceState != null)
-			mChannel = savedInstanceState.getParcelable(SELECT_CHANNEL_INFO);
-		if(mChannel==null)
-			mChannel = ChannelEntityManager.loadChannel();
-		if(mChannel==null){
-			ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
-				@Override
-				public void run() {
-					finish();
-				}
-			});
-			return;
-		}
+		//个推请求clientid,并注册接收监听
+		PushManager.getInstance().initialize(this.getApplicationContext());
 		
-
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
 			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
 		}
 		
-		getSupportActionBar().setTitle(mChannel.getTitle());
-
+		posting = findViewById(R.id.posting);
+		setting = findViewById(R.id.setting);
+		message = findViewById(R.id.message);
+		
+		posting.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				writePost();
+			}
+		});
+		
+		
+		setting.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(PostListActivity.this, PersonalInfoActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		message.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(PostListActivity.this, MessageListActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		
         mListView = (PullToRefreshListView)findViewById(R.id.pull_to_refresh_listview);
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
             	index = 1;
-            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), mChannel.getId(), 1);
+            	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
             }
         });
         mListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 			@Override
 			public void onLastItemVisible() {
-				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH_MORE), mChannel.getId(), ++index);
+				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH_MORE),channelID, ++index);
 			}
 		});
         
@@ -120,13 +135,27 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
             }
         });
         
-        PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), mChannel.getId(), 1);
+		if(UserInfo.loadSelfUserInfo() == null){
+			UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER));
+		}else{
+			PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
+		}
+       
 	}
 	
 	@Override
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
 		switch (id) {
+		case UserInfoManager.REGIGSTER:
+			UserInfo userInfo = UserInfoManager.fillUserInfoFromRegister(jsonObj);
+			if(userInfo!= null){
+				Toast.makeText(this, "注册完成啦:username="+userInfo.getUsername(), Toast.LENGTH_LONG).show();
+				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
+			}else{
+				Toast.makeText(this, "注册失败啦！！！！！！！！！！", Toast.LENGTH_LONG).show();
+			}
+			break;
 		case PostEntityManager.POSTING_KEY_REFRESH:
 			mPostList.clear();
 		case PostEntityManager.POSTING_KEY_REFRESH_MORE:
@@ -156,33 +185,19 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		if(mChannel!=null)
-			outState.putParcelable(SELECT_CHANNEL_INFO, mChannel);
 		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
 	protected void onStop() {
-		if(mChannel!=null)
-			ChannelEntityManager.saveChannel(mChannel);
 		super.onStop();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.post_list, menu);
-		return true;
-	}
 	
 	private void writePost() {
 		UserInfo userInfo = UserInfo.loadSelfUserInfo();
-		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName()) && userInfo.getBirthday()!=null && userInfo.getBirthday().getTime()!=0 && SexUtil.isValid(userInfo.getSex()) && !TextUtils.isEmpty(userInfo.getAvatar())){
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
 			Intent intent = new Intent(this, PostingActivity.class);
-			
-			Bundle bundle = new Bundle();     
-		    bundle.putParcelable(PostListActivity.SELECT_CHANNEL_INFO, mChannel);     
-		    intent.putExtras(bundle);
-
 	    	startActivity(intent);
 		}else{
 			new AlertDialog.Builder(this)
@@ -195,10 +210,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 				}
 			}) .setNegativeButton("取消", null)
 			 .show(); 
-
 		}
-		
-		
 	}
 
 	@Override

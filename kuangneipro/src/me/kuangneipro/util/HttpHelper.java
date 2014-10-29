@@ -179,7 +179,7 @@ public class HttpHelper {
 			@Override
 			public void run() {
 				final HttpPost httpPost = createHttpPost();
-				checkSession(httpPost);
+//				checkSession(httpPost);
 				if(requestCallBackListener!=null){
 					JSONObject jsonObject = doHttpRequest(httpPost);
 					if(jsonObject!=null)
@@ -195,7 +195,7 @@ public class HttpHelper {
 		isSync = true;
 		retryCount = 0;
 		final HttpPost httpPost = createHttpPost();
-		checkSession(httpPost);
+//		checkSession(httpPost);
 		return doHttpRequest(httpPost);
 		
 	}
@@ -208,7 +208,7 @@ public class HttpHelper {
 			@Override
 			public void run() {
 				final HttpGet httpGet = createHttpGet();
-				checkSession(httpGet);
+//				checkSession(httpGet);
 				if(requestCallBackListener!=null){
 					JSONObject jsonObject = doHttpRequest(httpGet);
 					if(jsonObject!=null)
@@ -224,7 +224,7 @@ public class HttpHelper {
 		isSync = true;
 		retryCount = 0;
 		final HttpGet httpGet = createHttpGet();
-		checkSession(httpGet);
+//		checkSession(httpGet);
 		return doHttpRequest(httpGet);
 		
 	}
