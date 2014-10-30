@@ -6,8 +6,14 @@ import java.util.List;
 import me.kuangneipro.R;
 import me.kuangneipro.util.GeoUtil;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ZoomControls;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -29,6 +35,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
 public class MapActivity extends Activity  {
@@ -40,6 +47,7 @@ public class MapActivity extends Activity  {
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
+    private UiSettings mUiSettings;
 	
 	private List<List<LatLng>> mPolygons = new ArrayList<List<LatLng>>();
 	
@@ -58,6 +66,12 @@ public class MapActivity extends Activity  {
 	
 	private MapActivity mActivity = null;
 
+    /**
+     * 控制按钮
+     */
+    private Button wifiButton;
+    private Button gpsButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +81,26 @@ public class MapActivity extends Activity  {
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
 
+        // 隐藏缩放/比例尺控件
+        /*int childCount = mMapView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = mMapView.getChildAt(i);
+            if (child instanceof ZoomControls) {
+                child.setVisibility(View.GONE);
+            }
+        }*/
+
+        // 删除百度地图logo
+        mMapView.removeViewAt(1);
+        // 删除缩放控件
+        mMapView.removeViewAt(1);
+        // 删除比例尺控件
+        mMapView.removeViewAt(1);
+
         mBaiduMap = mMapView.getMap();
+        // 隐藏指南针
+        mUiSettings = mBaiduMap.getUiSettings();
+        mUiSettings.setCompassEnabled(true);
 
         // zhumeng
         //定义多边形
@@ -182,7 +215,29 @@ public class MapActivity extends Activity  {
 			}
 		}
     }
-    
+
+    // open GPS
+    private void openGPS() {
+        if(!GeoUtil.isGPSEnabled(this)) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "GPS已经开启", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // open wifi
+    private void openWifi(){
+        if (!GeoUtil.isWifiEnabled(this)) {
+            Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        } else {
+            Toast.makeText(this, "Wifi已经开启", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private boolean isIn(LatLng point) {
     	boolean isIn = false;
 		for (List<LatLng> pts : mPolygons) {
@@ -233,6 +288,21 @@ public class MapActivity extends Activity  {
 				updateMapState();
 			}
 		});
+        wifiButton = (Button) findViewById(R.id.wifibutton);
+        gpsButton = (Button) findViewById(R.id.gpsbutton);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.equals(wifiButton)) {
+                    openWifi();
+                } else if (view.equals(gpsButton)) {
+                    openGPS();
+                }
+                updateMapState();
+            }
+        };
+        wifiButton.setOnClickListener(onClickListener);
+        gpsButton.setOnClickListener(onClickListener);
 	}
 
 	/**
@@ -293,7 +363,7 @@ public class MapActivity extends Activity  {
 						}
 					}
 				} else {
-					mState2Bar.setText("非wifi或GPS定位结果，请稍等...");
+					mState2Bar.setText("非wifi或GPS定位结果，请等待更精确的定位");
 				}
 			}
 			
