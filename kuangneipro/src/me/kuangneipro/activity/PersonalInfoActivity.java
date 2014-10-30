@@ -68,7 +68,6 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private String lastName;
 	private String lastSign;
 	
-	private MenuItem saveButton;
 	private InputMethodManager imm ;
 	
 	private View back;
@@ -207,7 +206,6 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	 * 禁用编辑态
 	 */
 	private void disableEdit(boolean isSaveText){
-		saveButton.setVisible(false);
 		name.setVisibility(View.VISIBLE);
 		nameEditLayout.setVisibility(View.GONE);
 		imm.hideSoftInputFromWindow(nameEdit.getWindowToken(), 0);

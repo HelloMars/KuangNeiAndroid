@@ -31,9 +31,8 @@
             android:id="@+id/posting"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
-            android:contentDescription="@null"
-            android:visibility="invisible"/>
+            android:src="@drawable/posting"
+            android:contentDescription="@null"/>
     </LinearLayout>
     
     <me.kuangneipro.emoticon.EmoticonEditText

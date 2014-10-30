@@ -238,6 +238,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kuangneipro.activity.PostListActivity" />
         </activity>
+        
+        <activity
+            android:name=".activity.MessageListActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/action_settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.kuangneipro.activity.PostListActivity" />
+        </activity>
 
         <service android:name="org.openudid.OpenUDID_service" >
             <intent-filter>

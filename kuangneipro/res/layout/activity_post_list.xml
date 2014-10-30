@@ -15,13 +15,7 @@
             android:id="@+id/message"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
-            android:contentDescription="@null"/>
-        <ImageView 
-            android:id="@+id/bubble"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/email_off"
             android:contentDescription="@null"/>
         <TextView 
             android:id="@+id/school"
@@ -34,13 +28,13 @@
             android:id="@+id/setting"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/personnalinfo"
             android:contentDescription="@null"/>
         <ImageView 
             android:id="@+id/posting"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/posting"
             android:contentDescription="@null"/>
         
     </LinearLayout>

@@ -169,7 +169,8 @@ public class LoginUtil {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(USERNAME_KEY, username);
 				map.put(PASSWORD_KEY,password);
-				map.put(DEVICE_ID_KEY, deviceID);
+				if(!TextUtils.isEmpty(deviceID))
+					map.put(DEVICE_ID_KEY, deviceID);
 				if(!TextUtils.isEmpty(PushUtil.getToken()))
 					map.put(TOKEN_KEY, PushUtil.getToken());
 
@@ -196,7 +197,8 @@ public class LoginUtil {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(USERNAME_KEY, username);
 		map.put(PASSWORD_KEY, password);
-		map.put(DEVICE_ID_KEY, deviceID);
+		if(!TextUtils.isEmpty(deviceID))
+			map.put(DEVICE_ID_KEY, deviceID);
 		if(!TextUtils.isEmpty(PushUtil.getToken()))
 			map.put(TOKEN_KEY, PushUtil.getToken());
 
@@ -220,7 +222,8 @@ public class LoginUtil {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(USERNAME_KEY, username);
 				map.put(PASSWORD_KEY,password);
-				map.put(DEVICE_ID_KEY, deviceID);
+				if(!TextUtils.isEmpty(deviceID))
+					map.put(DEVICE_ID_KEY, deviceID);
 				if(!TextUtils.isEmpty(PushUtil.getToken()))
 					map.put(TOKEN_KEY, PushUtil.getToken());
 				

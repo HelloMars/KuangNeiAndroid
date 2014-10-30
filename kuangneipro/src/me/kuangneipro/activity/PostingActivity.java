@@ -10,7 +10,6 @@ import me.kuangneipro.emoticon.EmoticonEditText;
 import me.kuangneipro.emoticon.EmoticonInputPopupView;
 import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.emoticon.EmoticonRelativeLayout;
-import me.kuangneipro.entity.ChannelEntity;
 import me.kuangneipro.entity.PostingInfo;
 import me.kuangneipro.entity.UploadImage;
 import me.kuangneipro.manager.PostEntityManager;
@@ -35,7 +34,6 @@ public class PostingActivity extends HttpActivity{
 	private EmoticonEditText mEditText;
 	private GridView mImageGrid;
 	
-	private ChannelEntity mChannel;
 	private PostingInfo mPostingInfo;
 	private EmoticonPopupable mEmoticonPopupable;
 	private final List<UploadImage> mUploadImages;
@@ -73,8 +71,6 @@ public class PostingActivity extends HttpActivity{
 		});
 		
 		
-		mChannel = (ChannelEntity)getIntent().getParcelableExtra(PostListActivity.SELECT_CHANNEL_INFO);
-		mPostingInfo.setChannel(mChannel);
 		
 		mEditText = (EmoticonEditText) findViewById(R.id.editTextPost);
 		mImageGrid = (GridView) findViewById(R.id.imageGrid);

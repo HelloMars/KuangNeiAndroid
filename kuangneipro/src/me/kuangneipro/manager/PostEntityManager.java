@@ -176,7 +176,7 @@ public class PostEntityManager {
 				}
 			}
 		});
-		doPosting(httpPostingGet, postingInfo.getChannel().getId(), postingInfo.getContent(), postingInfo.getUploadImage());
+		doPosting(httpPostingGet,1, postingInfo.getContent(), postingInfo.getUploadImage());
 	}
 	
 	

@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -213,17 +212,6 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-		case R.id.action_write_post:
-			writePost();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 	
 	public void doReplay(int postId){
 		if(mEmoticonPopupable!=null){
