@@ -12,26 +12,28 @@
     <LinearLayout 
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:orientation="horizontal"
         android:background="#1E5782">
         <ImageView 
             android:id="@+id/back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:src="@drawable/back"
             android:contentDescription="@null"/>
         <TextView 
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="消息"/>
+            android:gravity="center_vertical|left"
+            android:textColor="#E6E6E6"
+            android:textSize="16sp"
+            android:text="发帖"/>
         <ImageView 
             android:id="@+id/posting"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/posting"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/send"
             android:contentDescription="@null"/>
     </LinearLayout>
     

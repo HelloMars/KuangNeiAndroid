@@ -118,6 +118,7 @@
             android:layout_toLeftOf="@+id/btnLike"
             android:layout_alignParentTop="true"
             android:layout_marginRight="10dp"
+            android:background="#EBEBEB"
             android:src="@drawable/reply" />
         <TextView
             android:id="@+id/txtReplyNum"
