@@ -33,7 +33,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		private TextView likeNum;
 		private TextView replyNum;
 		private ImageView[] pictures;
-		private ImageButton btnReply;
+		private ImageView btnReply;
 	}
 
 	public PostListAdapter(Activity context, ArrayList<PostEntity> posts) {
@@ -76,7 +76,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 			viewHolder.dislikeNum = (TextView) rowView.findViewById(R.id.txtDislikeNum);
 			viewHolder.likeNum = (TextView) rowView.findViewById(R.id.txtLikeNum);
 			viewHolder.replyNum = (TextView) rowView.findViewById(R.id.txtReplyNum);
-			viewHolder.btnReply = (ImageButton) rowView.findViewById(R.id.btnReply);
+			viewHolder.btnReply = (ImageView) rowView.findViewById(R.id.btnReply);
 			viewHolder.btnReply.setOnClickListener(this);
 			viewHolder.btnReply.setTag(mPosts.get(position));
 			viewHolder.pictures = new ImageView[3];
