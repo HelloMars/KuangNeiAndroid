@@ -12,7 +12,7 @@ import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.PostEntityManager;
-import me.kuangneipro.manager.PostReplyManager;
+import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
@@ -168,12 +168,15 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 				mListView.onRefreshComplete();
 			}
 			break;
-		case PostReplyManager.DO_REPLAY_FIRST:
-			ReturnInfo ri = PostReplyManager.getReplyReturnInfo(jsonObj);
+		case ReplyInfoManager.DO_REPLY:
+			ReturnInfo ri = ReplyInfoManager.getReplyReturnInfo(jsonObj);
 			if(ri!=null&& ri.getReturnCode() == ReturnInfo.SUCCESS){
 				Toast.makeText(this, "回复成功", Toast.LENGTH_SHORT).show();
 			}else{
-				Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
+				if(ri!=null){
+					Toast.makeText(this, ri.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				}else
+					Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		default:
@@ -213,17 +216,19 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	}
 
 	
-	public void doReplay(int postId){
+	public void doReplay(PostEntity postEntity){
 		if(mEmoticonPopupable!=null){
 			mEmoticonPopupable.show();
-			mEmoticonPopupable.getEmoticonSendButton().setTag(postId);
+			mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
 		}
 	}
 
 	@Override
 	public void onSend(View v, String text) {
 		if(!TextUtils.isEmpty(text)){
-			PostReplyManager.doReplayFirst(getHttpRequest(PostReplyManager.DO_REPLAY_FIRST), text, (Integer)v.getTag());
+			PostEntity postEntity = (PostEntity)v.getTag();
+			
+			ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), postEntity.mUserId, postEntity.mPostId+"", text);
 			mEmoticonPopupable.cleatEmoticonEditText();
 		}else{
 			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();

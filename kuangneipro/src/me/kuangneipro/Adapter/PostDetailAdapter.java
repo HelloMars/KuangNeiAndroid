@@ -6,7 +6,6 @@ import me.kuangneipro.R;
 import me.kuangneipro.activity.PostDetailActivity;
 import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
-import me.kuangneipro.entity.SecondLevelReplyEntity;
 import me.kuangneipro.util.ListUtil;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -168,7 +167,6 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 					@Override
 					public void onClick(View arg0) {
 //						Toast.makeText(mPostDetailActivity, firstReply.mPostId +"  "+firstReply.mFirstLevelReplyId, Toast.LENGTH_LONG).show();
-						mPostDetailActivity.doReplaySecond(firstReply.mFirstLevelReplyId);
 					}
 				});
 				content.setText(firstReply.mContent);

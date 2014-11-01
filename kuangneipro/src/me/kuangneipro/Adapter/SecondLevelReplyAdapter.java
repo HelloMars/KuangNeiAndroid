@@ -4,8 +4,6 @@ import java.util.List;
 
 import me.kuangneipro.R;
 import me.kuangneipro.entity.SecondLevelReplyEntity;
-import me.kuangneipro.util.ListUtil;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.text.Html;

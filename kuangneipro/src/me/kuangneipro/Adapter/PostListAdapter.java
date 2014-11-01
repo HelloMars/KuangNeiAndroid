@@ -6,13 +6,13 @@ import me.kuangneipro.R;
 import me.kuangneipro.activity.PostListActivity;
 import me.kuangneipro.entity.PostEntity;
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -97,6 +97,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		holder.content.setText(post.mContent);
 		holder.date.setText(post.getDate());
 		Log.i(tag, "!!!!downloading user avatar " + post.mUserAvatar);
+		if(!TextUtils.isEmpty(post.mUserAvatar))
 		Picasso.with(context)
         	.load(post.mUserAvatar)
         	.placeholder(android.R.drawable.ic_menu_my_calendar)
@@ -134,7 +135,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		if(view!=null){
 			switch (view.getId()) {
 			case R.id.btnReply:
-				context.doReplay(((PostEntity)view.getTag()).mPostId);
+				context.doReplay((PostEntity)view.getTag());
 				break;
 			default:
 				break;

@@ -73,4 +73,9 @@ public class HostUtil {
 	 * 注册
 	 */
 	public static final String REGISTER = KUANG_NEI_HOST + "register/";
+	
+	
+	public static final String REPLY = KUANG_NEI_HOST + "replyList/";
+	
+	public static final String DO_REPLY = KUANG_NEI_HOST + "reply/";
 }

@@ -47,7 +47,6 @@
                 android:id="@+id/sexIcon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                
                 android:layout_toRightOf="@+id/txtName"
                 android:layout_centerVertical="true"
                 android:src="@android:drawable/ic_menu_my_calendar" 
@@ -81,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/userRow"
+            android:layout_below="@id/userRow"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="18dp"
@@ -96,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/txtContent" >
+            android:layout_below="@id/txtContent" >
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -144,7 +143,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageRow"
+            android:layout_below="@id/imageRow"
             android:layout_marginTop="5dp" >
 
             <ImageButton
