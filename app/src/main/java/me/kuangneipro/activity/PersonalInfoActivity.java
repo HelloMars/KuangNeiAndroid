@@ -68,15 +68,22 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private String lastName;
 	private String lastSign;
 	
-	private MenuItem saveButton;
 	private InputMethodManager imm ;
+	
+	private View back;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal);
 //		getSupportActionBar().setCustomView(R.layout.title_bar_save);
-
+		back = findViewById(R.id.back);
+		back.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 		canSave = false;
@@ -113,13 +120,6 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		background.requestFocus();
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.save, menu);
-		saveButton = menu.findItem(R.id.save);
-		saveButton.setVisible(false);
-		return true;
-	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -206,7 +206,6 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	 * 禁用编辑态
 	 */
 	private void disableEdit(boolean isSaveText){
-		saveButton.setVisible(false);
 		name.setVisibility(View.VISIBLE);
 		nameEditLayout.setVisibility(View.GONE);
 		imm.hideSoftInputFromWindow(nameEdit.getWindowToken(), 0);

@@ -5,8 +5,8 @@ public class HostUtil {
 	/**
 	 * 框内服务器地址
 	 */
-	public static final String KUANG_NEI_HOST = "http://kuangnei.me/kuangnei/api/";
-	public static final String KUANG_NEI_HOST_HTTPS = "https://kuangnei.me/kuangnei/api/";
+	public static final String KUANG_NEI_HOST = "http://kuangnei.me/zhumeng/kuangnei/api/";
+	public static final String KUANG_NEI_HOST_HTTPS = "https://kuangnei.me/zhumeng/kuangnei/api/";
 	
 	/**
 	 * 频道列表协议地址
@@ -37,7 +37,7 @@ public class HostUtil {
 	/**
 	 * 注册
 	 */
-	public static final String REGISTER = KUANG_NEI_HOST_HTTPS + "register/";
+//	public static final String REGISTER = KUANG_NEI_HOST_HTTPS + "register/";
 	
 	/**
 	 * 登陆
@@ -68,4 +68,9 @@ public class HostUtil {
 	 * 设置用户信息
 	 */
 	public static final String ADD_USER_INFO = KUANG_NEI_HOST + "addUserInfo/";
+	
+	/**
+	 * 注册
+	 */
+	public static final String REGISTER = KUANG_NEI_HOST + "register/";
 }

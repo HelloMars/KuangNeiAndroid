@@ -22,6 +22,7 @@ public class UserInfoManager {
 	private static final String TAG ="UserInfoManager";
 	public static final int GET_USER_INFO = 202;
 	public static final int UPDATE_USER_INFO = 203;
+	public static final int REGIGSTER = 444;
 	
 	public static void getUserInfo(HttpHelper httpRequest){
 		httpRequest.setUrl(HostUtil.ADD_USER_INFO).asyncPost();
@@ -64,6 +65,20 @@ public class UserInfoManager {
 			doUpdateUserInfo(httpRequest,userInfo);
 		}
 		
+	}
+	
+	public static UserInfo fillUserInfoFromRegister(JSONObject jsonObj){
+		if(jsonObj!=null){
+			UserInfo userInfo = new UserInfo();
+			userInfo.setUsername(jsonObj.optString("user", ""));
+			userInfo.setPassword(jsonObj.optString("password", ""));
+			UserInfo.saveSelfUserInfo(userInfo);
+		}
+		return UserInfo.loadSelfUserInfo();
+	}
+	
+	public static void regester(HttpHelper httpRequest){
+		httpRequest.setUrl(HostUtil.REGISTER).asyncPost();
 	}
 	
 	public static void doUpdateUserInfo(HttpHelper httpRequest,final UserInfo userInfo){

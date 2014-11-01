@@ -14,6 +14,7 @@ import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.LoginUtil.OnSignInLisener;
 
 import org.OpenUDID.OpenUDID_manager;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -135,6 +136,9 @@ public class HttpHelper {
 	}
 	
 	private void checkSession(final HttpUriRequest request){
+		if(HostUtil.REGISTER.equals(url))
+			return ;
+		
 		String sessionId = LoginUtil.loadSession();
 		if(!TextUtils.isEmpty(sessionId))
 			request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
@@ -229,6 +233,8 @@ public class HttpHelper {
 		
 	}
 	
+	private static final String SET_COOKIE_KEY = "set-cookie";
+	
 	private JSONObject doHttpRequest(final HttpUriRequest request){
 		
 		JSONObject returnJson = null;
@@ -239,6 +245,12 @@ public class HttpHelper {
 			params.setParameter(ClientPNames.HANDLE_REDIRECTS, false);  
 			httpResponse = httpclient.execute(request);
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				
+				Header[] headers = httpResponse.getHeaders(SET_COOKIE_KEY);
+				for(Header header:headers){
+					header.getValue();
+				}
+				
 				returnJson = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 			}else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_MOVED_TEMPORARILY) {
 				if(UserInfo.loadSelfUserInfo()!=null && !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getUsername())  &&   !TextUtils.isEmpty(UserInfo.loadSelfUserInfo().getPassword()) ) {

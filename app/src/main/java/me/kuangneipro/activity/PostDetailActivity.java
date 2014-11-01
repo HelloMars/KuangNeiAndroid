@@ -47,6 +47,7 @@ public class PostDetailActivity extends HttpActivity {
 	private EmoticonPopupable mSecondReplyEmoticonPopupable;
 	
 	private ImageButton btnReply;
+	private View back;
 	
 	public PostDetailActivity() {
 		firstReplyIndex = 0;
@@ -58,6 +59,13 @@ public class PostDetailActivity extends HttpActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_detail);
+		back = findViewById(R.id.back);
+		back.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 		mPost = (PostEntity) (getIntent().getParcelableExtra(SELECT_POST_INFO));
 		btnReply = (ImageButton) findViewById(R.id.btnReply);
 		btnReply.setOnClickListener(new OnClickListener() {

@@ -8,15 +8,44 @@
     android:background="@color/color_comm_bg"
     android:orientation="vertical" >
 
+    
+    <LinearLayout 
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="#1E5782">
+        <ImageView 
+            android:id="@+id/back"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:src="@drawable/back"
+            android:contentDescription="@null"/>
+        <TextView 
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:textColor="#E6E6E6"
+            android:textSize="16sp"
+            android:text="发帖"/>
+        <ImageView 
+            android:id="@+id/posting"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/send"
+            android:contentDescription="@null"/>
+    </LinearLayout>
+    
     <me.kuangneipro.emoticon.EmoticonEditText
         android:id="@+id/editTextPost"
+        android:layout_below="@id/title"
         android:singleLine="false"
         android:textSize="16sp"
         emoticon:emoticonHeight="line_height"
         emoticon:emoticonWidth="line_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:ems="10"
         android:maxLength="800"
         android:inputType="textMultiLine" />
