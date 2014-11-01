@@ -4,11 +4,60 @@
     android:layout_height="match_parent"
     tools:context="me.kuangneipro.activity.MapActivity" >
 
-    <com.baidu.mapapi.map.MapView  
-    android:id="@+id/bmapView"  
-    android:layout_width="fill_parent"  
-    android:layout_height="fill_parent"  
-    android:clickable="true" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/state2"
+            android:text=""
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/map_text" />
+
+        <Button
+            android:id="@+id/wifibutton"
+            android:layout_above="@+id/state2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textSize="16sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="38dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/button_style"
+            android:text="@string/wifi_button" />
+
+        <Button
+            android:id="@+id/gpsbutton"
+            android:layout_above="@+id/state2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="38dp"
+            android:layout_marginEnd="38dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/button_style"
+            android:text="@string/gps_button" />
+
+    </RelativeLayout>
     
     <TextView
         android:id="@+id/state"
@@ -16,15 +65,5 @@
         android:layout_height="wrap_content"
         android:lines="3"
         android:text="点击、长按、双击地图以获取经纬度和地图状态" />
-    
-    <TextView
-        android:id="@+id/state2"
-    	android:text=""
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:gravity="center"
-    	android:layout_below="@+id/state"
-    	android:lines="3"
-        />
 
 </RelativeLayout>

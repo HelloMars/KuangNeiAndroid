@@ -184,10 +184,6 @@
         <activity
             android:name=".activity.PostListActivity"
             android:label="@string/title_activity_post_list" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.PostDetailActivity"
@@ -232,6 +228,10 @@
         <activity
             android:name="me.kuangneipro.activity.MapActivity"
             android:label="@string/title_activity_map" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
