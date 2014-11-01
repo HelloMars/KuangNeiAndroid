@@ -3,7 +3,7 @@
     xmlns:emoticon="http://schemas.android.com/apk/res/me.kuangneipro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f8f8" >
+    android:background="#E6E6E6" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,9 +40,19 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:text="孤独的夏娃"
-                android:textColor="@color/default_text_color"
+                android:textColor="#333333"
                 android:textSize="16sp" />
 
+            <ImageView
+                android:id="@+id/sexIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                
+                android:layout_toRightOf="@+id/txtName"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/ic_menu_my_calendar" 
+                android:visibility="gone"/>
+            
             <TextView
                 android:id="@+id/txtDate"
                 android:layout_width="wrap_content"
@@ -52,8 +62,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:text="10秒前"
-                android:textColor="@color/default_text_color"
-                android:textSize="16sp" />
+                android:textColor="@color/time_text_color"
+                android:textSize="12sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -74,10 +84,10 @@
             android:layout_below="@+id/userRow"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="18dp"
             android:text="我不该偷吃苹果的啊，我就是个愚蠢的老女人！请大家一定不要相信一条蛇。。。"
             android:textColor="#333333"
-            android:textSize="16sp"
+            android:textSize="14sp"
             emoticon:emoticonHeight="line_height"
             emoticon:emoticonWidth="line_height" />
 
@@ -92,7 +102,7 @@
                 android:id="@+id/imageView1"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_alignParentTop="true"
@@ -125,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@id/imageView3"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@color/default_split_color" />
@@ -164,7 +174,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="1dp"
                 android:src="@drawable/reply" />
 
             <TextView
@@ -174,7 +184,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/btnReply"
                 android:text="2"
-                android:textColor="@color/normal_text_color"
+                android:textColor="#707070"
                 android:textSize="14sp" />
 
             <TextView
@@ -185,7 +195,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
                 android:text="3"
-                android:textColor="@color/normal_text_color"
+                android:textColor="#707070"
                 android:textSize="14sp" />
 
             <ImageView
@@ -193,7 +203,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="1dp"
                 android:layout_toLeftOf="@id/txtLikeNum"
                 android:src="@drawable/like" />
         </RelativeLayout>
