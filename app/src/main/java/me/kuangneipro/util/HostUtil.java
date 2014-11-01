@@ -73,4 +73,9 @@ public class HostUtil {
 	 * 注册
 	 */
 	public static final String REGISTER = KUANG_NEI_HOST + "register/";
+
+    /**
+     * 框列表协议地址
+     */
+    public static final String KUANG_LIST_URL = KUANG_NEI_HOST+"getSchool/";
 }

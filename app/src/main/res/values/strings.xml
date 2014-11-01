@@ -46,5 +46,6 @@
     <!-- 地图 -->
     <string name="wifi_button">wifi</string>
     <string name="gps_button">GPS</string>
+    <string name="start_button">进入</string>
 
 </resources>

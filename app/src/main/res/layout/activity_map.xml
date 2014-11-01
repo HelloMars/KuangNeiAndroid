@@ -15,13 +15,27 @@
             android:layout_height="fill_parent"
             android:clickable="true" />
 
-        <TextView
-            android:id="@+id/state2"
-            android:text=""
+        <Button
+            android:id="@+id/startbutton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_alignParentBottom="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginEnd="19dp"
+            android:layout_marginBottom="19dp"
+            android:background="@drawable/button_style"
+            android:text="@string/start_button" />
+
+        <TextView
+            android:id="@+id/state2"
+            android:text=""
+            android:layout_above="@+id/startbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_marginLeft="19dp"
             android:layout_marginStart="19dp"
             android:layout_marginRight="19dp"

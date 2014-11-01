@@ -1,19 +1,13 @@
 package me.kuangneipro.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.kuangneipro.R;
-import me.kuangneipro.util.GeoUtil;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ZoomControls;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -38,7 +32,20 @@ import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
-public class MapActivity extends Activity  {
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import me.kuangneipro.R;
+import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.manager.MapEntityManager;
+import me.kuangneipro.util.GeoUtil;
+
+public class MapActivity extends HttpActivity {
+
+    private static final String TAG = MapActivity.class.getSimpleName(); // tag 用于测试log用
 
 	// 定位相关
 	LocationClient mLocClient;
@@ -71,6 +78,7 @@ public class MapActivity extends Activity  {
      */
     private Button wifiButton;
     private Button gpsButton;
+    private Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,7 @@ public class MapActivity extends Activity  {
         mUiSettings = mBaiduMap.getUiSettings();
         mUiSettings.setCompassEnabled(true);
 
+        /*
         // zhumeng
         //定义多边形
         List<LatLng> pts = new ArrayList<LatLng>();
@@ -122,57 +131,7 @@ public class MapActivity extends Activity  {
             .stroke(new Stroke(5, 0xAAFF0000))
             .fillColor(0x10101010);
         //在地图上添加多边形Option，用于显示
-        mBaiduMap.addOverlay(polygonOption);
-        
-        // yangze_hebei
-        pts.clear();
-        pts.add(new LatLng(39.438210,118.893864));
-        pts.add(new LatLng(39.439429,118.893721));
-        pts.add(new LatLng(39.440704,118.893595));
-        pts.add(new LatLng(39.440961,118.892733));
-        pts.add(new LatLng(39.440871,118.891511));
-        pts.add(new LatLng(39.440843,118.890271));
-        pts.add(new LatLng(39.439742,118.890361));
-        pts.add(new LatLng(39.439101,118.890361));
-        pts.add(new LatLng(39.437994,118.890496));
-        pts.add(new LatLng(39.438071,118.891484));
-        mPolygons.add(new ArrayList<LatLng>(pts));
-        polygonOption = new PolygonOptions()
-	        .points(pts)
-	        .stroke(new Stroke(5, 0xAAFF0000))
-	        .fillColor(0x10101010);
-        mBaiduMap.addOverlay(polygonOption);
-        
-        // yangze
-        pts.clear();
-        pts.add(new LatLng(39.986279,116.423740));
-        pts.add(new LatLng(39.987080,116.423767));
-        pts.add(new LatLng(39.988110,116.423749));
-        pts.add(new LatLng(39.989571,116.423655));
-        pts.add(new LatLng(39.989571,116.422370));
-        pts.add(new LatLng(39.989509,116.421068));
-        pts.add(new LatLng(39.988072,116.421023));
-        pts.add(new LatLng(39.986448,116.421014));
-        pts.add(new LatLng(39.986275,116.422388));
-        mPolygons.add(new ArrayList<LatLng>(pts));
-        polygonOption = new PolygonOptions()
-	        .points(pts)
-	        .stroke(new Stroke(5, 0xAAFF0000))
-	        .fillColor(0x10101010);
-        mBaiduMap.addOverlay(polygonOption);
-        
-        // zhangjijian
-        pts.clear();
-        pts.add(new LatLng(31.291121,120.751078));
-        pts.add(new LatLng(31.291098,120.751563));
-        pts.add(new LatLng(31.290974,120.751581));
-        pts.add(new LatLng(31.290986,120.751064));
-        mPolygons.add(new ArrayList<LatLng>(pts));
-        polygonOption = new PolygonOptions()
-	        .points(pts)
-	        .stroke(new Stroke(5, 0xAAFF0000))
-	        .fillColor(0x10101010);
-        mBaiduMap.addOverlay(polygonOption);
+        mBaiduMap.addOverlay(polygonOption);*/
 
         // 开启定位图层
  		mBaiduMap.setMyLocationEnabled(true);
@@ -214,6 +173,26 @@ public class MapActivity extends Activity  {
 				mState2Bar.setText("定位中...");
 			}
 		}
+
+        MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
+    }
+
+    @Override
+    protected void requestComplete(int id, JSONObject jsonObj) {
+        mPolygons.clear();
+        super.requestComplete(id, jsonObj);
+        switch (id) {
+            case MapEntityManager.MAP_KEY_GET:
+                ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
+                Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
+                MapEntityManager.fillKuangListFromJson(jsonObj, mPolygons, mBaiduMap);
+                if (mPolygons.isEmpty()) {
+                    Toast.makeText(this, "恭喜中奖，获取框们失败", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     // open GPS
@@ -303,6 +282,16 @@ public class MapActivity extends Activity  {
         };
         wifiButton.setOnClickListener(onClickListener);
         gpsButton.setOnClickListener(onClickListener);
+
+        startButton = (Button) findViewById(R.id.startbutton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(MapActivity.this, PostListActivity.class);
+                startActivity(intent);
+            }
+        });
+        startButton.setEnabled(false);
 	}
 
 	/**
@@ -312,7 +301,7 @@ public class MapActivity extends Activity  {
 		if (mStateBar == null) {
 			return;
 		}
-		String state = "";
+		String state = "";/*
 		if (currentPt == null) {
 			state = "点击、长按、双击地图以获取经纬度和地图状态";
 		} else {
@@ -323,7 +312,7 @@ public class MapActivity extends Activity  {
 		MapStatus ms = mBaiduMap.getMapStatus();
 		state += String.format(
 				"zoom=%.1f rotate=%d overlook=%d, %s",
-				ms.zoom, (int) ms.rotate, (int) ms.overlook, locInfo);
+				ms.zoom, (int) ms.rotate, (int) ms.overlook, locInfo);*/
 		mStateBar.setText(state);
 	}
     
@@ -340,6 +329,7 @@ public class MapActivity extends Activity  {
 
 			boolean isGPSEnabled = GeoUtil.isGPSEnabled(mActivity);
 			boolean isWifiEnabled = GeoUtil.isWifiEnabled(mActivity);
+            startButton.setEnabled(false);
 			if (!GeoUtil.isOnline(mActivity)) {
 				mState2Bar.setText("请连接网络");
 			} else if (!isGPSEnabled && !isWifiEnabled) {
@@ -349,12 +339,14 @@ public class MapActivity extends Activity  {
 				if (location.getLocType() == 61) { // GPS 定位结果
 					if (isIn) {
 						mState2Bar.setText("定位认证成功");
+                        startButton.setEnabled(true);
 					} else {
 						mState2Bar.setText("定位不在框内，无法进入(等待GPS调整位置中...)");
 					}
 				} else if (location.getLocType() == 161 && location.getNetworkLocationType().equals("wf")) { // wifi 定位结果
 					if (isIn) {
 						mState2Bar.setText("定位认证成功");
+                        startButton.setEnabled(true);
 					} else {
 						if (isGPSEnabled) {
 							mState2Bar.setText("wifi定位不在框内，请等待更精确的GPS定位(仅室外可用)结果");
