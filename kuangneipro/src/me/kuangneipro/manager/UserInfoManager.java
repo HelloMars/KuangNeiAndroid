@@ -77,8 +77,8 @@ public class UserInfoManager {
 		return UserInfo.loadSelfUserInfo();
 	}
 	
-	public static void regester(HttpHelper httpRequest, int schoolid){
-		httpRequest.setUrl(HostUtil.REGISTER).put("schoolid", schoolid+"").asyncPost();
+	public static void regester(HttpHelper httpRequest, int schoolId){
+		httpRequest.setUrl(HostUtil.REGISTER).put("schoolId", schoolId+"").asyncPost();
 	}
 	
 	public static void doUpdateUserInfo(HttpHelper httpRequest,final UserInfo userInfo){
