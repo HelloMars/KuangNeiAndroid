@@ -218,11 +218,14 @@ public class MapActivity extends HttpActivity {
     }
 
     private boolean isIn(LatLng point) {
-    	boolean isIn = false;
 		for (List<LatLng> pts : mPolygons) {
-			isIn = (isIn || GeoUtil.isPointInPolygon(point, pts));
+            if (GeoUtil.isPointInPolygon(point, pts)) {
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(GeoUtil.buildBounds(pts));
+                mBaiduMap.animateMapStatus(u);
+                return true;
+            }
 		}
-		return isIn;
+		return false;
     }
     
 	private void initListener() {
