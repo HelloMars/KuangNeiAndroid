@@ -169,9 +169,8 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 					imageView1.setVisibility(View.VISIBLE);
 					Picasso.with(this)
 		        	.load(mPost.mPictures.get(i))
-		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
-		        	.placeholder(R.drawable.ic_launcher)
-		        	.error(android.R.drawable.ic_menu_report_image)
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
 		        	.into(imageView1);
 					break;
 				}
@@ -180,9 +179,8 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 					imageView2.setVisibility(View.VISIBLE);
 					Picasso.with(this)
 		        	.load(mPost.mPictures.get(i))
-		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
-		        	.placeholder(R.drawable.ic_launcher)
-		        	.error(android.R.drawable.ic_menu_report_image)
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
 		        	.into(imageView2);
 					break;
 				}

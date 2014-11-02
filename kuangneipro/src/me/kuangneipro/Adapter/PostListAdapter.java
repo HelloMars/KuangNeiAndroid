@@ -100,9 +100,8 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		if(!TextUtils.isEmpty(post.mUserAvatar))
 		Picasso.with(context)
         	.load(post.mUserAvatar)
-        	.placeholder(android.R.drawable.ic_menu_my_calendar)
-        	.placeholder(R.drawable.ic_launcher)
-        	.error(android.R.drawable.ic_menu_report_image)
+        	.placeholder(R.drawable.loading)
+        	.error(R.drawable.error)
         	.into(holder.icon);
 		for (int i = 0; i < holder.pictures.length; ++i) {
 			if (i < post.mPictures.size()){
@@ -115,8 +114,8 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 				Log.i(tag, "!!!!downloading pic " + i + picUrl);
 				Picasso.with(context)
 		        	.load(picUrl)
-		        	.placeholder(android.R.drawable.ic_menu_gallery)
-		        	.error(android.R.drawable.ic_menu_report_image)
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
 		        	.into(holder.pictures[i]);
 			} else {
 				holder.pictures[i].setVisibility(View.GONE);
