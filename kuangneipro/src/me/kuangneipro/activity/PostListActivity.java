@@ -8,6 +8,7 @@ import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.emoticon.EmoticonInputDialog;
 import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
+import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UpInfo;
@@ -16,7 +17,6 @@ import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UnreadManager;
 import me.kuangneipro.manager.UpInfoManager;
-import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
@@ -33,13 +33,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.igexin.sdk.PushManager;
 
 public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
@@ -58,6 +58,8 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	private View setting;
 	private View message;
 	
+	private TextView name;
+	
 	public PostListActivity() {
 		mPostList = new ArrayList<PostEntity>();
 	}
@@ -71,6 +73,14 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
 			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
+		}
+		
+		name = (TextView) findViewById(R.id.school);
+		KuangInfo kuang = KuangInfo.loadSelfKuangInfo();
+		if (kuang == null) {
+			name.setText("黑洞");
+		} else {
+			name.setText(kuang.getName());
 		}
 		
 		posting = findViewById(R.id.posting);

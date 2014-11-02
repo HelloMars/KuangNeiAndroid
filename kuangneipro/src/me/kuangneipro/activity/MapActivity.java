@@ -5,9 +5,9 @@ import java.util.List;
 
 import me.kuangneipro.R;
 import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UserInfo;
-import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.manager.MapEntityManager;
 import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.GeoUtil;
@@ -28,11 +28,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
-import com.baidu.mapapi.map.BaiduMap.OnMapDoubleClickListener;
-import com.baidu.mapapi.map.BaiduMap.OnMapLongClickListener;
 import com.baidu.mapapi.map.BaiduMap.OnMapStatusChangeListener;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -64,10 +60,10 @@ public class MapActivity extends HttpActivity {
 	
 	/**
 	 * 当前地点击点
-	 */
+	 *//*
 	private LatLng currentPt;
 	private String touchType;
-	private String locInfo = "UNKNOWN";
+	private String locInfo = "UNKNOWN";*/
 
 	/**
 	 * 用于显示地图状态的面板
@@ -193,13 +189,12 @@ public class MapActivity extends HttpActivity {
 
     @Override
     protected void requestComplete(int id, JSONObject jsonObj) {
-        mKuangs.clear();
         super.requestComplete(id, jsonObj);
         switch (id) {
             case MapEntityManager.MAP_KEY_GET:
                 ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
                 Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
-                MapEntityManager.fillKuangListFromJson(jsonObj, mKuangs, mBaiduMap);
+                MapEntityManager.fillKuangListFromJson(jsonObj, mKuangs, mBaiduMap, getApplicationContext());
                 if (mKuangs.isEmpty()) {
                     Toast.makeText(this, "恭喜中奖，获取框们失败", Toast.LENGTH_SHORT).show();
                 }
@@ -248,6 +243,7 @@ public class MapActivity extends HttpActivity {
                     mBaiduMap.animateMapStatus(u);
     			}
             	mKuang = kuang;
+            	KuangInfo.saveSelfKuangInfo(mKuang);
                 return true;
             }
 		}
@@ -261,13 +257,14 @@ public class MapActivity extends HttpActivity {
 				UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER), mKuang.getId());
 			} else {
 				mState2Bar.setText("定位认证成功");
-				startButton.setEnabled(true);
+				startButton.setVisibility(View.VISIBLE);
 				isLocked = true;
 			}
     	}
     }
     
 	private void initListener() {
+		/*
 		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
 			public void onMapClick(LatLng point) {
 				boolean isIn = isIn(point);
@@ -295,7 +292,7 @@ public class MapActivity extends HttpActivity {
 				currentPt = point;
 				updateMapState();
 			}
-		});
+		});*/
 		mBaiduMap.setOnMapStatusChangeListener(new OnMapStatusChangeListener() {
 			public void onMapStatusChangeStart(MapStatus status) {
 				updateMapState();
@@ -334,7 +331,7 @@ public class MapActivity extends HttpActivity {
                 MapActivity.this.finish();
             }
         });
-        startButton.setEnabled(false);
+        startButton.setVisibility(View.GONE);
 	}
 
 	/**
@@ -374,10 +371,10 @@ public class MapActivity extends HttpActivity {
 				MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
 			}
 
-			locInfo = String.format("[%d,%s,%d]",
+			/*locInfo = String.format("[%d,%s,%d]",
 					location.getLocType(),
 					location.getNetworkLocationType(),
-					location.getSatelliteNumber());
+					location.getSatelliteNumber());*/
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
 					// 此处设置开发者获取到的方向信息，顺时针0-360
@@ -395,7 +392,7 @@ public class MapActivity extends HttpActivity {
 			
 			boolean isGPSEnabled = GeoUtil.isGPSEnabled(mActivity);
 			boolean isWifiEnabled = GeoUtil.isWifiEnabled(mActivity);
-            startButton.setEnabled(false);
+            startButton.setVisibility(View.GONE);
 			if (!GeoUtil.isOnline(mActivity)) {
 				mState2Bar.setText("请连接网络");
 			} else if (!isGPSEnabled && !isWifiEnabled) {
