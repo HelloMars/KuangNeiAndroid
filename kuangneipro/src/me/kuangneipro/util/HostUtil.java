@@ -80,4 +80,10 @@ public class HostUtil {
 	public static final String DO_REPLY = KUANG_NEI_HOST + "reply/";
 	
 	public static final String UN_READ = KUANG_NEI_HOST + "hasUnreadMessage/";
+	
+	
+    /**
+     * 框列表协议地址
+     */
+    public static final String KUANG_LIST_URL = KUANG_NEI_HOST+"getSchool/";
 }
