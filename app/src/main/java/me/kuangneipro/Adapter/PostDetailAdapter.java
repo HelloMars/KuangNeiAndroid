@@ -6,7 +6,6 @@ import me.kuangneipro.R;
 import me.kuangneipro.activity.PostDetailActivity;
 import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
-import me.kuangneipro.entity.SecondLevelReplyEntity;
 import me.kuangneipro.util.ListUtil;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -126,12 +125,9 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
                 
 				Picasso.with(mPostDetailActivity)
 		        	.load(picUrl)
-		        	.placeholder(android.R.drawable.ic_menu_gallery)
-		        	.error(android.R.drawable.ic_menu_report_image)
-		        	//.resize(320, 320)
-		        	//.centerCrop()
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
 		        	.transform(transformation)
-		        	//.fit().centerInside()
 		        	.into(imageHolder.image);
 				break;
 			}
@@ -154,11 +150,8 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 				Log.i(TAG, "!!!!downloading user avatar " + firstReply.mUserAvatar);
 				Picasso.with(mPostDetailActivity)
 		        	.load(firstReply.mUserAvatar)
-		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
-		        	.placeholder(R.drawable.ic_launcher)
-		        	.error(android.R.drawable.ic_menu_report_image)
-		        	.resize(80, 80)
-		        	.centerCrop()
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
 		        	.into(icon);
 				name.setText(firstReply.mUserName);
 				date.setText(firstReply.getDate());
@@ -168,7 +161,6 @@ public class PostDetailAdapter extends BaseExpandableListAdapter {
 					@Override
 					public void onClick(View arg0) {
 //						Toast.makeText(mPostDetailActivity, firstReply.mPostId +"  "+firstReply.mFirstLevelReplyId, Toast.LENGTH_LONG).show();
-						mPostDetailActivity.doReplaySecond(firstReply.mFirstLevelReplyId);
 					}
 				});
 				content.setText(firstReply.mContent);

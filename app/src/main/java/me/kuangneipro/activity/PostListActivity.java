@@ -12,7 +12,8 @@ import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.PostEntityManager;
-import me.kuangneipro.manager.PostReplyManager;
+import me.kuangneipro.manager.ReplyInfoManager;
+import me.kuangneipro.manager.UnreadManager;
 import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
@@ -138,7 +139,10 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER));
 		}else{
 			PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
+			UnreadManager.dorequest(getHttpRequest(UnreadManager.REQUEST_UNREAD));
 		}
+		
+		
        
 	}
 	
@@ -168,14 +172,28 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 				mListView.onRefreshComplete();
 			}
 			break;
-		case PostReplyManager.DO_REPLAY_FIRST:
-			ReturnInfo ri = PostReplyManager.getReplyReturnInfo(jsonObj);
+		case ReplyInfoManager.DO_REPLY:
+			ReturnInfo ri = ReplyInfoManager.getReplyReturnInfo(jsonObj);
 			if(ri!=null&& ri.getReturnCode() == ReturnInfo.SUCCESS){
 				Toast.makeText(this, "回复成功", Toast.LENGTH_SHORT).show();
+				if(postEntity != null){
+					postEntity.mReplyNum++;
+					if(mPostListAdapter!=null)
+						mPostListAdapter.notifyDataSetChanged();
+				}
 			}else{
-				Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
+				if(ri!=null){
+					Toast.makeText(this, ri.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				}else
+					Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		case UnreadManager.REQUEST_UNREAD:
+			int count = UnreadManager.getUnReadCountFromJson(jsonObj);
+			if(count>0)
+				message.setSelected(true);
+			else
+				message.setSelected(false);
 		default:
 			break;
 		}
@@ -200,7 +218,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	    	startActivity(intent);
 		}else{
 			new AlertDialog.Builder(this)
-			 .setMessage("请先设置昵称，性别，生日和头像后发送帖子")
+			 .setMessage("请先设置昵称和性别后发送帖子")
 			 .setPositiveButton("确定", new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface arg0, int arg1) {
@@ -213,17 +231,24 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	}
 
 	
-	public void doReplay(int postId){
+	public void doReplay(PostEntity postEntity){
 		if(mEmoticonPopupable!=null){
 			mEmoticonPopupable.show();
-			mEmoticonPopupable.getEmoticonSendButton().setTag(postId);
+			mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
 		}
 	}
 
+	/**
+	 * 记录回复的帖子用于加线
+	 */
+	private PostEntity postEntity;
+	
 	@Override
 	public void onSend(View v, String text) {
 		if(!TextUtils.isEmpty(text)){
-			PostReplyManager.doReplayFirst(getHttpRequest(PostReplyManager.DO_REPLAY_FIRST), text, (Integer)v.getTag());
+			postEntity = (PostEntity)v.getTag();
+			
+			ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), postEntity.mUserId, postEntity.mPostId+"", text);
 			mEmoticonPopupable.cleatEmoticonEditText();
 		}else{
 			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();

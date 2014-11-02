@@ -4,7 +4,6 @@ package me.kuangneipro.activity;
 import org.OpenUDID.OpenUDID_manager;
 
 import com.igexin.sdk.PushManager;
-import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
 import me.kuangneipro.R;
 import me.kuangneipro.entity.UserInfo;
@@ -25,8 +24,8 @@ public class SignInActivity extends Activity {
 	private Button signinButton;
 	private Button registerButton;
 	private Button mapButton;
-	private FloatLabeledEditText editPhone;
-	private FloatLabeledEditText editPassword;
+	private EditText editPhone;
+	private EditText editPassword;
 	
 	
 	@Override
@@ -42,8 +41,8 @@ public class SignInActivity extends Activity {
 		PushManager.getInstance().initialize(this.getApplicationContext());
 		
 		signinButton = (Button)findViewById(R.id.btnSignin);
-		editPhone = (FloatLabeledEditText)findViewById(R.id.editPhone);
-		editPassword = (FloatLabeledEditText)findViewById(R.id.editPassword);
+		editPhone = (EditText)findViewById(R.id.editPhone);
+		editPassword = (EditText)findViewById(R.id.editPassword);
 		registerButton = (Button)findViewById(R.id.btnSigninRegister);
 		mapButton = (Button)findViewById(R.id.btnMap);
 		

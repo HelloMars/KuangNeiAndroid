@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -157,10 +156,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				userSeletedImagePath = userInfo.getAvatar();
 				Picasso.with(this)
 	        	.load(userInfo.getAvatar())
-	        	.placeholder(R.drawable.avatar)
-	        	.error(R.drawable.avatar)
-	        	.resize(120, 120)
-	        	.centerCrop()
+	        	.placeholder(R.drawable.loading)
+	        	.error(R.drawable.error)
 	        	.into(avatar);
 				
 				if(!TextUtils.isEmpty(userInfo.getName()) && !getResources().getString(R.string.name_title).equals(userInfo.getName())){
@@ -308,10 +305,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
             
             Picasso.with(this)
         	.load("file:"+userSeletedImagePath)
-        	.placeholder(R.drawable.avatar)
-        	.error(R.drawable.avatar)
-        	.resize(120, 120)
-        	.centerCrop()
+        	.placeholder(R.drawable.loading)
+        	.error(R.drawable.error)
         	.into(avatar);
             
             disableEdit(false);

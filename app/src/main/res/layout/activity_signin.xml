@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:float="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,55 +8,58 @@
     	android:focusableInTouchMode="true"
     	android:layout_width="0px"
     	android:layout_height="0px"/>
+    
+	<Button
+	    android:id="@+id/btnSignin"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/editPassword"
+	    android:layout_alignRight="@+id/editPassword"
+	    android:layout_below="@+id/editPassword"
+	    android:layout_marginTop="47dp"
+	    android:text="@string/signin_button_title" />
 
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:id="@+id/editPhone"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        float:fletFloatingHint="@string/phone_number_hit"
-        float:fletInputType="phone"/>
-
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+    <EditText
         android:id="@+id/editPassword"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@+id/editPhone"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        float:fletFloatingHint="@string/password_hint_signin"
-        float:fletInputType="textPassword"/>
+        android:layout_marginTop="42dp"
+        android:background="@drawable/text_line"
+        android:ems="10"
+        android:hint="@string/password_hint_signin"
+        android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/btnSignin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editPassword"
-        android:layout_alignEnd="@+id/editPassword"
+    <EditText
+        android:id="@+id/editPhone"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
         android:layout_alignLeft="@+id/editPassword"
-        android:layout_alignRight="@+id/editPassword"
-        android:layout_below="@+id/editPassword"
-        android:layout_marginTop="19dp"
-        android:text="@string/signin_button_title" />
-
-    <TextView
-        android:id="@+id/txtFindPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/btnSignin"
-        android:layout_alignRight="@+id/btnSignin"
-        android:layout_below="@+id/btnSignin"
-        android:layout_marginTop="8dp"
-        android:text="@string/find_password_title" />
-
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/text_line"
+        android:ems="10"
+        android:hint="@string/phone_number_hit"
+        android:inputType="phone" />
+    
 	<Button
         android:id="@+id/btnSigninRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtFindPassword"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:text="@string/register_button_title" />
+        
+    <TextView
+        android:id="@+id/txtFindPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/btnSignin"
+        android:layout_below="@+id/btnSignin"
+        android:layout_marginTop="19dp"
+        android:text="@string/find_password_title" />
     
     <Button
         android:id="@+id/btnMap"

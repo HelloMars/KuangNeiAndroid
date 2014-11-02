@@ -4,7 +4,7 @@ public class DebugUtil {
 
 	private static final boolean isDebug = true;
 	
-	public boolean isDebug(){
+	public static boolean isDebug(){
 		return isDebug;
 	}
 	

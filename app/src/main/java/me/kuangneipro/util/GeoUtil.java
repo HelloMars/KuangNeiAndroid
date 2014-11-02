@@ -42,7 +42,7 @@ public class GeoUtil
 			return true;
 		return false;
 	}
-
+		
 	public static LatLngBounds buildBounds(List<LatLng> points) {
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
 		for (LatLng point : points) {

@@ -1,64 +1,71 @@
 package me.kuangneipro.activity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import me.kuangneipro.R;
-import me.kuangneipro.Adapter.PostDetailAdapter;
+import me.kuangneipro.Adapter.ReplyListAdapter;
 import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.emoticon.EmoticonInputDialog;
 import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
-import me.kuangneipro.entity.FirstLevelReplyEntity;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.entity.ReplyInfo;
 import me.kuangneipro.entity.ReturnInfo;
-import me.kuangneipro.manager.PostReplyManager;
+import me.kuangneipro.manager.ReplyInfoManager;
 
 import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.squareup.picasso.Picasso;
 
-public class PostDetailActivity extends HttpActivity {
-	private static final String TAG = "PostDetailActivity";
+public class PostDetailActivity extends HttpActivity implements OnEmoticonMessageSendListener, OnClickListener {
 	
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";
 	
-	private int firstReplyIndex;
+	private PullToRefreshListView mListView;
+	private List<ReplyInfo> mReplyList;
+	private int index = 1;
 	private PostEntity mPost;
-	private List<FirstLevelReplyEntity> mReplyList;
-	private List<FirstLevelReplyEntity> mTempReplyList;
-	
-	private ExpandableListView mExpandableList;
-	private PostDetailAdapter mPostDetailAdapter;
-	
-	private EmoticonPopupable mFirstReplyEmoticonPopupable;
-	private EmoticonPopupable mSecondReplyEmoticonPopupable;
-	
-	private ImageButton btnReply;
 	private View back;
-	
+	private EmoticonPopupable mEmoticonPopupable;
+	private ReplyListAdapter mReplyListAdapter;
 	public PostDetailActivity() {
-		firstReplyIndex = 0;
-		mReplyList = new ArrayList<FirstLevelReplyEntity>();
-		mTempReplyList = new ArrayList<FirstLevelReplyEntity>();
+		mReplyList = new ArrayList<ReplyInfo>();
 	}
 	
+	private View headerView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_detail);
+		
+		mPost = (PostEntity) (getIntent().getParcelableExtra(SELECT_POST_INFO));
+		if(mPost == null){
+			finish();
+			return ;
+		}
+		
+		if (mEmoticonPopupable == null) {
+			mEmoticonPopupable = new EmoticonInputDialog(this, this);
+			//下方输入字数限制.
+			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
+		}
+		
 		back = findViewById(R.id.back);
 		back.setOnClickListener(new OnClickListener() {
 			@Override
@@ -66,156 +73,173 @@ public class PostDetailActivity extends HttpActivity {
 				finish();
 			}
 		});
-		mPost = (PostEntity) (getIntent().getParcelableExtra(SELECT_POST_INFO));
-		btnReply = (ImageButton) findViewById(R.id.btnReply);
-		btnReply.setOnClickListener(new OnClickListener() {
+		
+		
+		mListView = (PullToRefreshListView)findViewById(R.id.list);
+		headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_detai_header, null);
+		ListView l = mListView.getRefreshableView();
+		l.addHeaderView(headerView, null, false);
+		this.fillDetailData();
+        mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+            	index = 1;
+            	ReplyInfoManager.getReplyList(getHttpRequest(ReplyInfoManager.REPLY_KEY_REFRESH), mPost.mPostId, 1);
+            }
+        });
+        mListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 			@Override
-			public void onClick(View arg0) {
-				if(mPost!=null)
-					doReplayFirst();
+			public void onLastItemVisible() {
+				ReplyInfoManager.getReplyList(getHttpRequest(ReplyInfoManager.REPLY_KEY_REFRESH_MORE), mPost.mPostId, ++index);
 			}
 		});
-		
-		
-		mExpandableList = (ExpandableListView) findViewById(R.id.expandableListView);
-		
-		mPostDetailAdapter = new PostDetailAdapter(this, mPost, mReplyList);
-		mExpandableList.setAdapter(mPostDetailAdapter);
-		
-		this.fillDetailData();
-		
-		PostReplyManager.getFirstlevelReplyList(getHttpRequest(PostReplyManager.POST_REPLY_FIRST), mPost.mPostId, 1);
-		
-		if (mFirstReplyEmoticonPopupable == null) {
-			mFirstReplyEmoticonPopupable = new EmoticonInputDialog(this, new OnEmoticonMessageSendListener() {
-				@Override
-				public void onSend(View v, String text) {
-					if(!TextUtils.isEmpty(text) && mPost!=null){
-						PostReplyManager.doReplayFirst(getHttpRequest(PostReplyManager.DO_REPLAY_FIRST), text, mPost.mPostId);
-						mFirstReplyEmoticonPopupable.cleatEmoticonEditText();
-					}else{
-						Toast.makeText(PostDetailActivity.this, "请输入回复的话", Toast.LENGTH_SHORT).show();
-					}
-					
-				}
-			});
-			//下方输入字数限制.
-			mFirstReplyEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
-		}
-		
-		if (mSecondReplyEmoticonPopupable == null) {
-			mSecondReplyEmoticonPopupable = new EmoticonInputDialog(this, new OnEmoticonMessageSendListener() {
-				@Override
-				public void onSend(View v, String text) {
-					if(!TextUtils.isEmpty(text) && mPost!=null){
-						PostReplyManager.doReplaySecond(getHttpRequest(PostReplyManager.DO_REPLAY_FIRST), text,mPost.mPostId , (Integer)v.getTag());
-						mSecondReplyEmoticonPopupable.cleatEmoticonEditText();
-					}else{
-						Toast.makeText(PostDetailActivity.this, "请输入回复的话", Toast.LENGTH_SHORT).show();
-					}
-					
-				}
-			});
-			//下方输入字数限制.
-			mSecondReplyEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
-		}
+        
+        ReplyInfoManager.getReplyList(getHttpRequest(ReplyInfoManager.REPLY_KEY_REFRESH), mPost.mPostId, 1);
 	}
 	
-	public void doReplayFirst(){
-		if(mFirstReplyEmoticonPopupable!=null){
-			mFirstReplyEmoticonPopupable.show();
-		}
-	}
-	
-	public void doReplaySecond(int firstReplyId){
-		if(mSecondReplyEmoticonPopupable!=null){
-			mSecondReplyEmoticonPopupable.show();
-			mSecondReplyEmoticonPopupable.getEmoticonSendButton().setTag(firstReplyId);
-		}
-	}
 	
 	@Override
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
 		switch (id) {
-		case PostReplyManager.POST_REPLY_FIRST:
+		case ReplyInfoManager.REPLY_KEY_REFRESH:
 			mReplyList.clear();
-			mTempReplyList.clear();
-			PostReplyManager.fillFirstReplyListFromJson(jsonObj, mTempReplyList);
-			Log.i(TAG, "requestComplete " + mTempReplyList.size());
-			firstReplyIndex = 0;
-			for (int i = 0; i < mTempReplyList.size(); ++i) {
-				FirstLevelReplyEntity reply = mTempReplyList.get(i);
-				Log.i(TAG, "FirstLevelReplyEntity:" + reply.mContent);
-				PostReplyManager.getSecondlevelReplyList(getHttpRequest(PostReplyManager.POST_REPLY_SECOND), reply.mFirstLevelReplyId, 1);
+		case ReplyInfoManager.REPLY_KEY_REFRESH_MORE:
+			ReplyInfoManager.fillReplyListFromJson(jsonObj, mReplyList);
+			if(mReplyListAdapter==null){
+				mReplyListAdapter = new ReplyListAdapter(this, mReplyList,Integer.parseInt(mPost.mUserId.trim()));
+				mListView.setAdapter(mReplyListAdapter);
+			}else{
+				mReplyListAdapter.notifyDataSetChanged();
+				mListView.onRefreshComplete();
 			}
 			break;
-		case PostReplyManager.POST_REPLY_SECOND:
-			int firstLevelReplyId = PostReplyManager.peekFirstLevelReplyId(jsonObj);
-			//int firstLevelReplyId = PostReplyManager.peekFirstLevelReplyId(jsonObj);
-			if (firstLevelReplyId > 0) {
-				FirstLevelReplyEntity firstReply = getFirstLevelReply(firstLevelReplyId);
-				if(firstReply!=null){
-					firstReply.mSecondlevelReplyList.clear();
-					PostReplyManager.fillSecondReplyListFromJson(jsonObj, firstReply.mSecondlevelReplyList);
-					mReplyList.add(firstReply);
-				}
-			}
-			Collections.sort(mReplyList);
-			mPostDetailAdapter.notifyDataSetChanged();
-			break;
-		case PostReplyManager.DO_REPLAY_FIRST:
-			ReturnInfo ri = PostReplyManager.getReplyReturnInfo(jsonObj);
+		case ReplyInfoManager.DO_REPLY:
+			ReturnInfo ri = ReplyInfoManager.getReplyReturnInfo(jsonObj);
 			if(ri!=null&& ri.getReturnCode() == ReturnInfo.SUCCESS){
 				Toast.makeText(this, "回复成功", Toast.LENGTH_SHORT).show();
+				index = 1;
+				mPost.mReplyNum++;
+				fillDetailData();
+	            ReplyInfoManager.getReplyList(getHttpRequest(ReplyInfoManager.REPLY_KEY_REFRESH), mPost.mPostId, 1);
 			}else{
-				Toast.makeText(this, ri.getReturnMessage(), Toast.LENGTH_SHORT).show();
-			}
-		case PostReplyManager.DO_REPLAY_SECOND:
-			ReturnInfo returnInfo = PostReplyManager.getReplyReturnInfo(jsonObj);
-			if(returnInfo!=null&& returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
-				Toast.makeText(this, "回复成功", Toast.LENGTH_SHORT).show();
-			}else{
-				Toast.makeText(this, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				if(ri!=null){
+					Toast.makeText(this, ri.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				}else
+					Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		}
+	}
+	
+	
+	private void fillDetailData() {
+		TextView name = (TextView) headerView.findViewById(R.id.txtName);
+		TextView date = (TextView) headerView.findViewById(R.id.txtDate);
+		TextView content = (TextView)headerView. findViewById(R.id.txtContent);
+		
+		TextView likeNum = (TextView) headerView.findViewById(R.id.txtLikeNum);
+		TextView replyNum = (TextView)headerView. findViewById(R.id.txtReplyNum);
+		
+		ImageView imageView1 = (ImageView)headerView.findViewById(R.id.imageView1);
+		ImageView imageView2 = (ImageView)headerView.findViewById(R.id.imageView2);
+		ImageView imageView3 = (ImageView)headerView.findViewById(R.id.imageView3);
+		
+		imageView1.setVisibility(View.GONE);
+		imageView2.setVisibility(View.GONE);
+		imageView3.setVisibility(View.GONE);
+		
+		name.setText(mPost.mUserName);
+		likeNum.setText(Integer.toString(mPost.mLikeNum));
+		replyNum.setText(Integer.toString(mPost.mReplyNum));
+		content.setText(mPost.mContent);
+		date.setText(mPost.getDate());
+		
+		View btnReply = headerView.findViewById(R.id.btnReply);
+		View btnLike = headerView.findViewById(R.id.btnLike);
+		
+		btnReply.setOnClickListener(this);
+		btnLike.setOnClickListener(this);
+		
+		if(mPost.mPictures!=null)
+			for(int i=0;i<mPost.mPictures.size();i++){
+				switch (i) {
+				case 0:
+				{
+					imageView1.setVisibility(View.VISIBLE);
+					Picasso.with(this)
+		        	.load(mPost.mPictures.get(i))
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
+		        	.into(imageView1);
+					break;
+				}
+				case 1:
+				{
+					imageView2.setVisibility(View.VISIBLE);
+					Picasso.with(this)
+		        	.load(mPost.mPictures.get(i))
+		        	.placeholder(R.drawable.loading)
+		        	.error(R.drawable.error)
+		        	.into(imageView2);
+					break;
+				}
+				case 2:
+				{
+					imageView3.setVisibility(View.VISIBLE);
+					Picasso.with(this)
+		        	.load(mPost.mPictures.get(i))
+		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
+		        	.placeholder(R.drawable.ic_launcher)
+		        	.error(android.R.drawable.ic_menu_report_image)
+		        	.into(imageView3);
+					break;
+				}
+
+				default:
+					break;
+				}
+			}
+		
+	}
+
+	public void doReplay(ReplyInfo replyInfo){
+		if(mEmoticonPopupable!=null){
+			mEmoticonPopupable.show();
+			mEmoticonPopupable.getEmoticonSendButton().setTag(replyInfo);
+		}
+	}
+
+	@Override
+	public void onSend(View v, String text) {
+		if(!TextUtils.isEmpty(text)){
+			ReplyInfo replyInfo = (ReplyInfo)v.getTag();
+			if(replyInfo==null){
+				ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), mPost.mUserId, mPost.mPostId+"", text);
+			}else{
+				if(replyInfo.replyUser!=null)
+					ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.replyUser.id+"", replyInfo.postId+"", text);
+				else
+					ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.toUser.id+"", replyInfo.postId+"", text);
+			}
+			
+			mEmoticonPopupable.cleatEmoticonEditText();
+		}else{
+			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btnReply:
+			doReplay(null);
+			break;
+
 		default:
 			break;
 		}
-	}
-	
-	
-	
-	private FirstLevelReplyEntity getFirstLevelReply(int firstLevelReplyId) {
-		for (int i = 0; i < mTempReplyList.size(); ++i) {
-			FirstLevelReplyEntity reply = mTempReplyList.get(i);
-			if (firstLevelReplyId == reply.mFirstLevelReplyId)
-				return reply;
-		}
-		return null;
-	}
-	
-	private void fillDetailData() {
-		ImageView icon = (ImageView) findViewById(R.id.imgIcon);
-		TextView name = (TextView) findViewById(R.id.txtName);
-		TextView date = (TextView) findViewById(R.id.txtDate);
-		TextView dislikeNum = (TextView) findViewById(R.id.txtDislikeNum);
-		TextView likeNum = (TextView) findViewById(R.id.txtLikeNum);
-		TextView replyNum = (TextView) findViewById(R.id.txtReplyNum);
 		
-		name.setText(mPost.mUserName);
-		dislikeNum.setText(Integer.toString(mPost.mDislikeNum));
-		likeNum.setText(Integer.toString(mPost.mLikeNum));
-		replyNum.setText(Integer.toString(mPost.mReplyNum));
-		date.setText(mPost.getDate());
-		Picasso.with(this)
-        	.load(mPost.mUserAvatar)
-        	.placeholder(android.R.drawable.ic_menu_my_calendar)
-        	.placeholder(R.drawable.ic_launcher)
-        	.error(android.R.drawable.ic_menu_report_image)
-        	.resize(80, 80)
-        	.centerCrop()
-        	.into(icon);
 	}
 
 }

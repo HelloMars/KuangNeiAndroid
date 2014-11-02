@@ -58,9 +58,9 @@ public class PostEntityManager {
 	    		PostEntity channel = new PostEntity(
 	    				oneJson.getInt("postId"),
 	    				oneJson.getInt("channelId"),
-	    				user.getString("id"),
-	    				user.getString("name"),
-	    				user.getString("avatar"),
+	    				user.optString("id"),
+	    				user.optString("name"),
+	    				user.optString("avatar"),
 	    				oneJson.getString("content"),
 	    				oneJson.getInt("opposedCount"),
 	    				oneJson.getInt("upCount"),

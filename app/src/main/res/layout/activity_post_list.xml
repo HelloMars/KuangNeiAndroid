@@ -15,7 +15,7 @@
             android:id="@+id/message"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/email_off"
+            android:src="@drawable/email"
             android:contentDescription="@null"/>
         <TextView 
             android:id="@+id/school"
@@ -50,7 +50,7 @@
 	    android:paddingRight="4dp"
 	    android:paddingTop="0px"
 	    android:divider="@null"
-	    android:background="#f8f8f8"
+	    android:background="#E6E6E6"
         android:layout_centerHorizontal="true"
         android:headerDividersEnabled="false" />
 
