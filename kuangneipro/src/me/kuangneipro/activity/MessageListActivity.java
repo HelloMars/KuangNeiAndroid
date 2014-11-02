@@ -156,11 +156,13 @@ public class MessageListActivity extends HttpActivity implements OnEmoticonMessa
 			ReplyInfo replyInfo = (ReplyInfo)v.getTag();
 			if(replyInfo == null ) 
 				return;
-			if(replyInfo.replyUser!=null)
+			if(replyInfo.replyUser!=null){
+				Log.e("xxx", replyInfo.replyUser.id+"  "+replyInfo.postId+"");
 				ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.replyUser.id+"", replyInfo.postId+"", text);
-			else
+			}else{
+				Log.e("xxx", replyInfo.toUser.id+" ！"+replyInfo.postId+"");
 				ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.toUser.id+"", replyInfo.postId+"", text);
-			
+			}
 			mEmoticonPopupable.cleatEmoticonEditText();
 		}else{
 			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();

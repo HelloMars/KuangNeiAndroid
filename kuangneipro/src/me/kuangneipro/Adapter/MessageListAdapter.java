@@ -77,41 +77,30 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 			//漂流瓶
 			//背景红
 			rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
-			
-			holder.date.setText(message.replyInfo.getDate());
-
-			holder.to.setVisibility(View.VISIBLE);
-			holder.reply.setVisibility(View.VISIBLE);
-			holder.to.setText(message.replyInfo.toUser.name);
-			holder.to.setOnClickListener(this);
-			holder.from.setText(message.replyInfo.fromUser.name);
-			holder.from.setOnClickListener(this);
-			holder.content.setText(message.replyInfo.content);
-			if (position == getCount() - 1)
-				holder.split.setVisibility(View.GONE);
-			else
-				holder.split.setVisibility(View.VISIBLE);
+		
 		}else{
 			//普通消息
 			//背景红
 			rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
-			
-			
-			holder.date.setText(message.replyInfo.getDate());
-
-			holder.to.setVisibility(View.VISIBLE);
-			holder.reply.setVisibility(View.VISIBLE);
-			holder.to.setText(message.replyInfo.toUser.name);
-			holder.to.setOnClickListener(this);
-			holder.from.setText(message.replyInfo.fromUser.name);
-			holder.from.setOnClickListener(this);
-			holder.content.setText(message.replyInfo.content);
-			if (position == getCount() - 1)
-				holder.split.setVisibility(View.GONE);
-			else
-				holder.split.setVisibility(View.VISIBLE);
+		
 		}
 		
+		
+		holder.date.setText(message.replyInfo.getDate());
+
+		holder.to.setVisibility(View.VISIBLE);
+		holder.to.setTag(message.replyInfo);
+		holder.from.setTag(message.replyInfo);
+		holder.reply.setVisibility(View.VISIBLE);
+		holder.to.setText(message.replyInfo.toUser.name);
+		holder.to.setOnClickListener(this);
+		holder.from.setText(message.replyInfo.fromUser.name);
+		holder.from.setOnClickListener(this);
+		holder.content.setText(message.replyInfo.content);
+		if (position == getCount() - 1)
+			holder.split.setVisibility(View.GONE);
+		else
+			holder.split.setVisibility(View.VISIBLE);
 		
 
 		return rowView;

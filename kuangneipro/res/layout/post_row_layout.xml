@@ -45,9 +45,11 @@
             
             <ImageView
                 android:id="@+id/sex"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_toRightOf="@+id/txtName"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="2dp"
+                android:layout_alignTop="@id/txtName"
+                android:layout_toRightOf="@id/txtName"
                 android:layout_centerVertical="true"
                 android:src="@drawable/sex" 
                 android:visibility="gone"/>

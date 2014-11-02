@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class PostingActivity extends HttpActivity{
@@ -37,7 +37,7 @@ public class PostingActivity extends HttpActivity{
 	private EmoticonPopupable mEmoticonPopupable;
 	private final List<UploadImage> mUploadImages;
 	private PostingImageAdapter mPostingImageAdapter;
-	private ImageButton imgBtnChoose;
+	private ImageView imgBtnChoose;
 	private View back;
 	private View posting;
 	
@@ -84,7 +84,7 @@ public class PostingActivity extends HttpActivity{
 		EmoticonRelativeLayout rootLayout = (EmoticonRelativeLayout) findViewById(R.id.RelativeLayout1);
 		rootLayout.setEmoticonInputPopupView((EmoticonInputPopupView)mEmoticonPopupable);
 		
-		imgBtnChoose = (ImageButton) findViewById(R.id.imgBtnChoose);
+		imgBtnChoose = (ImageView) findViewById(R.id.imgBtnChoose);
 		imgBtnChoose.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {

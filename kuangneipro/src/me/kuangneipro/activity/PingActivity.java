@@ -65,7 +65,7 @@ public class PingActivity extends HttpActivity{
     		Toast.makeText(this, warnning, Toast.LENGTH_LONG).show();
     		setPostingButtonEable(true);
     	} else {
-    		ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), -1+"", -1+"", message);
+    		ReplyInfoManager.doReplay(this, -1+"", -1+"", message);
     		finish();
     	}
 	}

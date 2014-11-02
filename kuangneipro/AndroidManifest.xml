@@ -253,6 +253,17 @@
                 android:value="me.kuangneipro.activity.PostListActivity" />
         </activity>
         <activity
+            android:name=".activity.PingActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_posting"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.kuangneipro.activity.PostListActivity" />
+        </activity>
+        <activity
             android:name=".activity.PersonalInfoActivity"
             android:excludeFromRecents="true"
             android:label="@string/action_settings"

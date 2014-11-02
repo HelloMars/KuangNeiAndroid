@@ -81,6 +81,9 @@ public class MessageInfoManager {
 		    				user.optInt("sex"),
 		    				pictureList);
 		    		
+		    		if(reply.postId == 0)
+		    			reply.postId = postj.getInt("postId");
+		    		
 		    		messageInfo.replyInfo = reply;
 		    		messageInfo.postEntity = post;
 		    		

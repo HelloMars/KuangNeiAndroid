@@ -103,14 +103,14 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		holder.btnLike.setOnClickListener(this);
 		holder.btnLike.setTag(mPosts.get(position));
 		if(SexUtil.isValid(mPosts.get(position).mSex)){
-			viewHolder.sex.setVisibility(View.VISIBLE);
+			holder.sex.setVisibility(View.VISIBLE);
 			if(SexUtil.isMale(mPosts.get(position).mSex)){
-				viewHolder.sex.setSelected(false);
+				holder.sex.setSelected(false);
 			}else{
-				viewHolder.sex.setSelected(true);
+				holder.sex.setSelected(true);
 			}
 		}else{
-			viewHolder.sex.setVisibility(View.GONE);
+			holder.sex.setVisibility(View.GONE);
 		}
 		
 		holder.content.setText(post.mContent);

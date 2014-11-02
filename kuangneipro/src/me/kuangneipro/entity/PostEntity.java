@@ -77,6 +77,7 @@ public final class PostEntity implements Parcelable {
 		parcel.writeInt(mDislikeNum);
 		parcel.writeInt(mLikeNum);
 		parcel.writeInt(mReplyNum);
+		parcel.writeInt(mSex);
 		parcel.writeSerializable(mDate);
 		parcel.writeInt(mPictures.size());
 		for (int i = 0; i < mPictures.size(); ++i)
@@ -97,6 +98,7 @@ public final class PostEntity implements Parcelable {
 			postEntity.mDislikeNum = source.readInt();
 			postEntity.mLikeNum = source.readInt();
 			postEntity.mReplyNum = source.readInt();
+			postEntity.mSex = source.readInt();
 			postEntity.mDate = (Date)source.readSerializable();
 			postEntity.mPictures = new ArrayList<String>();
 			int picNum = source.readInt();
