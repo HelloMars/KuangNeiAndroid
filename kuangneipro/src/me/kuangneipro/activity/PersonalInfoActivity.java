@@ -62,6 +62,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private View signEditLayout;
 	private View signSubmit;
 	
+	@SuppressWarnings("unused")
 	private boolean canSave;
 	
 	private String lastName;

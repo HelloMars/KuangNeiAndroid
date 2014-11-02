@@ -2,7 +2,6 @@ package me.kuangneipro.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.ReplyListAdapter;
@@ -13,10 +12,13 @@ import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReplyInfo;
 import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.UpInfo;
 import me.kuangneipro.manager.ReplyInfoManager;
+import me.kuangneipro.manager.UpInfoManager;
 
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -33,7 +35,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.squareup.picasso.Picasso;
 
-public class PostDetailActivity extends HttpActivity implements OnEmoticonMessageSendListener, OnClickListener {
+@SuppressLint("InflateParams") public class PostDetailActivity extends HttpActivity implements OnEmoticonMessageSendListener, OnClickListener {
 	
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";
 	
@@ -129,6 +131,22 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 					Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		case UpInfoManager.DO_UP:
+			if(mPost != null){
+				ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
+				if(returnInfo != null  && returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+					UpInfo upInfo = UpInfoManager.getReplyReturnInfo(jsonObj);
+					mPost.mLikeNum = upInfo.upCount;
+					mPost.mLikeSelected = upInfo.isDo();
+					fillDetailData();
+					Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
+				}else if(returnInfo != null){
+					Toast.makeText(this, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(this, "点赞失败", Toast.LENGTH_SHORT).show();
+				}
+			}
+			break;
 		}
 	}
 	
@@ -149,6 +167,8 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		imageView2.setVisibility(View.GONE);
 		imageView3.setVisibility(View.GONE);
 		
+		
+		
 		name.setText(mPost.mUserName);
 		likeNum.setText(Integer.toString(mPost.mLikeNum));
 		replyNum.setText(Integer.toString(mPost.mReplyNum));
@@ -158,6 +178,8 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		View btnReply = headerView.findViewById(R.id.btnReply);
 		View btnLike = headerView.findViewById(R.id.btnLike);
 		
+		
+		btnLike.setSelected(mPost.mLikeSelected);
 		btnReply.setOnClickListener(this);
 		btnLike.setOnClickListener(this);
 		
@@ -202,6 +224,11 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 			}
 		
 	}
+	
+	public void doUp(){
+		if(mPost!=null)
+			UpInfoManager.doUp(getHttpRequest(UpInfoManager.DO_UP), mPost.mPostId+"");
+	}
 
 	public void doReplay(ReplyInfo replyInfo){
 		if(mEmoticonPopupable!=null){
@@ -235,7 +262,9 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		case R.id.btnReply:
 			doReplay(null);
 			break;
-
+		case R.id.btnLike:
+			doUp();
+			break;
 		default:
 			break;
 		}

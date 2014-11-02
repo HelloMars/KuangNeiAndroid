@@ -25,6 +25,7 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 		private TextView from;
 		private TextView to;
 		private TextView reply;
+		private TextView date;
 		private View split;
 	}
 
@@ -62,6 +63,7 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 			viewHolder.content = (TextView) rowView.findViewById(R.id.content);
 			viewHolder.from = (TextView) rowView.findViewById(R.id.from);
 			viewHolder.to = (TextView) rowView.findViewById(R.id.to);
+			viewHolder.date = (TextView) rowView.findViewById(R.id.date);
 			viewHolder.reply = (TextView) rowView.findViewById(R.id.reply);
 			viewHolder.split = rowView.findViewById(R.id.split);
 			rowView.setTag(viewHolder);
@@ -70,6 +72,8 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 		// fill data
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		ReplyInfo reply = replays.get(position);
+		
+		holder.date.setText(reply.getDate());
 		
 		if(reply.toUser.id == postUserId){
 			holder.to.setVisibility(View.GONE);

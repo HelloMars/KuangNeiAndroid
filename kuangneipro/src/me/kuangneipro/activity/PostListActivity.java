@@ -10,10 +10,12 @@ import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.UpInfo;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UnreadManager;
+import me.kuangneipro.manager.UpInfoManager;
 import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
@@ -188,6 +190,26 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 					Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		case UpInfoManager.DO_UP:
+			if(postEntity != null){
+				
+				ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
+				if(returnInfo != null  && returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+					UpInfo upInfo = UpInfoManager.getReplyReturnInfo(jsonObj);
+					postEntity.mLikeNum = upInfo.upCount;
+					postEntity.mLikeSelected = upInfo.isDo();
+					if(mPostListAdapter!=null)
+						mPostListAdapter.notifyDataSetChanged();
+					Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
+				}else if(returnInfo != null){
+					Toast.makeText(this, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(this, "点赞失败", Toast.LENGTH_SHORT).show();
+				}
+				
+				
+			}
+			break;
 		case UnreadManager.REQUEST_UNREAD:
 			int count = UnreadManager.getUnReadCountFromJson(jsonObj);
 			if(count>0)
@@ -230,6 +252,11 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		}
 	}
 
+	
+	public void doUp(PostEntity postEntity){
+		this.postEntity = postEntity;
+		UpInfoManager.doUp(getHttpRequest(UpInfoManager.DO_UP), postEntity.mPostId+"");
+	}
 	
 	public void doReplay(PostEntity postEntity){
 		if(mEmoticonPopupable!=null){

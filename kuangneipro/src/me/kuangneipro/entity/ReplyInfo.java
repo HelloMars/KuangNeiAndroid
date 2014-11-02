@@ -2,6 +2,8 @@ package me.kuangneipro.entity;
 
 import java.util.Date;
 
+import me.kuangneipro.util.DateUtil;
+
 /**
  * 回复帖子信息
  * @author connorlu
@@ -23,6 +25,9 @@ public class ReplyInfo {
 	
 	public User replyUser;
 	
+	public String getDate() {
+		return DateUtil.getReadableDateStr(replyTime);
+	}
 	
 	public static class User{
 		public int id;

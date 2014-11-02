@@ -1,6 +1,8 @@
 package me.kuangneipro.util;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +15,7 @@ public class DateUtil {
 			return formatter.parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			Log.e("data error", dateStr);
 			return new Date();
 		}
 	}
