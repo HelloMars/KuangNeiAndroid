@@ -46,7 +46,7 @@ public class MessageInfoManager {
 		    		reply.id = oneJson.optInt("id");
 		    		reply.ReplyId = oneJson.optInt("ReplyId");
 		    		reply.editStatus = oneJson.optInt("editStatus");
-		    		reply.replyTime = DateUtil.parseDateFromStr("replyTime");
+		    		reply.replyTime = DateUtil.parseDateFromStr(oneJson.optString("replyTime"));
 		    		reply.content = oneJson.optString("content");
 		    		reply.upCount = oneJson.optInt("upCount");
 		    		User toUser = new User();
