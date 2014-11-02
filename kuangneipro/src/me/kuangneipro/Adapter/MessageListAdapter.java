@@ -63,8 +63,6 @@ public class MessageListAdapter extends ArrayAdapter<MessageEntity> {
         	.placeholder(android.R.drawable.ic_menu_my_calendar)
         	.placeholder(R.drawable.ic_launcher)
         	.error(android.R.drawable.ic_menu_report_image)
-        	.resize(80, 80)
-        	.centerCrop()
         	.into(viewHolder.icon);
 		
 		// Return the completed view to render on screen

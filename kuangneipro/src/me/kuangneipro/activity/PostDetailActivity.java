@@ -172,8 +172,6 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
 		        	.placeholder(R.drawable.ic_launcher)
 		        	.error(android.R.drawable.ic_menu_report_image)
-		        	.resize(80, 80)
-		        	.centerCrop()
 		        	.into(imageView1);
 					break;
 				}
@@ -185,8 +183,6 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
 		        	.placeholder(R.drawable.ic_launcher)
 		        	.error(android.R.drawable.ic_menu_report_image)
-		        	.resize(80, 80)
-		        	.centerCrop()
 		        	.into(imageView2);
 					break;
 				}
@@ -198,8 +194,6 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		        	.placeholder(android.R.drawable.ic_menu_my_calendar)
 		        	.placeholder(R.drawable.ic_launcher)
 		        	.error(android.R.drawable.ic_menu_report_image)
-		        	.resize(80, 80)
-		        	.centerCrop()
 		        	.into(imageView3);
 					break;
 				}

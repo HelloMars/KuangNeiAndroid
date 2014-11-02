@@ -103,8 +103,6 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
         	.placeholder(android.R.drawable.ic_menu_my_calendar)
         	.placeholder(R.drawable.ic_launcher)
         	.error(android.R.drawable.ic_menu_report_image)
-        	.resize(80, 80)
-        	.centerCrop()
         	.into(holder.icon);
 		for (int i = 0; i < holder.pictures.length; ++i) {
 			if (i < post.mPictures.size()){
@@ -119,8 +117,6 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		        	.load(picUrl)
 		        	.placeholder(android.R.drawable.ic_menu_gallery)
 		        	.error(android.R.drawable.ic_menu_report_image)
-		        	.resize(120, 120)
-		        	.centerCrop()
 		        	.into(holder.pictures[i]);
 			} else {
 				holder.pictures[i].setVisibility(View.GONE);

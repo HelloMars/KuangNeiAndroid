@@ -158,8 +158,6 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	        	.load(userInfo.getAvatar())
 	        	.placeholder(R.drawable.avatar)
 	        	.error(R.drawable.avatar)
-	        	.resize(120, 120)
-	        	.centerCrop()
 	        	.into(avatar);
 				
 				if(!TextUtils.isEmpty(userInfo.getName()) && !getResources().getString(R.string.name_title).equals(userInfo.getName())){
@@ -309,8 +307,6 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
         	.load("file:"+userSeletedImagePath)
         	.placeholder(R.drawable.avatar)
         	.error(R.drawable.avatar)
-        	.resize(120, 120)
-        	.centerCrop()
         	.into(avatar);
             
             disableEdit(false);
