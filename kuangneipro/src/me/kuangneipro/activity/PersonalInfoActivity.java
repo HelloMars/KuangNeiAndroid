@@ -156,8 +156,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				userSeletedImagePath = userInfo.getAvatar();
 				Picasso.with(this)
 	        	.load(userInfo.getAvatar())
-	        	.placeholder(R.drawable.avatar)
-	        	.error(R.drawable.avatar)
+	        	.placeholder(R.drawable.loading)
+	        	.error(R.drawable.error)
 	        	.into(avatar);
 				
 				if(!TextUtils.isEmpty(userInfo.getName()) && !getResources().getString(R.string.name_title).equals(userInfo.getName())){
@@ -305,8 +305,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
             
             Picasso.with(this)
         	.load("file:"+userSeletedImagePath)
-        	.placeholder(R.drawable.avatar)
-        	.error(R.drawable.avatar)
+        	.placeholder(R.drawable.loading)
+        	.error(R.drawable.error)
         	.into(avatar);
             
             disableEdit(false);

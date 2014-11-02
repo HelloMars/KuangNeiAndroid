@@ -60,9 +60,8 @@ public class MessageListAdapter extends ArrayAdapter<MessageEntity> {
 
 		Picasso.with(getContext())
         	.load(message.mUserAvatar)
-        	.placeholder(android.R.drawable.ic_menu_my_calendar)
-        	.placeholder(R.drawable.ic_launcher)
-        	.error(android.R.drawable.ic_menu_report_image)
+        	.placeholder(R.drawable.loading)
+        	.error(R.drawable.error)
         	.into(viewHolder.icon);
 		
 		// Return the completed view to render on screen
