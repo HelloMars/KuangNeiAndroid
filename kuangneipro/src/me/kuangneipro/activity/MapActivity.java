@@ -93,6 +93,12 @@ public class MapActivity extends HttpActivity {
         
         //个推请求clientid,并注册接收监听
         PushManager.getInstance().initialize(this.getApplicationContext());
+        
+        if (UserInfo.loadSelfUserInfo() != null) {
+			Intent intent = new Intent(this, PostListActivity.class);
+			this.startActivity(intent);
+			this.finish();
+		}
       		
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
@@ -183,12 +189,6 @@ public class MapActivity extends HttpActivity {
 		}
 
         MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
-        
-        if (UserInfo.loadSelfUserInfo() != null) {
-			Intent intent = new Intent(this, PostListActivity.class);
-			this.startActivity(intent);
-			this.finish();
-		}
     }
 
     @Override
@@ -331,6 +331,7 @@ public class MapActivity extends HttpActivity {
             public void onClick(View arg0) {
                 Intent intent = new Intent(MapActivity.this, PostListActivity.class);
                 startActivity(intent);
+                MapActivity.this.finish();
             }
         });
         startButton.setEnabled(false);
