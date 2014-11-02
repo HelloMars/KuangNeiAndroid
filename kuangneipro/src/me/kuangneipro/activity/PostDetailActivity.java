@@ -2,6 +2,7 @@ package me.kuangneipro.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import me.kuangneipro.R;
 import me.kuangneipro.Adapter.ReplyListAdapter;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -46,6 +48,7 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		mReplyList = new ArrayList<ReplyInfo>();
 	}
 	
+	private View headerView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +59,6 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 			finish();
 			return ;
 		}
-		this.fillDetailData();
 		
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
@@ -74,6 +76,10 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		
 		
 		mListView = (PullToRefreshListView)findViewById(R.id.list);
+		headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_detai_header, null);
+		ListView l = mListView.getRefreshableView();
+		l.addHeaderView(headerView, null, false);
+		this.fillDetailData();
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -128,16 +134,16 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 	
 	
 	private void fillDetailData() {
-		TextView name = (TextView) findViewById(R.id.txtName);
-		TextView date = (TextView) findViewById(R.id.txtDate);
-		TextView content = (TextView) findViewById(R.id.txtContent);
+		TextView name = (TextView) headerView.findViewById(R.id.txtName);
+		TextView date = (TextView) headerView.findViewById(R.id.txtDate);
+		TextView content = (TextView)headerView. findViewById(R.id.txtContent);
 		
-		TextView likeNum = (TextView) findViewById(R.id.txtLikeNum);
-		TextView replyNum = (TextView) findViewById(R.id.txtReplyNum);
+		TextView likeNum = (TextView) headerView.findViewById(R.id.txtLikeNum);
+		TextView replyNum = (TextView)headerView. findViewById(R.id.txtReplyNum);
 		
-		ImageView imageView1 = (ImageView)findViewById(R.id.imageView1);
-		ImageView imageView2 = (ImageView)findViewById(R.id.imageView2);
-		ImageView imageView3 = (ImageView)findViewById(R.id.imageView3);
+		ImageView imageView1 = (ImageView)headerView.findViewById(R.id.imageView1);
+		ImageView imageView2 = (ImageView)headerView.findViewById(R.id.imageView2);
+		ImageView imageView3 = (ImageView)headerView.findViewById(R.id.imageView3);
 		
 		imageView1.setVisibility(View.GONE);
 		imageView2.setVisibility(View.GONE);
@@ -149,8 +155,8 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		content.setText(mPost.mContent);
 		date.setText(mPost.getDate());
 		
-		View btnReply = findViewById(R.id.btnReply);
-		View btnLike = findViewById(R.id.btnLike);
+		View btnReply = headerView.findViewById(R.id.btnReply);
+		View btnLike = headerView.findViewById(R.id.btnLike);
 		
 		btnReply.setOnClickListener(this);
 		btnLike.setOnClickListener(this);
