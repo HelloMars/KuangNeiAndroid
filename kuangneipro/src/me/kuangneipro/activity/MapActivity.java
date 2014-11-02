@@ -7,6 +7,7 @@ import me.kuangneipro.R;
 import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UserInfo;
+import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.manager.MapEntityManager;
 import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.GeoUtil;
@@ -52,12 +53,14 @@ public class MapActivity extends HttpActivity {
 	public MyLocationListenner myListener = new MyLocationListenner();
 	boolean isFirstLoc = true;// 是否首次定位
 	boolean isFirstIn = true;// 是否首次进入
+	boolean isLocked = false;// 是否已经锁住kuang
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
     private UiSettings mUiSettings;
-	
-	private List<List<LatLng>> mPolygons = new ArrayList<List<LatLng>>();
+
+	private List<KuangInfo> mKuangs = new ArrayList<KuangInfo>();
+	private KuangInfo mKuang = null;
 	
 	/**
 	 * 当前地点击点
@@ -181,9 +184,7 @@ public class MapActivity extends HttpActivity {
 
         MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
         
-        if (UserInfo.loadSelfUserInfo() == null) {
-			UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER));
-		} else {
+        if (UserInfo.loadSelfUserInfo() != null) {
 			Intent intent = new Intent(this, PostListActivity.class);
 			this.startActivity(intent);
 			this.finish();
@@ -192,14 +193,14 @@ public class MapActivity extends HttpActivity {
 
     @Override
     protected void requestComplete(int id, JSONObject jsonObj) {
-        mPolygons.clear();
+        mKuangs.clear();
         super.requestComplete(id, jsonObj);
         switch (id) {
             case MapEntityManager.MAP_KEY_GET:
                 ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
                 Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
-                MapEntityManager.fillKuangListFromJson(jsonObj, mPolygons, mBaiduMap);
-                if (mPolygons.isEmpty()) {
+                MapEntityManager.fillKuangListFromJson(jsonObj, mKuangs, mBaiduMap);
+                if (mKuangs.isEmpty()) {
                     Toast.makeText(this, "恭喜中奖，获取框们失败", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -239,17 +240,31 @@ public class MapActivity extends HttpActivity {
     }
 
     private boolean isIn(LatLng point) {
-		for (List<LatLng> pts : mPolygons) {
-            if (GeoUtil.isPointInPolygon(point, pts)) {
+		for (KuangInfo kuang : mKuangs) {
+            if (kuang.isIn(point)) {
             	if (isFirstIn) {
     				isFirstIn = false;
-    				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(GeoUtil.buildBounds(pts));
+    				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(kuang.buildBounds());
                     mBaiduMap.animateMapStatus(u);
     			}
+            	mKuang = kuang;
                 return true;
             }
 		}
 		return false;
+    }
+    
+    private void lockKuang() {
+    	if (mKuang != null) {
+	    	if (UserInfo.loadSelfUserInfo() == null) {
+				mState2Bar.setText("定位认证成功，等待注册");
+				UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER), mKuang.getId());
+			} else {
+				mState2Bar.setText("定位认证成功");
+				startButton.setEnabled(true);
+				isLocked = true;
+			}
+    	}
     }
     
 	private void initListener() {
@@ -351,10 +366,10 @@ public class MapActivity extends HttpActivity {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			// map view 销毁后不在处理新接收的位置
-			if (location == null || mMapView == null)
+			if (location == null || mMapView == null || isLocked)
 				return;
 			
-			if (mPolygons.isEmpty()) {
+			if (mKuangs.isEmpty()) {
 				MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
 			}
 
@@ -388,15 +403,13 @@ public class MapActivity extends HttpActivity {
 				boolean isIn = isIn(new LatLng(location.getLatitude(), location.getLongitude()));
 				if (location.getLocType() == 61) { // GPS 定位结果
 					if (isIn) {
-						mState2Bar.setText("定位认证成功");
-                        startButton.setEnabled(true);
+						lockKuang();
 					} else {
 						mState2Bar.setText("定位不在框内，无法进入(等待GPS调整位置中...)");
 					}
 				} else if (location.getLocType() == 161 && location.getNetworkLocationType().equals("wf")) { // wifi 定位结果
 					if (isIn) {
-						mState2Bar.setText("定位认证成功");
-                        startButton.setEnabled(true);
+						lockKuang();
 					} else {
 						if (isGPSEnabled) {
 							mState2Bar.setText("wifi定位不在框内，请等待更精确的GPS定位(仅室外可用)结果");

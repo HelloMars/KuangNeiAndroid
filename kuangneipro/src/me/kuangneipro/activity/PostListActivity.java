@@ -14,7 +14,6 @@ import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UnreadManager;
-import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
@@ -37,7 +36,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.igexin.sdk.PushManager;
 
 public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
