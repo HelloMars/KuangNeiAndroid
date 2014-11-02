@@ -212,6 +212,7 @@
             android:taskAffinity=""
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
+<!-- 
         <activity
             android:name=".activity.MainActivity"
             android:excludeFromRecents="true"
@@ -222,6 +223,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kuangneipro.activity.SignInActivity" />
         </activity>
+         -->
         <activity
             android:name=".activity.PostListActivity"
             android:excludeFromRecents="true"

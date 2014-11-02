@@ -78,6 +78,7 @@ public class MessageInfoManager {
 		    				postj.getInt("upCount"),
 		    				postj.getInt("replyCount"),
 		    				postj.getString("postTime"),
+		    				user.optInt("sex"),
 		    				pictureList);
 		    		
 		    		messageInfo.replyInfo = reply;

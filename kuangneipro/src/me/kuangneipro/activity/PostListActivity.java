@@ -16,7 +16,6 @@ import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UnreadManager;
 import me.kuangneipro.manager.UpInfoManager;
-import me.kuangneipro.manager.UserInfoManager;
 import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
@@ -39,7 +38,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.igexin.sdk.PushManager;
 
 public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
@@ -54,6 +52,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	private int index = 1;
 	private EmoticonPopupable mEmoticonPopupable;
 	
+	private View ping;
 	private View posting;
 	private View setting;
 	private View message;
@@ -73,6 +72,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
 		}
 		
+		ping = findViewById(R.id.ping);
 		posting = findViewById(R.id.posting);
 		setting = findViewById(R.id.setting);
 		message = findViewById(R.id.message);
@@ -84,6 +84,12 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			}
 		});
 		
+		ping.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				writePing();
+			}
+		});
 		
 		setting.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -212,6 +218,25 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		super.onStop();
 	}
 
+	
+	private void writePing() {
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
+			Intent intent = new Intent(this, PingActivity.class);
+	    	startActivity(intent);
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称和性别后发送漂流瓶")
+			 .setPositiveButton("确定", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(PostListActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
+		}
+	}
 	
 	private void writePost() {
 		UserInfo userInfo = UserInfo.loadSelfUserInfo();

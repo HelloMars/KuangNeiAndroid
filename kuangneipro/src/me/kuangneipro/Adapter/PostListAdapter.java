@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.kuangneipro.R;
 import me.kuangneipro.activity.PostListActivity;
 import me.kuangneipro.entity.PostEntity;
+import me.kuangneipro.util.SexUtil;
 import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		private TextView replyNum;
 		private ImageView[] pictures;
 		private ImageView btnReply;
+		private View sex;
 	}
 
 	public PostListAdapter(Activity context, ArrayList<PostEntity> posts) {
@@ -77,7 +79,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 			viewHolder.dislikeNum = (TextView) rowView.findViewById(R.id.txtDislikeNum);
 			viewHolder.likeNum = (TextView) rowView.findViewById(R.id.txtLikeNum);
 			viewHolder.replyNum = (TextView) rowView.findViewById(R.id.txtReplyNum);
-			
+			viewHolder.sex = rowView.findViewById(R.id.sex);
 			viewHolder.btnLike = (ImageView) rowView.findViewById(R.id.btnLike);
 			viewHolder.btnReply = (ImageView) rowView.findViewById(R.id.btnReply);
 			viewHolder.pictures = new ImageView[3];
@@ -100,6 +102,17 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		holder.btnReply.setTag(mPosts.get(position));
 		holder.btnLike.setOnClickListener(this);
 		holder.btnLike.setTag(mPosts.get(position));
+		if(SexUtil.isValid(mPosts.get(position).mSex)){
+			viewHolder.sex.setVisibility(View.VISIBLE);
+			if(SexUtil.isMale(mPosts.get(position).mSex)){
+				viewHolder.sex.setSelected(false);
+			}else{
+				viewHolder.sex.setSelected(true);
+			}
+		}else{
+			viewHolder.sex.setVisibility(View.GONE);
+		}
+		
 		holder.content.setText(post.mContent);
 		holder.date.setText(post.getDate());
 		Log.i(tag, "!!!!downloading user avatar " + post.mUserAvatar);

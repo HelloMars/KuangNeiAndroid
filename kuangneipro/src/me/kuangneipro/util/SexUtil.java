@@ -23,7 +23,7 @@ public class SexUtil {
 	public static final String MALES = "男";
 	public static final String NEUTRALS = "中性";
 	public static final String UNSETTEDS = "未设置";
-	private static final String[] ALL_SEXS = new String[]{FEMALES,MALES,NEUTRALS};
+	private static final String[] ALL_SEXS = new String[]{FEMALES,MALES};//,NEUTRALS
 	public static String toString(int sex){
 		switch (sex) {
 		case FEMALE:
@@ -54,6 +54,10 @@ public class SexUtil {
 	
 	public static boolean isValid(String sex){
 		return isValid(fromString(sex));
+	}
+	
+	public static boolean isMale(int sex){
+		return sex == MALE;
 	}
 	
 	public static boolean isValid(int sex){

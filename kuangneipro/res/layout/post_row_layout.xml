@@ -42,14 +42,14 @@
                 android:text="孤独的夏娃"
                 android:textColor="#333333"
                 android:textSize="16sp" />
-
+            
             <ImageView
-                android:id="@+id/sexIcon"
+                android:id="@+id/sex"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_toRightOf="@+id/txtName"
                 android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_my_calendar" 
+                android:src="@drawable/sex" 
                 android:visibility="gone"/>
             
             <TextView

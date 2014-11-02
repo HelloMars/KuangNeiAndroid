@@ -12,6 +12,7 @@ import android.os.Parcelable;
 
 public final class PostEntity implements Parcelable {
 	public Date mDate;
+	public int mSex;
 	public int mPostId;
 	public int mChannelId;
 	public String mUserId;
@@ -38,6 +39,7 @@ public final class PostEntity implements Parcelable {
 			int likeNum,
 			int replyNum,
 			String date,
+			int sex,
 			List<String> picList
 			){
 		mPostId = postId;
@@ -50,6 +52,7 @@ public final class PostEntity implements Parcelable {
         mLikeNum = likeNum;
         mReplyNum = replyNum;
         mPictures = picList;
+        mSex = sex;
         mDate = DateUtil.parseDateFromStr(date);
     }
 	

@@ -26,6 +26,14 @@
             android:textColor="#E6E6E6"
             android:textSize="16sp"
             android:text="新东方"/>
+        
+        <ImageView 
+            android:id="@+id/ping"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ping"
+            android:contentDescription="@null"/>
+        
         <ImageView 
             android:id="@+id/setting"
             android:layout_width="48dp"
