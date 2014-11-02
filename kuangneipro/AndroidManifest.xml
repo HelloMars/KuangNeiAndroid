@@ -212,6 +212,7 @@
             android:taskAffinity=""
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
+<!-- 
         <activity
             android:name=".activity.MainActivity"
             android:excludeFromRecents="true"
@@ -222,6 +223,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kuangneipro.activity.SignInActivity" />
         </activity>
+         -->
         <activity
             android:name=".activity.PostListActivity"
             android:excludeFromRecents="true"
@@ -241,6 +243,17 @@
         </activity>
         <activity
             android:name=".activity.PostingActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_posting"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.kuangneipro.activity.PostListActivity" />
+        </activity>
+        <activity
+            android:name=".activity.PingActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_posting"
             android:launchMode="singleTask"

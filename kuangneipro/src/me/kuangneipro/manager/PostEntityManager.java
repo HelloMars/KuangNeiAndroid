@@ -56,16 +56,17 @@ public class PostEntityManager {
 	    		for (int j = 0; j < pictures.length(); ++j)
 	    			pictureList.add(pictures.getString(j));
 	    		PostEntity channel = new PostEntity(
-	    				oneJson.getInt("postId"),
-	    				oneJson.getInt("channelId"),
+	    				oneJson.optInt("postId"),
+	    				oneJson.optInt("channelId"),
 	    				user.optString("id"),
 	    				user.optString("name"),
 	    				user.optString("avatar"),
-	    				oneJson.getString("content"),
-	    				oneJson.getInt("opposedCount"),
-	    				oneJson.getInt("upCount"),
-	    				oneJson.getInt("replyCount"),
-	    				oneJson.getString("postTime"),
+	    				oneJson.optString("content"),
+	    				oneJson.optInt("opposedCount"),
+	    				oneJson.optInt("upCount"),
+	    				oneJson.optInt("replyCount"),
+	    				oneJson.optString("postTime"),
+	    				user.optInt("sex"),
 	    				pictureList);
 	    		mPostList.add(channel);
 			}

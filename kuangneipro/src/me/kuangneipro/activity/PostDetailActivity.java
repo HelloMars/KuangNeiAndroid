@@ -15,6 +15,7 @@ import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UpInfo;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UpInfoManager;
+import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
 
@@ -162,11 +163,21 @@ import com.squareup.picasso.Picasso;
 		ImageView imageView1 = (ImageView)headerView.findViewById(R.id.imageView1);
 		ImageView imageView2 = (ImageView)headerView.findViewById(R.id.imageView2);
 		ImageView imageView3 = (ImageView)headerView.findViewById(R.id.imageView3);
-		
+		View sex = headerView.findViewById(R.id.sex);
 		imageView1.setVisibility(View.GONE);
 		imageView2.setVisibility(View.GONE);
 		imageView3.setVisibility(View.GONE);
 		
+		if(SexUtil.isValid(mPost.mSex)){
+			sex.setVisibility(View.VISIBLE);
+			if(SexUtil.isMale(mPost.mSex)){
+				sex.setSelected(false);
+			}else{
+				sex.setSelected(true);
+			}
+		}else{
+			sex.setVisibility(View.GONE);
+		}
 		
 		
 		name.setText(mPost.mUserName);

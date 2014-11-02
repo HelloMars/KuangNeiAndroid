@@ -3,18 +3,20 @@ package me.kuangneipro.Adapter;
 import java.util.List;
 
 import me.kuangneipro.R;
+import me.kuangneipro.activity.MessageListActivity;
 import me.kuangneipro.entity.MessageInfo;
-import android.app.Activity;
+import me.kuangneipro.entity.ReplyInfo;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MessageListAdapter extends ArrayAdapter<MessageInfo>{
+public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnClickListener {
 	public String tag = this.getClass().getSimpleName(); // tag 用于测试log用
-	private final Activity context;
+	private final MessageListActivity context;
 	private final List<MessageInfo> messages;
 
 	static class ViewHolder {
@@ -26,7 +28,7 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo>{
 		private View split;
 	}
 
-	public MessageListAdapter(Activity context,
+	public MessageListAdapter(MessageListActivity context,
 			List<MessageInfo> messages) {
 		super(context, R.layout.item_reply, messages);
 		this.context = context;
@@ -69,20 +71,66 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo>{
 		// fill data
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		MessageInfo message = messages.get(position);
+		
+		
+		if(message.postEntity.mChannelId == 0){
+			//漂流瓶
+			//背景红
+			rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
+		
+		}else{
+			//普通消息
+			//背景红
+			rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
+		
+		}
+		
+		
 		holder.date.setText(message.replyInfo.getDate());
 
 		holder.to.setVisibility(View.VISIBLE);
+		holder.to.setTag(message.replyInfo);
+		holder.from.setTag(message.replyInfo);
 		holder.reply.setVisibility(View.VISIBLE);
 		holder.to.setText(message.replyInfo.toUser.name);
-
+		holder.to.setOnClickListener(this);
 		holder.from.setText(message.replyInfo.fromUser.name);
+		holder.from.setOnClickListener(this);
 		holder.content.setText(message.replyInfo.content);
 		if (position == getCount() - 1)
 			holder.split.setVisibility(View.GONE);
 		else
 			holder.split.setVisibility(View.VISIBLE);
+		
 
 		return rowView;
+	}
+
+	@Override
+	public void onClick(View view) {
+		if(view!=null){
+			switch (view.getId()) {
+			case R.id.to:
+			{
+				ReplyInfo replyInfo = (ReplyInfo)view.getTag();
+				replyInfo.replyUser = replyInfo.toUser;
+				if(context!=null)
+					context.doReplay(replyInfo);
+				break;
+			}
+			case R.id.from:
+			{
+				ReplyInfo replyInfo = (ReplyInfo)view.getTag();
+				replyInfo.replyUser = replyInfo.fromUser;
+				if(context!=null)
+					context.doReplay(replyInfo);
+				break;
+			}
+			default:
+				break;
+			}
+		}
+		
 	}
 
 }

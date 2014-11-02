@@ -41,10 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title"
-        android:headerDividersEnabled="false"
-        android:paddingBottom="0px"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingTop="0px" />
+        android:headerDividersEnabled="false"/>
 
 </RelativeLayout>

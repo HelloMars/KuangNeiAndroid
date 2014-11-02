@@ -1,18 +1,18 @@
 package me.kuangneipro.manager;
 
 import java.util.List;
-import android.util.Log;
+
+import me.kuangneipro.entity.FirstLevelReplyEntity;
+import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.SecondLevelReplyEntity;
+import me.kuangneipro.util.HostUtil;
+import me.kuangneipro.util.HttpHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import me.kuangneipro.util.HostUtil;
-import me.kuangneipro.util.HttpHelper;
-import me.kuangneipro.emoticon.EmoticonPopupable;
-import me.kuangneipro.entity.ReturnInfo;
-import me.kuangneipro.entity.FirstLevelReplyEntity;
-import me.kuangneipro.entity.SecondLevelReplyEntity;
+import android.util.Log;
 
 public class PostReplyManager {
 	private static final String TAG = "PostReplyManager";
