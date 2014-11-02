@@ -11,6 +11,7 @@ import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReplyInfo;
+import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.manager.ReplyInfoManager;
 
 import org.json.JSONObject;
@@ -30,7 +31,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.squareup.picasso.Picasso;
 
-public class PostDetailActivity extends HttpActivity implements OnEmoticonMessageSendListener {
+public class PostDetailActivity extends HttpActivity implements OnEmoticonMessageSendListener, OnClickListener {
 	
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";
 	
@@ -38,7 +39,6 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 	private List<ReplyInfo> mReplyList;
 	private int index = 1;
 	private PostEntity mPost;
-	private ImageView btnReply;
 	private View back;
 	private EmoticonPopupable mEmoticonPopupable;
 	private ReplyListAdapter mReplyListAdapter;
@@ -72,13 +72,6 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 			}
 		});
 		
-		btnReply = (ImageView) findViewById(R.id.btnReply);
-		btnReply.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				//TODO replay
-			}
-		});
 		
 		mListView = (PullToRefreshListView)findViewById(R.id.list);
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
@@ -115,6 +108,21 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 				mListView.onRefreshComplete();
 			}
 			break;
+		case ReplyInfoManager.DO_REPLY:
+			ReturnInfo ri = ReplyInfoManager.getReplyReturnInfo(jsonObj);
+			if(ri!=null&& ri.getReturnCode() == ReturnInfo.SUCCESS){
+				Toast.makeText(this, "回复成功", Toast.LENGTH_SHORT).show();
+				index = 1;
+				mPost.mReplyNum++;
+				fillDetailData();
+	            ReplyInfoManager.getReplyList(getHttpRequest(ReplyInfoManager.REPLY_KEY_REFRESH), mPost.mPostId, 1);
+			}else{
+				if(ri!=null){
+					Toast.makeText(this, ri.getReturnMessage(), Toast.LENGTH_SHORT).show();
+				}else
+					Toast.makeText(this, "回复失败", Toast.LENGTH_SHORT).show();
+			}
+			break;
 		}
 	}
 	
@@ -140,6 +148,12 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 		replyNum.setText(Integer.toString(mPost.mReplyNum));
 		content.setText(mPost.mContent);
 		date.setText(mPost.getDate());
+		
+		View btnReply = findViewById(R.id.btnReply);
+		View btnLike = findViewById(R.id.btnLike);
+		
+		btnReply.setOnClickListener(this);
+		btnLike.setOnClickListener(this);
 		
 		if(mPost.mPictures!=null)
 			for(int i=0;i<mPost.mPictures.size();i++){
@@ -202,14 +216,32 @@ public class PostDetailActivity extends HttpActivity implements OnEmoticonMessag
 	public void onSend(View v, String text) {
 		if(!TextUtils.isEmpty(text)){
 			ReplyInfo replyInfo = (ReplyInfo)v.getTag();
-			if(replyInfo.replyUser!=null)
-				ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.replyUser.id+"", replyInfo.postId+"", text);
-			else
-				ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.toUser.id+"", replyInfo.postId+"", text);
+			if(replyInfo==null){
+				ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), mPost.mUserId, mPost.mPostId+"", text);
+			}else{
+				if(replyInfo.replyUser!=null)
+					ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.replyUser.id+"", replyInfo.postId+"", text);
+				else
+					ReplyInfoManager.doReplay(getHttpRequest(ReplyInfoManager.DO_REPLY), replyInfo.toUser.id+"", replyInfo.postId+"", text);
+			}
+			
 			mEmoticonPopupable.cleatEmoticonEditText();
 		}else{
 			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btnReply:
+			doReplay(null);
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 }

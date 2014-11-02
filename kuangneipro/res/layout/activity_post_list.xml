@@ -15,7 +15,7 @@
             android:id="@+id/message"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/email_off"
+            android:src="@drawable/email"
             android:contentDescription="@null"/>
         <TextView 
             android:id="@+id/school"

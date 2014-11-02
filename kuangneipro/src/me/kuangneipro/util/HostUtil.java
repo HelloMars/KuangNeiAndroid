@@ -78,4 +78,6 @@ public class HostUtil {
 	public static final String REPLY = KUANG_NEI_HOST + "replyList/";
 	
 	public static final String DO_REPLY = KUANG_NEI_HOST + "reply/";
+	
+	public static final String UN_READ = KUANG_NEI_HOST + "hasUnreadMessage/";
 }

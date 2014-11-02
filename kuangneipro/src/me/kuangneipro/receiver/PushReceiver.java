@@ -1,6 +1,7 @@
 package me.kuangneipro.receiver;
 
 import me.kuangneipro.entity.UserInfo;
+import me.kuangneipro.util.DebugUtil;
 import me.kuangneipro.util.LoginUtil;
 import me.kuangneipro.util.LoginUtil.OnSignInLisener;
 import me.kuangneipro.util.NotificationUtil;
@@ -55,6 +56,7 @@ public class PushReceiver extends BroadcastReceiver {
 					Log.i(TAG, "Got ClientID:" + cid);
 					if(!TextUtils.isEmpty(ocid) && !ocid.equals(cid) ){
 						String deviceID = OpenUDID_manager.getOpenUDID();
+						if(DebugUtil.isDebug())
 						Toast.makeText(context, "deviceID"+deviceID, Toast.LENGTH_SHORT).show();
 						LoginUtil.signin(UserInfo.loadSelfUserInfo().getUsername(), UserInfo.loadSelfUserInfo().getPassword(), deviceID, new OnSignInLisener() {
 							@Override
@@ -62,12 +64,15 @@ public class PushReceiver extends BroadcastReceiver {
 								Toast.makeText(context, "newClientID:"+cid+" refresh failed!!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 							}
 						});
+						if(DebugUtil.isDebug())
 						Toast.makeText(context, "newClientID:"+cid+"!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 					}else{
+						if(DebugUtil.isDebug())
 						Toast.makeText(context, "clientID:"+cid, Toast.LENGTH_LONG).show();
 						PushUtil.saveToken(cid);
 					}
 				}else{
+					if(DebugUtil.isDebug())
 					Toast.makeText(context, "clientID:is null!!!!!!!!!!!!!"+cid, Toast.LENGTH_LONG).show();
 				}
 				// TODO: 
