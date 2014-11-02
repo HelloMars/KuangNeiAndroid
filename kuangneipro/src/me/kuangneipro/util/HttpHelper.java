@@ -136,7 +136,7 @@ public class HttpHelper {
 	}
 	
 	private void checkSession(final HttpUriRequest request){
-		if(HostUtil.REGISTER.equals(url))
+		if(HostUtil.REGISTER.equals(url) || HostUtil.KUANG_LIST_URL.equals(url))
 			return ;
 		
 		String sessionId = LoginUtil.loadSession();

@@ -66,10 +66,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_list);
-		
-		//个推请求clientid,并注册接收监听
-		PushManager.getInstance().initialize(this.getApplicationContext());
-		
+
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
@@ -136,31 +133,14 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         		startActivity(intent);
             }
         });
-        
-		if(UserInfo.loadSelfUserInfo() == null){
-			UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER));
-		}else{
-			PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
-			UnreadManager.dorequest(getHttpRequest(UnreadManager.REQUEST_UNREAD));
-		}
-		
-		
-       
+		PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
+		UnreadManager.dorequest(getHttpRequest(UnreadManager.REQUEST_UNREAD));
 	}
 	
 	@Override
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
 		switch (id) {
-		case UserInfoManager.REGIGSTER:
-			UserInfo userInfo = UserInfoManager.fillUserInfoFromRegister(jsonObj);
-			if(userInfo!= null){
-				Toast.makeText(this, "注册完成啦:username="+userInfo.getUsername(), Toast.LENGTH_LONG).show();
-				PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
-			}else{
-				Toast.makeText(this, "注册失败啦！！！！！！！！！！", Toast.LENGTH_LONG).show();
-			}
-			break;
 		case PostEntityManager.POSTING_KEY_REFRESH:
 			mPostList.clear();
 		case PostEntityManager.POSTING_KEY_REFRESH_MORE:

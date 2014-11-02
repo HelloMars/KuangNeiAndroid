@@ -84,4 +84,9 @@ public class HostUtil {
 	public static final String UP_POST = KUANG_NEI_HOST + "uppost/";
 	
 	public static final String GET_MESSAGE = KUANG_NEI_HOST + "replyInfo/";
+	
+    /**
+     * 框列表协议地址
+     */
+    public static final String KUANG_LIST_URL = KUANG_NEI_HOST+"getSchool/";
 }
