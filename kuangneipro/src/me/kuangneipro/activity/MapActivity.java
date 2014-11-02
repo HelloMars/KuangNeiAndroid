@@ -1,5 +1,18 @@
 package me.kuangneipro.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import me.kuangneipro.R;
+import me.kuangneipro.core.HttpActivity;
+import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.UserInfo;
+import me.kuangneipro.manager.MapEntityManager;
+import me.kuangneipro.manager.UserInfoManager;
+import me.kuangneipro.util.GeoUtil;
+
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -26,22 +39,9 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.PolygonOptions;
-import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import me.kuangneipro.R;
-import me.kuangneipro.core.HttpActivity;
-import me.kuangneipro.entity.ReturnInfo;
-import me.kuangneipro.manager.MapEntityManager;
-import me.kuangneipro.util.GeoUtil;
+import com.igexin.sdk.PushManager;
 
 public class MapActivity extends HttpActivity {
 
@@ -87,6 +87,10 @@ public class MapActivity extends HttpActivity {
         mActivity = this;
         
         setContentView(R.layout.activity_map);
+        
+        //个推请求clientid,并注册接收监听
+        PushManager.getInstance().initialize(this.getApplicationContext());
+      		
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
 
@@ -176,6 +180,14 @@ public class MapActivity extends HttpActivity {
 		}
 
         MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
+        
+        if (UserInfo.loadSelfUserInfo() == null) {
+			UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER));
+		} else {
+			Intent intent = new Intent(this, PostListActivity.class);
+			this.startActivity(intent);
+			this.finish();
+		}
     }
 
     @Override
@@ -191,6 +203,14 @@ public class MapActivity extends HttpActivity {
                     Toast.makeText(this, "恭喜中奖，获取框们失败", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case UserInfoManager.REGIGSTER:
+    			UserInfo userInfo = UserInfoManager.fillUserInfoFromRegister(jsonObj);
+    			if (userInfo != null) {
+    				Toast.makeText(this, "注册完成啦:username="+userInfo.getUsername(), Toast.LENGTH_LONG).show();
+    			} else {
+    				Toast.makeText(this, "恭喜中奖，注册失败", Toast.LENGTH_LONG).show();
+    			}
+    			break;
             default:
                 break;
         }
