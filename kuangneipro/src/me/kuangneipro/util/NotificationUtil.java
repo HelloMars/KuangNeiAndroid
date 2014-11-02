@@ -1,7 +1,7 @@
 package me.kuangneipro.util;
 
 import me.kuangneipro.R;
-import me.kuangneipro.activity.PostListActivity;
+import me.kuangneipro.activity.MessageListActivity;
 import me.kuangneipro.core.KuangNeiApplication;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -22,7 +22,7 @@ public class NotificationUtil {
 		//通知时发出的默认声音
 		notification.defaults=Notification.DEFAULT_SOUND;
 		//设置通知显示的参数
-		Intent mIntent = new Intent(context, PostListActivity.class);  
+		Intent mIntent = new Intent(context, MessageListActivity.class);  
 		PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);  
 		notification.setLatestEventInfo(context, "回复",content,mPendingIntent);
 		//这个可以理解为开始执行这个通知

@@ -81,6 +81,9 @@ public class HostUtil {
 	
 	public static final String UN_READ = KUANG_NEI_HOST + "hasUnreadMessage/";
 	
+	public static final String UP_POST = KUANG_NEI_HOST + "uppost/";
+	
+	public static final String GET_MESSAGE = KUANG_NEI_HOST + "replyInfo/";
 	
     /**
      * 框列表协议地址

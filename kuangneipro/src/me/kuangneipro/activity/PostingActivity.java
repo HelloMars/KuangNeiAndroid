@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,9 +37,11 @@ public class PostingActivity extends HttpActivity{
 	private EmoticonPopupable mEmoticonPopupable;
 	private final List<UploadImage> mUploadImages;
 	private PostingImageAdapter mPostingImageAdapter;
-	
+	private ImageButton imgBtnChoose;
 	private View back;
 	private View posting;
+	
+	public static final int MAX_IMAGE_SIZE = 3;
 	
 	public PostingActivity(){
 		mUploadImages = new ArrayList<UploadImage>();
@@ -83,7 +84,7 @@ public class PostingActivity extends HttpActivity{
 		EmoticonRelativeLayout rootLayout = (EmoticonRelativeLayout) findViewById(R.id.RelativeLayout1);
 		rootLayout.setEmoticonInputPopupView((EmoticonInputPopupView)mEmoticonPopupable);
 		
-		ImageButton imgBtnChoose = (ImageButton) findViewById(R.id.imgBtnChoose);
+		imgBtnChoose = (ImageButton) findViewById(R.id.imgBtnChoose);
 		imgBtnChoose.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -110,12 +111,16 @@ public class PostingActivity extends HttpActivity{
             
             Log.i(TAG, "choice picture:" + picturePath);
             mUploadImages.add(new UploadImage(picturePath));
+            if(mUploadImages.size() > MAX_IMAGE_SIZE-1){
+            	imgBtnChoose.setEnabled(false);
+            }
             mPostingImageAdapter.notifyDataSetChanged();
         }
     }
 
 	
 	private void sendPost() {
+		setPostingButtonEable(false);
     	String message = mEditText.toString();
     	if (message.isEmpty()) {
     		String warnning = this.getString(R.string.info_post_empty);
@@ -133,16 +138,4 @@ public class PostingActivity extends HttpActivity{
 			posting.setEnabled(enable);
 	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-		case R.id.action_post:
-			setPostingButtonEable(false);
-			sendPost();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 }

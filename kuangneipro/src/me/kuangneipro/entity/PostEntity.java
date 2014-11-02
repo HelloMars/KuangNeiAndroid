@@ -18,6 +18,7 @@ public final class PostEntity implements Parcelable {
 	public String mUserName;
 	public String mUserAvatar;
 	public String mContent;	
+	public boolean mLikeSelected;
 	public int mDislikeNum;
 	public int mLikeNum;
 	public int mReplyNum;

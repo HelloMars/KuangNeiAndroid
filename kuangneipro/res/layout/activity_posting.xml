@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.kuangneipro.emoticon.EmoticonRelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<me.kuangneipro.emoticon.EmoticonRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:emoticon="http://schemas.android.com/apk/res/me.kuangneipro"
     android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
@@ -8,78 +7,76 @@
     android:background="@color/color_comm_bg"
     android:orientation="vertical" >
 
-    
-    <LinearLayout 
+    <LinearLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:background="#1E5782">
-        <ImageView 
+        android:background="#1E5782"
+        android:orientation="horizontal" >
+
+        <ImageView
             android:id="@+id/back"
             android:layout_width="24dp"
             android:layout_height="48dp"
-            android:src="@drawable/back"
-            android:contentDescription="@null"/>
-        <TextView 
+            android:contentDescription="@null"
+            android:src="@drawable/back" />
+
+        <TextView
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical|left"
+            android:text="发帖"
             android:textColor="#E6E6E6"
-            android:textSize="16sp"
-            android:text="发帖"/>
-        <ImageView 
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/imgBtnChoose"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/select_picture"
+            android:src="@drawable/select" />
+
+        <ImageView
             android:id="@+id/posting"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/send"
-            android:contentDescription="@null"/>
+            android:contentDescription="@null"
+            android:src="@drawable/send" />
     </LinearLayout>
-    
+
     <me.kuangneipro.emoticon.EmoticonEditText
         android:id="@+id/editTextPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/title"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:maxLength="800"
         android:singleLine="false"
+        android:maxLines="5"
         android:textSize="16sp"
         emoticon:emoticonHeight="line_height"
-        emoticon:emoticonWidth="line_height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:maxLength="800"
-        android:inputType="textMultiLine" />
+        emoticon:emoticonWidth="line_height" />
 
-  
-
-
-    
-    <LinearLayout 
+    <LinearLayout
         android:id="@+id/inputContainer"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="vertical" >
     </LinearLayout>
-    
-      <ImageButton
-        android:id="@+id/imgBtnChoose"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_above="@id/inputContainer"
-        android:layout_alignParentLeft="true"
-        android:contentDescription="@string/select_picture"
-        android:src="@android:drawable/ic_menu_gallery" />
-      
-          <GridView android:id="@+id/imageGrid"
+
+    <GridView
+        android:id="@+id/imageGrid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:horizontalSpacing="5dp"
         android:layout_above="@id/imgBtnChoose"
         android:layout_below="@id/editTextPost"
-        android:numColumns="3">
-        
+        android:numColumns="3" >
     </GridView>
-    
+
 </me.kuangneipro.emoticon.EmoticonRelativeLayout>

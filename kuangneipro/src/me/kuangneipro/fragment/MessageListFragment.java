@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kuangneipro.R;
-import me.kuangneipro.Adapter.MessageListAdapter;
+import me.kuangneipro.Adapter.MessageListAdapter3;
 import me.kuangneipro.core.HttpListFragment;
 import me.kuangneipro.entity.MessageEntity;
 import me.kuangneipro.entity.ReturnInfo;
@@ -31,7 +31,7 @@ public class MessageListFragment extends HttpListFragment {
 	private static final String TAG = MessageListFragment.class.getSimpleName(); // tag 用于测试log用
 	private int mSectionNum;
 	private List<MessageEntity> mMessageList;
-	private MessageListAdapter mMessageListAdapter;
+	private MessageListAdapter3 mMessageListAdapter;
 	private int index = 1;
 	private PullToRefreshListView mListView;
 	
@@ -108,7 +108,7 @@ public class MessageListFragment extends HttpListFragment {
 			Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
 			MessageEntityManager.fillMessageListFromJson(jsonObj, mMessageList);
 			if(mMessageListAdapter==null){
-				mMessageListAdapter = new MessageListAdapter(getActivity(), mMessageList);
+				mMessageListAdapter = new MessageListAdapter3(getActivity(), mMessageList);
 				mListView.setAdapter(mMessageListAdapter);
 			}else{
 				mMessageListAdapter.notifyDataSetChanged();

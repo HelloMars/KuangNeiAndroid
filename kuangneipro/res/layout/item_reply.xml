@@ -10,49 +10,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp" >
+        android:paddingTop="16dp" >
 
         <TextView
             android:id="@+id/from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textColor="#1E5782"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="回复"
+            android:text=" 回复 "
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textColor="#1E5782"
+            android:textSize="12sp" />
+
+
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/date"
+            android:layout_width="0px"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text=":"
-            android:textColor="#333333"
-            android:textSize="14sp" />
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:textColor="#333333"
-            android:textSize="14sp" />
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:text="10秒前"
+            android:textColor="@color/time_text_color"
+            android:textSize="12sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:paddingTop="16dp" 
+        android:paddingBottom="16dp" />
 
     <View
         android:id="@+id/split"

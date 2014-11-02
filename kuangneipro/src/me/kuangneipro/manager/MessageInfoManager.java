@@ -1,7 +1,10 @@
 package me.kuangneipro.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import me.kuangneipro.entity.MessageInfo;
+import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReplyInfo;
 import me.kuangneipro.entity.ReplyInfo.User;
 import me.kuangneipro.entity.ReturnInfo;
@@ -13,17 +16,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ReplyInfoManager {
+public class MessageInfoManager {
 
-	public static final int REPLY_KEY_REFRESH = 1111;
-	public static final int REPLY_KEY_REFRESH_MORE = 2222;
-	public static final int DO_REPLY = 3333;
+	public static final int MESSAGE_KEY_REFRESH = 10000;
+	public static final int MESSAGE_KEY_REFRESH_MORE = 20000;
 	
-	public static void getReplyList(HttpHelper httpRequest, int postId, int page){
-		httpRequest.setUrl(HostUtil.REPLY).put("postId", postId+"").put("page", page+"").asyncGet();
+	public static void getMessageList(HttpHelper httpRequest, int page){
+		httpRequest.setUrl(HostUtil.GET_MESSAGE).put("page", page+"").asyncGet();
 	}
 	
-	public static void fillReplyListFromJson(JSONObject jsonObj , List<ReplyInfo> replyInfos){
+	public static void fillMessageListFromJson(JSONObject jsonObj , List<MessageInfo> messageInfos){
 		if(jsonObj!=null){
 		try {
 			
@@ -33,8 +35,12 @@ public class ReplyInfoManager {
 		    		JSONObject oneJson = jsonarray.getJSONObject(i);
 		    		JSONObject toUserj = oneJson.getJSONObject("toUser");
 		    		JSONObject fromUserj = oneJson.getJSONObject("fromUser");
-		    		if (oneJson == null || toUserj == null || fromUserj == null)
+		    		JSONObject postj = oneJson.getJSONObject("post");
+		    		if (oneJson == null || toUserj == null || fromUserj == null || postj == null)
 		    			continue;
+		    		
+		    		MessageInfo messageInfo = new MessageInfo();
+		    		
 		    		ReplyInfo reply = new ReplyInfo();
 		    		reply.postId = oneJson.optInt("postId");
 		    		reply.id = oneJson.optInt("id");
@@ -52,7 +58,32 @@ public class ReplyInfoManager {
 		    		fromUser.name = fromUserj.optString("name");
 		    		reply.fromUser = fromUser;
 		    		
-		    		replyInfos.add(reply);
+
+		    		JSONObject user = postj.getJSONObject("user");
+		    		if(user==null)
+		    			continue;
+		    		List<String> pictureList = new ArrayList<String>();
+		    		JSONArray pictures = postj.getJSONArray("pictures");
+		    		for (int j = 0; j < pictures.length(); ++j)
+		    			pictureList.add(pictures.getString(j));
+		    		
+		    		PostEntity post = new PostEntity(
+		    				postj.getInt("postId"),
+		    				postj.getInt("channelId"),
+		    				user.optString("id"),
+		    				user.optString("name"),
+		    				user.optString("avatar"),
+		    				postj.getString("content"),
+		    				postj.getInt("opposedCount"),
+		    				postj.getInt("upCount"),
+		    				postj.getInt("replyCount"),
+		    				postj.getString("postTime"),
+		    				pictureList);
+		    		
+		    		messageInfo.replyInfo = reply;
+		    		messageInfo.postEntity = post;
+		    		
+		    		messageInfos.add(messageInfo);
 				}
 		} catch (JSONException e) {
 			e.printStackTrace();

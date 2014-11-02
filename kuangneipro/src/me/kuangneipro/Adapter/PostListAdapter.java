@@ -31,6 +31,7 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		private TextView date;
 		private TextView dislikeNum;
 		private TextView likeNum;
+		private View btnLike;
 		private TextView replyNum;
 		private ImageView[] pictures;
 		private ImageView btnReply;
@@ -76,9 +77,9 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 			viewHolder.dislikeNum = (TextView) rowView.findViewById(R.id.txtDislikeNum);
 			viewHolder.likeNum = (TextView) rowView.findViewById(R.id.txtLikeNum);
 			viewHolder.replyNum = (TextView) rowView.findViewById(R.id.txtReplyNum);
+			
+			viewHolder.btnLike = (ImageView) rowView.findViewById(R.id.btnLike);
 			viewHolder.btnReply = (ImageView) rowView.findViewById(R.id.btnReply);
-			viewHolder.btnReply.setOnClickListener(this);
-			viewHolder.btnReply.setTag(mPosts.get(position));
 			viewHolder.pictures = new ImageView[3];
 			viewHolder.pictures[0] = (ImageView) rowView.findViewById(R.id.imageView1);
 			viewHolder.pictures[1] = (ImageView) rowView.findViewById(R.id.imageView2);
@@ -94,6 +95,11 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 		holder.dislikeNum.setText(Integer.toString(post.mDislikeNum));
 		holder.likeNum.setText(Integer.toString(post.mLikeNum));
 		holder.replyNum.setText(Integer.toString(post.mReplyNum));
+		holder.btnLike.setSelected(mPosts.get(position).mLikeSelected);
+		holder.btnReply.setOnClickListener(this);
+		holder.btnReply.setTag(mPosts.get(position));
+		holder.btnLike.setOnClickListener(this);
+		holder.btnLike.setTag(mPosts.get(position));
 		holder.content.setText(post.mContent);
 		holder.date.setText(post.getDate());
 		Log.i(tag, "!!!!downloading user avatar " + post.mUserAvatar);
@@ -131,6 +137,9 @@ public class PostListAdapter extends ArrayAdapter<PostEntity> implements OnClick
 			switch (view.getId()) {
 			case R.id.btnReply:
 				context.doReplay((PostEntity)view.getTag());
+				break;
+			case R.id.btnLike:
+				context.doUp((PostEntity)view.getTag());
 				break;
 			default:
 				break;
