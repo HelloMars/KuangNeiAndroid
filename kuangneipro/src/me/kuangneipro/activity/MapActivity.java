@@ -51,6 +51,7 @@ public class MapActivity extends HttpActivity {
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
 	boolean isFirstLoc = true;// 是否首次定位
+	boolean isFirstIn = true;// 是否首次进入
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
@@ -220,8 +221,11 @@ public class MapActivity extends HttpActivity {
     private boolean isIn(LatLng point) {
 		for (List<LatLng> pts : mPolygons) {
             if (GeoUtil.isPointInPolygon(point, pts)) {
-                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(GeoUtil.buildBounds(pts));
-                mBaiduMap.animateMapStatus(u);
+            	if (isFirstIn) {
+    				isFirstIn = false;
+    				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(GeoUtil.buildBounds(pts));
+                    mBaiduMap.animateMapStatus(u);
+    			}
                 return true;
             }
 		}
@@ -329,7 +333,30 @@ public class MapActivity extends HttpActivity {
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mMapView == null)
 				return;
+			
+			if (mPolygons.isEmpty()) {
+				MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
+			}
 
+			locInfo = String.format("[%d,%s,%d]",
+					location.getLocType(),
+					location.getNetworkLocationType(),
+					location.getSatelliteNumber());
+			MyLocationData locData = new MyLocationData.Builder()
+					.accuracy(location.getRadius())
+					// 此处设置开发者获取到的方向信息，顺时针0-360
+					.direction(-1)
+					.latitude(location.getLatitude())
+					.longitude(location.getLongitude()).build();
+			mBaiduMap.setMyLocationData(locData);
+			if (isFirstLoc) {
+				isFirstLoc = false;
+				LatLng ll = new LatLng(location.getLatitude(),
+						location.getLongitude());
+				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+				mBaiduMap.animateMapStatus(u);
+			}
+			
 			boolean isGPSEnabled = GeoUtil.isGPSEnabled(mActivity);
 			boolean isWifiEnabled = GeoUtil.isWifiEnabled(mActivity);
             startButton.setEnabled(false);
@@ -360,25 +387,6 @@ public class MapActivity extends HttpActivity {
 				} else {
 					mState2Bar.setText("非wifi或GPS定位结果，请等待更精确的定位");
 				}
-			}
-			
-			locInfo = String.format("[%d,%s,%d]",
-					location.getLocType(),
-					location.getNetworkLocationType(),
-					location.getSatelliteNumber());
-			MyLocationData locData = new MyLocationData.Builder()
-					.accuracy(location.getRadius())
-					// 此处设置开发者获取到的方向信息，顺时针0-360
-					.direction(-1)
-					.latitude(location.getLatitude())
-					.longitude(location.getLongitude()).build();
-			mBaiduMap.setMyLocationData(locData);
-			if (isFirstLoc) {
-				isFirstLoc = false;
-				LatLng ll = new LatLng(location.getLatitude(),
-						location.getLongitude());
-				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-				mBaiduMap.animateMapStatus(u);
 			}
 		}
 
