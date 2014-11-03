@@ -7,6 +7,9 @@ import me.kuangneipro.util.DataStorage;
 import me.kuangneipro.util.GeoUtil;
 import android.text.TextUtils;
 
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.PolygonOptions;
+import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 
@@ -62,5 +65,12 @@ public class KuangInfo {
 	
 	public LatLngBounds buildBounds() {
 		return GeoUtil.buildBounds(position);
+	}
+	
+	public OverlayOptions buildPolygon() {
+		return new PolygonOptions()
+        	.points(position)
+        	.stroke(new Stroke(5, 0xAAFF0000))
+        	.fillColor(0x10101010);
 	}
 }

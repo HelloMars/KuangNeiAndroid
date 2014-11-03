@@ -30,8 +30,7 @@ public class MapEntityManager {
 
     public static final int MAP_KEY_GET = 1;
 
-    public static void fillKuangListFromJson(JSONObject jsonObj,
-    		List<KuangInfo> kuangList, BaiduMap baiduMap, Context context) {
+    public static void fillKuangListFromJson(JSONObject jsonObj, List<KuangInfo> kuangList) {
         try {
             Log.i("fillKuangListFromJson", jsonObj.toString());
             JSONArray jsonarray = jsonObj.getJSONArray("list");
@@ -46,20 +45,7 @@ public class MapEntityManager {
                     String[] p = pstr.split("\\|");
                     pts.add(new LatLng(Double.parseDouble(p[1]), Double.parseDouble(p[0])));
                 }
-                KuangInfo kuang = new KuangInfo(id, name, area, pts);
-                kuangList.add(kuang);
-                //构建用户绘制多边形的Option对象
-                OverlayOptions polygonOption = new PolygonOptions()
-                        .points(pts)
-                        .stroke(new Stroke(5, 0xAAFF0000))
-                        .fillColor(0x10101010);
-                baiduMap.addOverlay(polygonOption);
-                
-                Button button = new Button(context);
-				button.setBackgroundResource(R.drawable.popup);
-				button.setTextColor(0xFF000000);
-				button.setText(name);
-				baiduMap.showInfoWindow(new InfoWindow(button, kuang.buildBounds().getCenter(), 0));
+                kuangList.add(new KuangInfo(id, name, area, pts));
             }
         } catch (JSONException e) {
             e.printStackTrace();

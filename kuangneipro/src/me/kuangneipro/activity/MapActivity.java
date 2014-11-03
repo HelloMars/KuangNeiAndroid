@@ -29,6 +29,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnMapStatusChangeListener;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -38,6 +39,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.igexin.sdk.PushManager;
 
 public class MapActivity extends HttpActivity {
@@ -57,6 +59,7 @@ public class MapActivity extends HttpActivity {
 
 	private List<KuangInfo> mKuangs = new ArrayList<KuangInfo>();
 	private KuangInfo mKuang = null;
+	private KuangInfo mNearKuang = null;
 	
 	/**
 	 * 当前地点击点
@@ -194,7 +197,7 @@ public class MapActivity extends HttpActivity {
             case MapEntityManager.MAP_KEY_GET:
                 ReturnInfo info = ReturnInfo.fromJSONObject(jsonObj);
                 Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
-                MapEntityManager.fillKuangListFromJson(jsonObj, mKuangs, mBaiduMap, getApplicationContext());
+                MapEntityManager.fillKuangListFromJson(jsonObj, mKuangs);
                 if (mKuangs.isEmpty()) {
                     Toast.makeText(this, "恭喜中奖，获取框们失败", Toast.LENGTH_SHORT).show();
                 }
@@ -235,7 +238,14 @@ public class MapActivity extends HttpActivity {
     }
 
     private boolean isIn(LatLng point) {
+    	double mindis = 100000000;
+    	KuangInfo nearKuang = null;
 		for (KuangInfo kuang : mKuangs) {
+			double curdis = DistanceUtil.getDistance(point, kuang.buildBounds().getCenter());
+			if (curdis < mindis) {
+				nearKuang = kuang;
+				mindis = curdis;
+			}
             if (kuang.isIn(point)) {
             	if (isFirstIn) {
     				isFirstIn = false;
@@ -246,6 +256,17 @@ public class MapActivity extends HttpActivity {
             	KuangInfo.saveSelfKuangInfo(mKuang);
                 return true;
             }
+		}
+		if (mNearKuang != nearKuang) {
+			mBaiduMap.clear();
+            mBaiduMap.addOverlay(nearKuang.buildPolygon());
+            
+            Button button = new Button(getApplicationContext());
+			button.setBackgroundResource(R.drawable.popup);
+			button.setTextColor(0xFF000000);
+			button.setText(nearKuang.getName());
+			mBaiduMap.showInfoWindow(new InfoWindow(button, nearKuang.buildBounds().getCenter(), 0));
+			mNearKuang = nearKuang;
 		}
 		return false;
     }
