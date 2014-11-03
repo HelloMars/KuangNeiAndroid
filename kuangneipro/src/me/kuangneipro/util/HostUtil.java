@@ -91,4 +91,9 @@ public class HostUtil {
      * 框列表协议地址
      */
     public static final String KUANG_LIST_URL = KUANG_NEI_HOST+"getSchool/";
+    
+    /**
+     * 意见反馈地址
+     */
+    public static final String FEED_BACK_URL = KUANG_NEI_HOST+"feedBack/";
 }

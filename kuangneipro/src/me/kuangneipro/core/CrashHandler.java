@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.kuangneipro.util.HostUtil;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -33,7 +34,7 @@ import android.widget.Toast;
  *  
  *  需要在Application中注册，为了要在程序启动器就监控整个程序。 
  */      
-public class CrashHandler implements UncaughtExceptionHandler {      
+public class CrashHandler extends HttpActivity implements UncaughtExceptionHandler {      
           
     public static final String TAG = "CrashHandler";      
           
@@ -214,7 +215,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
             while(true){  
                 s = reader.readLine();  
                 if(s == null) break;  
-                //由于目前尚未确定以何种方式发送，所以先打出log日志。  
+                //由于目前尚未确定以何种方式发送，所以先打出log日志。
+                getHttpRequest(1).setUrl(HostUtil.FEED_BACK_URL)
+                	.put("type", "1").put("content", s.toString()).syncPost();
                 Log.i("info", s.toString());  
             }  
         } catch (FileNotFoundException e) {  

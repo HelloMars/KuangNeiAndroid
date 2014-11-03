@@ -3,7 +3,6 @@ package me.kuangneipro.manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.kuangneipro.R;
 import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.util.HostUtil;
 import me.kuangneipro.util.HttpHelper;
@@ -12,15 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Button;
 
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.PolygonOptions;
-import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 
 /**

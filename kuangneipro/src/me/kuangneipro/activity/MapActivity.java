@@ -238,6 +238,7 @@ public class MapActivity extends HttpActivity {
     }
 
     private boolean isIn(LatLng point) {
+    	boolean ret = false;
     	double mindis = 100000000;
     	KuangInfo nearKuang = null;
 		for (KuangInfo kuang : mKuangs) {
@@ -253,8 +254,10 @@ public class MapActivity extends HttpActivity {
                     mBaiduMap.animateMapStatus(u);
     			}
             	mKuang = kuang;
+            	nearKuang = kuang;
             	KuangInfo.saveSelfKuangInfo(mKuang);
-                return true;
+                ret =  true;
+                break;
             }
 		}
 		if (mNearKuang != nearKuang) {
@@ -268,7 +271,7 @@ public class MapActivity extends HttpActivity {
 			mBaiduMap.showInfoWindow(new InfoWindow(button, nearKuang.buildBounds().getCenter(), 0));
 			mNearKuang = nearKuang;
 		}
-		return false;
+		return ret;
     }
     
     private void lockKuang() {
