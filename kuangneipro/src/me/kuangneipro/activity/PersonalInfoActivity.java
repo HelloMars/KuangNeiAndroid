@@ -155,11 +155,11 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 					Toast.makeText(this, "修改成功",Toast.LENGTH_SHORT).show();
 				}
 				userSeletedImagePath = userInfo.getAvatar();
-				Picasso.with(this)
-	        	.load(userInfo.getAvatar())
-	        	.placeholder(R.drawable.loading)
-	        	.error(R.drawable.error)
-	        	.into(avatar);
+//				Picasso.with(this)
+//	        	.load(userInfo.getAvatar())
+//	        	.placeholder(R.drawable.loading)
+//	        	.error(R.drawable.error)
+//	        	.into(avatar);
 				
 				if(!TextUtils.isEmpty(userInfo.getName()) && !getResources().getString(R.string.name_title).equals(userInfo.getName())){
 					name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);

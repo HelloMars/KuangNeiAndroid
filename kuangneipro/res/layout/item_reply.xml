@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp" >
+        android:paddingTop="12dp" >
 
         <TextView
             android:id="@+id/from"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="#1E5782"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/reply"
@@ -26,8 +26,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text=" 回复 "
-            android:textColor="#333333"
-            android:textSize="12sp" />
+            android:textColor="#5D5D5D"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/to"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="#1E5782"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
 
         <TextView
@@ -55,10 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="false"
-        android:textColor="#333333"
+        android:textColor="#5D5D5D"
         android:textSize="14sp"
-        android:paddingTop="16dp" 
-        android:paddingBottom="16dp" />
+        android:paddingTop="8dp" 
+        android:paddingBottom="8dp" />
 
     <View
         android:id="@+id/split"

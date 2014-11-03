@@ -35,14 +35,15 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:text="孤独的夏娃"
-                android:textColor="#333333"
-                android:textSize="16sp" />
+                android:textColor="#1E5782"
+                android:textSize="14sp" />
             
             <ImageView
                 android:id="@+id/sex"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
                 android:layout_alignTop="@id/txtName"
                 android:layout_toRightOf="@id/txtName"
                 android:layout_centerVertical="true"
@@ -80,9 +81,9 @@
             android:layout_below="@id/mainPost"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="14dp"
             android:text="我不该偷吃苹果的啊，我就是个愚蠢的老女人！请大家一定不要相信一条蛇。。。"
-            android:textColor="#333333"
+            android:textColor="#5D5D5D"
             android:textSize="14sp"
             emoticon:emoticonHeight="line_height"
             emoticon:emoticonWidth="line_height" />
