@@ -68,6 +68,39 @@ public class ReplyInfoManager {
 		}
 	}
 	
+	public static void doFloater(Activity activity,String content){
+		HttpHelper httpPostingGet = new HttpHelper(activity,DO_REPLY);
+		
+		httpPostingGet.setRequestCallBackListener(new RequestCallBackListener() {
+			@Override
+			public void onRequestComplete(int id, JSONObject jsonObj) {
+				final ReturnInfo returnInfo = ReturnInfo.fromJSONObject(jsonObj);
+				final Context context = KuangNeiApplication.getInstance();
+				if(returnInfo!=null && returnInfo.getReturnCode() == ReturnInfo.SUCCESS){
+					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText( context, context.getString(R.string.info_post_success), Toast.LENGTH_SHORT).show();
+						}
+					});
+					
+				}else{
+					ApplicationWorker.getInstance().executeOnUIThrean(new Runnable() {
+						@Override
+						public void run() {
+							if(returnInfo!=null)
+							Toast.makeText( context, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
+							else 
+								Toast.makeText( context, "发送失败", Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}
+		});
+		
+		httpPostingGet.setUrl(HostUtil.GET_FLOATER).put("content", content).asyncPost();
+	}
+	
 	public static void doReplay(HttpHelper httpRequest,String toUserId,String postId,String content){
 		httpRequest.setUrl(HostUtil.DO_REPLY).put("toUserId",toUserId).put("postId", postId).put("content", content).asyncPost();
 	}

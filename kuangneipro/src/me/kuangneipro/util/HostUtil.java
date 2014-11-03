@@ -85,6 +85,8 @@ public class HostUtil {
 	
 	public static final String GET_MESSAGE = KUANG_NEI_HOST + "replyInfo/";
 	
+	public static final String GET_FLOATER = KUANG_NEI_HOST + "floater/";
+	
     /**
      * 框列表协议地址
      */
