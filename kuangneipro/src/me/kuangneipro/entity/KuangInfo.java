@@ -67,10 +67,7 @@ public class KuangInfo {
 		return GeoUtil.buildBounds(position);
 	}
 	
-	public OverlayOptions buildPolygon() {
-		return new PolygonOptions()
-        	.points(position)
-        	.stroke(new Stroke(5, 0xFF454545))
-        	.fillColor(0x50101010);
+	public OverlayOptions buildPolygon(Stroke stroke, int bgcolor) {
+		return new PolygonOptions().points(position).stroke(stroke).fillColor(bgcolor);
 	}
 }

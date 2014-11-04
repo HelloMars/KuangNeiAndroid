@@ -37,6 +37,7 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
@@ -50,8 +51,6 @@ public class MapActivity extends HttpActivity {
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
 	boolean isFirstLoc = true;// 是否首次定位
-	boolean isFirstIn = true;// 是否首次进入
-	boolean isLocked = false;// 是否已经锁住kuang
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
@@ -59,7 +58,6 @@ public class MapActivity extends HttpActivity {
 
 	private List<KuangInfo> mKuangs = new ArrayList<KuangInfo>();
 	private KuangInfo mKuang = null;
-	private KuangInfo mNearKuang = null;
 	
 	/**
 	 * 当前地点击点
@@ -214,7 +212,7 @@ public class MapActivity extends HttpActivity {
                 break;
         }
     }
-
+    
     // open GPS
     private void openGPS() {
         if(!GeoUtil.isGPSEnabled(this)) {
@@ -248,43 +246,36 @@ public class MapActivity extends HttpActivity {
 				mindis = curdis;
 			}
             if (kuang.isIn(point)) {
-            	if (isFirstIn) {
-    				isFirstIn = false;
-    				MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(kuang.buildBounds());
-                    mBaiduMap.animateMapStatus(u);
-    			}
-            	mKuang = kuang;
             	nearKuang = kuang;
-            	KuangInfo.saveSelfKuangInfo(mKuang);
+            	KuangInfo.saveSelfKuangInfo(kuang);
                 ret =  true;
                 break;
             }
 		}
-		if (mNearKuang != nearKuang) {
+		// 切换展示的框
+		if (mKuang != nearKuang) {
+			mKuang = nearKuang;
 			mBaiduMap.clear();
-            mBaiduMap.addOverlay(nearKuang.buildPolygon());
+			// for debug
+			drawKuangs();
+            mBaiduMap.addOverlay(mKuang.buildPolygon(new Stroke(5, 0xFF454545), 0x50101010));
             
             Button button = new Button(getApplicationContext());
 			button.setBackgroundResource(R.drawable.popup);
 			button.setTextColor(0xFF505050);
-			button.setText(nearKuang.getName());
-			mBaiduMap.showInfoWindow(new InfoWindow(button, nearKuang.buildBounds().getCenter(), 0));
-			mNearKuang = nearKuang;
+			button.setText(mKuang.getName());
+			mBaiduMap.showInfoWindow(new InfoWindow(button, mKuang.buildBounds().getCenter(), 0));
+			
+			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(mKuang.buildBounds());
+            mBaiduMap.animateMapStatus(u);
 		}
 		return ret;
     }
-    
-    private void lockKuang() {
-    	if (mKuang != null) {
-	    	if (UserInfo.loadSelfUserInfo() == null) {
-				mState2Bar.setText("定位认证成功，等待注册");
-				UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER), mKuang.getId());
-			} else {
-				mState2Bar.setText("定位认证成功");
-				startButton.setVisibility(View.VISIBLE);
-				isLocked = true;
-			}
-    	}
+
+    private void drawKuangs() {
+    	for (KuangInfo kuang : mKuangs) {
+            mBaiduMap.addOverlay(kuang.buildPolygon(new Stroke(5, 0xAAAA0000), 0x10080808));
+        }
     }
     
 	private void initListener() {
@@ -350,9 +341,7 @@ public class MapActivity extends HttpActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(MapActivity.this, PostListActivity.class);
-                startActivity(intent);
-                MapActivity.this.finish();
+            	UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER), mKuang.getId());
             }
         });
         startButton.setVisibility(View.GONE);
@@ -388,8 +377,14 @@ public class MapActivity extends HttpActivity {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			// map view 销毁后不在处理新接收的位置
-			if (location == null || mMapView == null || isLocked)
+			if (location == null || mMapView == null)
 				return;
+			
+			if (UserInfo.loadSelfUserInfo() != null) {
+				Intent intent = new Intent(MapActivity.this, PostListActivity.class);
+                startActivity(intent);
+                MapActivity.this.finish();
+			}
 			
 			if (mKuangs.isEmpty()) {
 				MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
@@ -425,13 +420,15 @@ public class MapActivity extends HttpActivity {
 				boolean isIn = isIn(new LatLng(location.getLatitude(), location.getLongitude()));
 				if (location.getLocType() == 61) { // GPS 定位结果
 					if (isIn) {
-						lockKuang();
+						mState2Bar.setText("定位认证成功");
+						startButton.setVisibility(View.VISIBLE);
 					} else {
 						mState2Bar.setText("定位不在框内，无法进入(等待GPS调整位置中...)");
 					}
 				} else if (location.getLocType() == 161 && location.getNetworkLocationType().equals("wf")) { // wifi 定位结果
 					if (isIn) {
-						lockKuang();
+						mState2Bar.setText("定位认证成功");
+						startButton.setVisibility(View.VISIBLE);
 					} else {
 						if (isGPSEnabled) {
 							mState2Bar.setText("wifi定位不在框内，请等待更精确的GPS定位(仅室外可用)结果");

@@ -47,6 +47,30 @@ public class HttpHelper {
 
 	public static final String CHARSET =  HTTP.UTF_8;
 	
+	public static void feedback(int type, String content) {
+		HttpPost httpPost = new HttpPost(HostUtil.FEED_BACK_URL);
+		List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
+
+		httpParams.add(new BasicNameValuePair("type", type+""));
+		httpParams.add(new BasicNameValuePair("content", content));
+		
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(httpParams,CHARSET));
+			HttpClient httpclient= new DefaultHttpClient();
+			HttpParams params = httpclient.getParams();  
+			params.setParameter(ClientPNames.HANDLE_REDIRECTS, false);  
+			httpclient.execute(httpPost);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}	
+	}
+	
 	private final int id;
 	private final Map<String,String> params;
 	private volatile RequestCallBackListener requestCallBackListener;
@@ -221,7 +245,6 @@ public class HttpHelper {
 			}
 			
 		});
-		
 	}
 	
 	public JSONObject syncGet(){

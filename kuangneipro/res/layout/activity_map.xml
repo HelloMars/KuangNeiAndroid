@@ -34,9 +34,12 @@
         <Button
             android:id="@+id/startbutton"
             android:layout_above="@+id/state2"
-            android:layout_width="fill_parent"
+            android:layout_toRightOf="@+id/wifibutton"
+            android:layout_toLeftOf="@+id/gpsbutton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="19dp"
             android:layout_marginStart="19dp"
             android:layout_marginRight="19dp"
@@ -48,7 +51,7 @@
 
         <Button
             android:id="@+id/wifibutton"
-            android:layout_above="@+id/startbutton"
+            android:layout_above="@+id/state2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:textSize="16sp"
@@ -63,7 +66,7 @@
 <!-- android:textColor="#505050" -->
         <Button
             android:id="@+id/gpsbutton"
-            android:layout_above="@+id/startbutton"
+            android:layout_above="@+id/state2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:textSize="16sp"
