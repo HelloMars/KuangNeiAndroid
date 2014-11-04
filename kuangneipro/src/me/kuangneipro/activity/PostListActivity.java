@@ -8,6 +8,7 @@ import me.kuangneipro.core.HttpActivity;
 import me.kuangneipro.emoticon.EmoticonInputDialog;
 import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
+import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.TopicInfo;
@@ -57,6 +58,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	private int index = 1;
 	private EmoticonPopupable mEmoticonPopupable;
 	
+	private TextView name;
 	private View ping;
 	private View posting;
 	private View setting;
@@ -89,6 +91,14 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
 			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
+		}
+		
+		name = (TextView) findViewById(R.id.school);
+		KuangInfo kuang = KuangInfo.loadSelfKuangInfo();
+		if (kuang == null) {
+			name.setText("黑洞");
+		} else {
+			name.setText(kuang.getName());
 		}
 		
 		ping = findViewById(R.id.ping);
