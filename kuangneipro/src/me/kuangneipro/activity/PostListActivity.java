@@ -138,6 +138,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
             	index = 1;
+            	UnreadManager.dorequest(getHttpRequest(UnreadManager.REQUEST_UNREAD));
             	PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
             }
         });
