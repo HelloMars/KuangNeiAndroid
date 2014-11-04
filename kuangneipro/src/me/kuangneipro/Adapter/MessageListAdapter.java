@@ -97,10 +97,10 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 		holder.from.setText(message.replyInfo.fromUser.name);
 		holder.from.setOnClickListener(this);
 		holder.content.setText(message.replyInfo.content);
-		if (position == getCount() - 1)
+		//if (position == getCount() - 1)
 			holder.split.setVisibility(View.GONE);
-		else
-			holder.split.setVisibility(View.VISIBLE);
+		//else
+		//	holder.split.setVisibility(View.VISIBLE);
 		
 
 		return rowView;
