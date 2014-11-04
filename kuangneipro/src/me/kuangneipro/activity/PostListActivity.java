@@ -38,6 +38,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnLastItemVisibleListener;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.igexin.sdk.PushManager;
 
 public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
@@ -65,6 +66,16 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_list);
+		
+		//个推请求clientid,并注册接收监听
+        PushManager.getInstance().initialize(this.getApplicationContext());
+        
+        if (UserInfo.loadSelfUserInfo() == null) {
+			Intent intent = new Intent(this, MapActivity.class);
+			this.startActivity(intent);
+			this.finish();
+			return;
+		}
 
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);

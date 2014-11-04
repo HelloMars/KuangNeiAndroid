@@ -85,17 +85,7 @@ public class MapActivity extends HttpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
-        
         setContentView(R.layout.activity_map);
-        
-        //个推请求clientid,并注册接收监听
-        PushManager.getInstance().initialize(this.getApplicationContext());
-        
-        if (UserInfo.loadSelfUserInfo() != null) {
-			Intent intent = new Intent(this, PostListActivity.class);
-			this.startActivity(intent);
-			this.finish();
-		}
       		
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
@@ -384,6 +374,7 @@ public class MapActivity extends HttpActivity {
 				Intent intent = new Intent(MapActivity.this, PostListActivity.class);
                 startActivity(intent);
                 MapActivity.this.finish();
+                return;
 			}
 			
 			if (mKuangs.isEmpty()) {
