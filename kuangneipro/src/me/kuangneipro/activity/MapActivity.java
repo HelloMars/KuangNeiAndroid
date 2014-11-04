@@ -266,7 +266,7 @@ public class MapActivity extends HttpActivity {
             
             Button button = new Button(getApplicationContext());
 			button.setBackgroundResource(R.drawable.popup);
-			button.setTextColor(0xFF000000);
+			button.setTextColor(0xFF505050);
 			button.setText(nearKuang.getName());
 			mBaiduMap.showInfoWindow(new InfoWindow(button, nearKuang.buildBounds().getCenter(), 0));
 			mNearKuang = nearKuang;

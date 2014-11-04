@@ -27,9 +27,10 @@
             android:layout_marginRight="19dp"
             android:layout_marginEnd="19dp"
             android:layout_marginBottom="19dp"
-            android:textColor="#1E5782"
+            android:textColor="#505050"
+
             android:background="@drawable/map_text" />
-        
+        <!--             android:textColor="#1E5782" -->
         <Button
             android:id="@+id/startbutton"
             android:layout_above="@+id/state2"
@@ -57,9 +58,9 @@
             android:layout_marginStart="38dp"
             android:layout_marginBottom="19dp"
             android:background="@drawable/button_style"
-            android:textColor="#505050"
+            android:textColor="#E6E6E6"
             android:text="@string/wifi_button" />
-
+<!-- android:textColor="#505050" -->
         <Button
             android:id="@+id/gpsbutton"
             android:layout_above="@+id/startbutton"
@@ -72,7 +73,7 @@
             android:layout_marginEnd="38dp"
             android:layout_marginBottom="19dp"
             android:background="@drawable/button_style"
-            android:textColor="#505050"
+            android:textColor="#E6E6E6"
             android:text="@string/gps_button" />
 
     </RelativeLayout>
