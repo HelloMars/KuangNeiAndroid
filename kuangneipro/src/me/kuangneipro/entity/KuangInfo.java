@@ -70,7 +70,7 @@ public class KuangInfo {
 	public OverlayOptions buildPolygon() {
 		return new PolygonOptions()
         	.points(position)
-        	.stroke(new Stroke(5, 0xAAFF0000))
-        	.fillColor(0x10101010);
+        	.stroke(new Stroke(5, 0xFF454545))
+        	.fillColor(0x50101010);
 	}
 }
