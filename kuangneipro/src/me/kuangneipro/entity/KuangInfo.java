@@ -44,6 +44,7 @@ public class KuangInfo {
 		this.id = id;
 		this.name = name;
 		this.area = area;
+		if (pts.size() < 3) pts.clear();
 		position = new ArrayList<LatLng>(pts);
 	}
 	
@@ -69,5 +70,19 @@ public class KuangInfo {
 	
 	public OverlayOptions buildPolygon(Stroke stroke, int bgcolor) {
 		return new PolygonOptions().points(position).stroke(stroke).fillColor(bgcolor);
+	}
+	
+	public double calDistance(LatLng point) {
+		double mindis = 100000000;
+		LatLng p1 = position.get(0);
+		LatLng p2 = position.get(1);
+		for (int i = 1; i < position.size(); i++) {
+			p2 = position.get(i);
+			mindis = Math.min(mindis, GeoUtil.pointToSegment(point, p1, p2));
+			p1 = p2;
+		}
+		p2 = position.get(0);
+		mindis = Math.min(mindis, GeoUtil.pointToSegment(point, p1, p2));
+		return mindis;
 	}
 }

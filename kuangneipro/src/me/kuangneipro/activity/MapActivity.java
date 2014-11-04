@@ -40,8 +40,6 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
-import com.igexin.sdk.PushManager;
 
 public class MapActivity extends HttpActivity {
 
@@ -50,7 +48,8 @@ public class MapActivity extends HttpActivity {
 	// 定位相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
-	boolean isFirstLoc = true;// 是否首次定位
+	boolean drawable = false;
+	int locNum = 0;// 定位级别
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
@@ -58,6 +57,7 @@ public class MapActivity extends HttpActivity {
 
 	private List<KuangInfo> mKuangs = new ArrayList<KuangInfo>();
 	private KuangInfo mKuang = null;
+	private KuangInfo mNearKuang = null;
 	
 	/**
 	 * 当前地点击点
@@ -135,7 +135,7 @@ public class MapActivity extends HttpActivity {
         mBaiduMap.addOverlay(polygonOption);*/
 
         // 开启定位图层
- 		mBaiduMap.setMyLocationEnabled(true);
+ 		mBaiduMap.setMyLocationEnabled(false);
  		mBaiduMap
 		.setMyLocationConfigeration(new MyLocationConfiguration(
 				LocationMode.NORMAL, true, null));
@@ -226,46 +226,37 @@ public class MapActivity extends HttpActivity {
     }
 
     private boolean isIn(LatLng point) {
-    	boolean ret = false;
-    	double mindis = 100000000;
-    	KuangInfo nearKuang = null;
+    	mNearKuang = null;
+    	double mindis = 30;
 		for (KuangInfo kuang : mKuangs) {
-			double curdis = DistanceUtil.getDistance(point, kuang.buildBounds().getCenter());
+			double curdis = kuang.calDistance(point);
 			if (curdis < mindis) {
-				nearKuang = kuang;
+				mNearKuang = kuang;
 				mindis = curdis;
 			}
             if (kuang.isIn(point)) {
-            	nearKuang = kuang;
+            	mNearKuang = kuang;
             	KuangInfo.saveSelfKuangInfo(kuang);
-                ret =  true;
-                break;
+                return true;
             }
 		}
-		// 切换展示的框
-		if (mKuang != nearKuang) {
-			mKuang = nearKuang;
-			mBaiduMap.clear();
-			// for debug
-			drawKuangs();
-            mBaiduMap.addOverlay(mKuang.buildPolygon(new Stroke(5, 0xFF454545), 0x50101010));
-            
-            Button button = new Button(getApplicationContext());
-			button.setBackgroundResource(R.drawable.popup);
-			button.setTextColor(0xFF505050);
-			button.setText(mKuang.getName());
-			mBaiduMap.showInfoWindow(new InfoWindow(button, mKuang.buildBounds().getCenter(), 0));
-			
-			MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(mKuang.buildBounds());
-            mBaiduMap.animateMapStatus(u);
-		}
-		return ret;
+		return false;
     }
 
     private void drawKuangs() {
     	for (KuangInfo kuang : mKuangs) {
             mBaiduMap.addOverlay(kuang.buildPolygon(new Stroke(5, 0xAAAA0000), 0x10080808));
         }
+    }
+    
+    private void animate(int num, BDLocation location) {
+    	if (locNum == num) {
+			locNum ++;
+			LatLng ll = new LatLng(location.getLatitude(),
+					location.getLongitude());
+			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+			mBaiduMap.animateMapStatus(u);
+		}
     }
     
 	private void initListener() {
@@ -385,28 +376,17 @@ public class MapActivity extends HttpActivity {
 					location.getLocType(),
 					location.getNetworkLocationType(),
 					location.getSatelliteNumber());*/
-			MyLocationData locData = new MyLocationData.Builder()
-					.accuracy(location.getRadius())
-					// 此处设置开发者获取到的方向信息，顺时针0-360
-					.direction(-1)
-					.latitude(location.getLatitude())
-					.longitude(location.getLongitude()).build();
-			mBaiduMap.setMyLocationData(locData);
-			if (isFirstLoc) {
-				isFirstLoc = false;
-				LatLng ll = new LatLng(location.getLatitude(),
-						location.getLongitude());
-				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
-				mBaiduMap.animateMapStatus(u);
-			}
+			animate(0, location);
 			
 			boolean isGPSEnabled = GeoUtil.isGPSEnabled(mActivity);
 			boolean isWifiEnabled = GeoUtil.isWifiEnabled(mActivity);
             startButton.setVisibility(View.GONE);
 			if (!GeoUtil.isOnline(mActivity)) {
 				mState2Bar.setText("请连接网络");
+				drawable = false;
 			} else if (!isGPSEnabled && !isWifiEnabled) {
 				mState2Bar.setText("请打开wifi或者GPS");
+				drawable = false;
 			} else {
 				boolean isIn = isIn(new LatLng(location.getLatitude(), location.getLongitude()));
 				if (location.getLocType() == 61) { // GPS 定位结果
@@ -416,6 +396,7 @@ public class MapActivity extends HttpActivity {
 					} else {
 						mState2Bar.setText("定位不在框内，无法进入(等待GPS调整位置中...)");
 					}
+					drawable = true;
 				} else if (location.getLocType() == 161 && location.getNetworkLocationType().equals("wf")) { // wifi 定位结果
 					if (isIn) {
 						mState2Bar.setText("定位认证成功");
@@ -427,9 +408,47 @@ public class MapActivity extends HttpActivity {
 							mState2Bar.setText("wifi定位不在框内，请打开GPS尝试更精确的定位(仅室外可用)");
 						}
 					}
+					drawable = true;
 				} else {
 					mState2Bar.setText("非wifi或GPS定位结果，请等待更精确的定位");
+					drawable = false;
 				}
+			}
+			
+			if (drawable) {
+				MyLocationData locData = new MyLocationData.Builder()
+					.accuracy(location.getRadius())
+					// 此处设置开发者获取到的方向信息，顺时针0-360
+					.direction(-1)
+					.latitude(location.getLatitude())
+					.longitude(location.getLongitude()).build();
+				animate(1, location);
+				mBaiduMap.setMyLocationEnabled(true);
+				mBaiduMap.setMyLocationData(locData);
+				
+				// 切换展示的框
+				if (mNearKuang != null && mKuang != mNearKuang) {
+					mKuang = mNearKuang;
+					mBaiduMap.clear();
+					// for debug
+					drawKuangs();
+		            mBaiduMap.addOverlay(mKuang.buildPolygon(new Stroke(5, 0xFF454545), 0x50101010));
+		            
+		            Button button = new Button(getApplicationContext());
+					button.setBackgroundResource(R.drawable.popup);
+					button.setTextColor(0xFF505050);
+					button.setText(mKuang.getName());
+					mBaiduMap.showInfoWindow(new InfoWindow(button, mKuang.buildBounds().getCenter(), 0));
+					
+					MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(mKuang.buildBounds());
+		            mBaiduMap.animateMapStatus(u);
+				}
+			} else {
+				mKuang = null;
+				mBaiduMap.clear();
+				// for debug
+				drawKuangs();
+				mBaiduMap.setMyLocationEnabled(false);
 			}
 		}
 
