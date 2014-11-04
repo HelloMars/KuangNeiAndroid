@@ -87,6 +87,8 @@ public class HostUtil {
 	
 	public static final String GET_FLOATER = KUANG_NEI_HOST + "floater/";
 	
+	public static final String GET_TIPIC = KUANG_NEI_HOST + "todayTopic/";
+	
     /**
      * 框列表协议地址
      */

@@ -10,10 +10,12 @@ import me.kuangneipro.emoticon.EmoticonInputView.OnEmoticonMessageSendListener;
 import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.TopicInfo;
 import me.kuangneipro.entity.UpInfo;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.ReplyInfoManager;
+import me.kuangneipro.manager.TopicInfoManager;
 import me.kuangneipro.manager.UnreadManager;
 import me.kuangneipro.manager.UpInfoManager;
 import me.kuangneipro.util.SexUtil;
@@ -28,10 +30,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -40,13 +44,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.igexin.sdk.PushManager;
 
-public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener {
+public class PostListActivity extends HttpActivity implements OnEmoticonMessageSendListener, android.view.View.OnClickListener {
 	private static final String TAG = PostListActivity.class.getSimpleName();  //tag 用于测试log用  
 	
 	public final static String SELECT_CHANNEL_INFO = "me.kuangnei.select.CHANNEL";
 	
 	private static final int channelID = 1;
-	
+	private View headerView;
 	private PullToRefreshListView mListView;
 	private ArrayList<PostEntity> mPostList;
 	private PostListAdapter mPostListAdapter;
@@ -57,6 +61,10 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	private View posting;
 	private View setting;
 	private View message;
+	
+	private TextView topicInfo;
+	private TextView topicName;
+	private TopicInfo topic;
 	
 	public PostListActivity() {
 		mPostList = new ArrayList<PostEntity>();
@@ -91,7 +99,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		posting.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				writePost();
+				writePost("");
 			}
 		});
 		
@@ -118,8 +126,14 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 			}
 		});
 		
+		headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_list_header, null);
+		headerView.setOnClickListener(this);
+		topicInfo = (TextView)headerView.findViewById(R.id.topic_info);
+		topicName = (TextView)headerView.findViewById(R.id.topic_name);
+		
 		
         mListView = (PullToRefreshListView)findViewById(R.id.pull_to_refresh_listview);
+        mListView.getRefreshableView().addHeaderView(headerView);
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -150,8 +164,18 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         		startActivity(intent);
             }
         });
+        
+        updateTopic();
+        TopicInfoManager.getTopic(getHttpRequest(TopicInfoManager.GET));
 		PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
 		UnreadManager.dorequest(getHttpRequest(UnreadManager.REQUEST_UNREAD));
+	}
+	
+	private void updateTopic(){
+		if(topic!=null){
+			topicInfo.setText(topic.topicInfo);
+			topicName.setText(topic.topicName);
+		}
 	}
 	
 	@Override
@@ -213,6 +237,13 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 				message.setSelected(true);
 			else
 				message.setSelected(false);
+			break;
+		case TopicInfoManager.GET:
+		{
+			topic = TopicInfoManager.fillReplyListFromJson(jsonObj);
+			updateTopic();
+			break;
+		}
 		default:
 			break;
 		}
@@ -249,10 +280,13 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		}
 	}
 	
-	private void writePost() {
+	private void writePost(String text) {
 		UserInfo userInfo = UserInfo.loadSelfUserInfo();
 		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
 			Intent intent = new Intent(this, PostingActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("text", text);
+			intent.putExtras(bundle);
 	    	startActivity(intent);
 		}else{
 			new AlertDialog.Builder(this)
@@ -296,5 +330,11 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		}else{
 			Toast.makeText(this, "请输入回复的话", Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		if(topic!=null)
+			writePost(topic.topicName);
 	}
 }

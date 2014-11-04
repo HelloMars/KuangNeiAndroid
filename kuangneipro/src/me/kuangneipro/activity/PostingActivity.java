@@ -18,6 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +55,8 @@ public class PostingActivity extends HttpActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_posting);
 		
+		
+		
 		back = findViewById(R.id.back);
 		posting = findViewById(R.id.posting);
 		back.setOnClickListener(new OnClickListener() {
@@ -74,6 +77,14 @@ public class PostingActivity extends HttpActivity{
 		
 		
 		mEditText = (EmoticonEditText) findViewById(R.id.editTextPost);
+		
+		Intent intent = getIntent();
+		if(intent!=null){
+			String text = intent.getStringExtra("text");
+			if(!TextUtils.isEmpty(text))
+				mEditText.setText(text);
+		}
+		
 		mImageGrid = (GridView) findViewById(R.id.imageGrid);
 		mPostingImageAdapter = new PostingImageAdapter(this, mUploadImages);
 		mImageGrid.setAdapter(mPostingImageAdapter);
