@@ -231,7 +231,7 @@ public class MapActivity extends HttpActivity {
 
     private boolean isIn(LatLng point) {
     	mNearKuang = null;
-    	double mindis = 100;
+    	double mindis = 30;
 		for (KuangInfo kuang : mKuangs) {
 			double curdis = kuang.calDistance(point);
 			if (curdis < mindis) {
