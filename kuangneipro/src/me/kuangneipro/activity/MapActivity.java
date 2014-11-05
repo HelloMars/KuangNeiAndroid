@@ -28,8 +28,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMap.OnMapClickListener;
+import com.baidu.mapapi.map.BaiduMap.OnMapLongClickListener;
 import com.baidu.mapapi.map.BaiduMap.OnMapStatusChangeListener;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -44,7 +47,8 @@ import com.baidu.mapapi.model.LatLng;
 public class MapActivity extends HttpActivity {
 
     private static final String TAG = MapActivity.class.getSimpleName(); // tag 用于测试log用
-
+    private static boolean ISDEBUG = true;
+    
 	// 定位相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -61,9 +65,9 @@ public class MapActivity extends HttpActivity {
 	
 	/**
 	 * 当前地点击点
-	 *//*
+	 */
 	private LatLng currentPt;
-	private String touchType;
+	/*private String touchType;
 	private String locInfo = "UNKNOWN";*/
 
 	/**
@@ -227,7 +231,7 @@ public class MapActivity extends HttpActivity {
 
     private boolean isIn(LatLng point) {
     	mNearKuang = null;
-    	double mindis = 30;
+    	double mindis = 100;
 		for (KuangInfo kuang : mKuangs) {
 			double curdis = kuang.calDistance(point);
 			if (curdis < mindis) {
@@ -260,33 +264,33 @@ public class MapActivity extends HttpActivity {
     }
     
 	private void initListener() {
-		/*
+		
 		mBaiduMap.setOnMapClickListener(new OnMapClickListener() {
 			public void onMapClick(LatLng point) {
-				boolean isIn = isIn(point);
-				touchType = "单击" + (isIn ? "In":"Out");
-				currentPt = point;
+				if (ISDEBUG) currentPt = point;
 				updateMapState();
 			}
 
-			public boolean onMapPoiClick(MapPoi poi) {
+			public boolean onMapPoiClick(MapPoi arg0) {
 				return false;
 			}
 		});
 		mBaiduMap.setOnMapLongClickListener(new OnMapLongClickListener() {
 			public void onMapLongClick(LatLng point) {
-				boolean isIn = isIn(point);
-				touchType = "长按" + (isIn ? "In":"Out");
-				currentPt = point;
+				if (ISDEBUG) {
+					Toast.makeText(MapActivity.this, "关闭调试模式", Toast.LENGTH_LONG).show();
+					ISDEBUG = false;
+				} else {
+					Toast.makeText(MapActivity.this, "开启调试模式", Toast.LENGTH_LONG).show();
+					ISDEBUG = true;
+				}
+				mKuang = null; // 触发重绘
 				updateMapState();
 			}
 		});
-		mBaiduMap.setOnMapDoubleClickListener(new OnMapDoubleClickListener() {
+		/*mBaiduMap.setOnMapDoubleClickListener(new OnMapDoubleClickListener() {
 			public void onMapDoubleClick(LatLng point) {
-				boolean isIn = isIn(point);
-				touchType = "双击" + (isIn ? "In":"Out");
-				currentPt = point;
-				updateMapState();
+				
 			}
 		});*/
 		mBaiduMap.setOnMapStatusChangeListener(new OnMapStatusChangeListener() {
@@ -388,7 +392,9 @@ public class MapActivity extends HttpActivity {
 				mState2Bar.setText("请打开wifi或者GPS");
 				drawable = false;
 			} else {
-				boolean isIn = isIn(new LatLng(location.getLatitude(), location.getLongitude()));
+				LatLng point = new LatLng(location.getLatitude(), location.getLongitude());
+				if (ISDEBUG && currentPt != null) point = currentPt;
+				boolean isIn = isIn(point);
 				if (location.getLocType() == 61) { // GPS 定位结果
 					if (isIn) {
 						mState2Bar.setText("定位认证成功");
@@ -426,28 +432,30 @@ public class MapActivity extends HttpActivity {
 				mBaiduMap.setMyLocationEnabled(true);
 				mBaiduMap.setMyLocationData(locData);
 				
-				// 切换展示的框
-				if (mNearKuang != null && mKuang != mNearKuang) {
-					mKuang = mNearKuang;
+				if (mNearKuang != null) { // 探测到框
+					if (mKuang != mNearKuang) { // 换到新的框
+						mKuang = mNearKuang;
+						mBaiduMap.clear();
+						if (ISDEBUG) drawKuangs();
+			            mBaiduMap.addOverlay(mKuang.buildPolygon(new Stroke(5, 0xFF454545), 0x50101010));
+			            
+			            Button button = new Button(getApplicationContext());
+						button.setBackgroundResource(R.drawable.popup);
+						button.setTextColor(0xFF505050);
+						button.setText(mKuang.getName());
+						mBaiduMap.showInfoWindow(new InfoWindow(button, mKuang.buildBounds().getCenter(), 0));
+						
+						MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(mKuang.buildBounds());
+			            mBaiduMap.animateMapStatus(u);
+					}
+				} else { // 没有框可以显示，清空图层
 					mBaiduMap.clear();
-					// for debug
-					drawKuangs();
-		            mBaiduMap.addOverlay(mKuang.buildPolygon(new Stroke(5, 0xFF454545), 0x50101010));
-		            
-		            Button button = new Button(getApplicationContext());
-					button.setBackgroundResource(R.drawable.popup);
-					button.setTextColor(0xFF505050);
-					button.setText(mKuang.getName());
-					mBaiduMap.showInfoWindow(new InfoWindow(button, mKuang.buildBounds().getCenter(), 0));
-					
-					MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(mKuang.buildBounds());
-		            mBaiduMap.animateMapStatus(u);
+					if (ISDEBUG) drawKuangs();
 				}
 			} else {
 				mKuang = null;
 				mBaiduMap.clear();
-				// for debug
-				drawKuangs();
+				if (ISDEBUG) drawKuangs();
 				mBaiduMap.setMyLocationEnabled(false);
 			}
 		}

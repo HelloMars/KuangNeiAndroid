@@ -37,19 +37,6 @@
             android:textColor="#1E5782"
             android:textSize="14sp" />
 
-
-        <ImageView
-                android:id="@+id/bottle"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:src="@drawable/bottle"
-                android:visibility="gone"
-                />
-
         <TextView
             android:id="@+id/date"
             android:layout_width="0px"
@@ -60,6 +47,15 @@
             android:text="10秒前"
             android:textColor="@color/time_text_color"
             android:textSize="12sp" />
+        
+        <ImageView
+			android:id="@+id/bottle"
+			android:layout_width="24dp"
+			android:layout_height="24dp"
+			android:layout_marginLeft="2dp"
+			android:src="@drawable/bottle"
+			android:visibility="gone"/>
+        
     </LinearLayout>
 
     <TextView
