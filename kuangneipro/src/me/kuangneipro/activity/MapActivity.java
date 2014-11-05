@@ -449,6 +449,7 @@ public class MapActivity extends HttpActivity {
 			            mBaiduMap.animateMapStatus(u);
 					}
 				} else { // 没有框可以显示，清空图层
+					mKuang = null;
 					mBaiduMap.clear();
 					if (ISDEBUG) drawKuangs();
 				}

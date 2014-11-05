@@ -47,7 +47,11 @@ public class HttpHelper {
 
 	public static final String CHARSET =  HTTP.UTF_8;
 	
-	public static void feedback(int type, String content) {
+	public static void feedback() {
+		
+	}
+	
+	private static void feedbackpost(int type, String content) {
 		HttpPost httpPost = new HttpPost(HostUtil.FEED_BACK_URL);
 		List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
 

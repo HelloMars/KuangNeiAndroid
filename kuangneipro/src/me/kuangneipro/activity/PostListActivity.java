@@ -19,6 +19,7 @@ import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.TopicInfoManager;
 import me.kuangneipro.manager.UnreadManager;
 import me.kuangneipro.manager.UpInfoManager;
+import me.kuangneipro.util.HttpHelper;
 import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
@@ -79,6 +80,8 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		
 		//个推请求clientid,并注册接收监听
         PushManager.getInstance().initialize(this.getApplicationContext());
+        
+        HttpHelper.feedback();
         
         if (UserInfo.loadSelfUserInfo() == null) {
 			Intent intent = new Intent(this, MapActivity.class);
