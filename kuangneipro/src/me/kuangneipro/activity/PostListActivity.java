@@ -167,7 +167,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
                 Intent intent = new Intent(PostListActivity.this, PostDetailActivity.class);
 
         		Bundle bundle = new Bundle();
-        		PostEntity post = mPostList.get(position-1);
+        		PostEntity post = mPostList.get(position-2);
         		Log.i(TAG, "clicked position " + position + " " + post.mContent + " " + post.mPictures.size());
         	    bundle.putParcelable(PostDetailActivity.SELECT_POST_INFO, post);     
         	    intent.putExtras(bundle);

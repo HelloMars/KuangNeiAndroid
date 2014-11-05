@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnClickListener {
@@ -24,6 +25,7 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 		private TextView from;
 		private TextView to;
 		private TextView reply;
+		private ImageView bottle;
 		private TextView date;
 		private View split;
 	}
@@ -62,6 +64,7 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 			viewHolder.content = (TextView) rowView.findViewById(R.id.content);
 			viewHolder.from = (TextView) rowView.findViewById(R.id.from);
 			viewHolder.to = (TextView) rowView.findViewById(R.id.to);
+			viewHolder.bottle = (ImageView) rowView.findViewById(R.id.bottle);
 			viewHolder.date = (TextView) rowView.findViewById(R.id.date);
 			viewHolder.reply = (TextView) rowView.findViewById(R.id.reply);
 			viewHolder.split = rowView.findViewById(R.id.split);
@@ -76,15 +79,18 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 		if(message.postEntity.mChannelId == 0){
 			//漂流瓶
 			//背景红
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
+			holder.bottle.setVisibility(View.VISIBLE);
+			//rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
 		
 		}else{
 			//普通消息
 			//背景红
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
+			holder.bottle.setVisibility(View.GONE);
+			//rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
 		
 		}
 		
+		rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
 		
 		holder.date.setText(message.replyInfo.getDate());
 

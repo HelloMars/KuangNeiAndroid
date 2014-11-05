@@ -38,6 +38,18 @@
             android:textSize="14sp" />
 
 
+        <ImageView
+                android:id="@+id/bottle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:src="@drawable/bottle"
+                android:visibility="gone"
+                />
+
         <TextView
             android:id="@+id/date"
             android:layout_width="0px"
