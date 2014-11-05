@@ -89,6 +89,8 @@ public class HostUtil {
 	
 	public static final String GET_TIPIC = KUANG_NEI_HOST + "todayTopic/";
 	
+	public static final String CHECK_VERSION = KUANG_NEI_HOST + "checkVersion/";
+	
     /**
      * 框列表协议地址
      */
