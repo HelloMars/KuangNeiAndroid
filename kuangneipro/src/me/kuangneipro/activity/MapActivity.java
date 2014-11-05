@@ -47,7 +47,7 @@ import com.baidu.mapapi.model.LatLng;
 public class MapActivity extends HttpActivity {
 
     private static final String TAG = MapActivity.class.getSimpleName(); // tag 用于测试log用
-    private static boolean ISDEBUG = true;
+    private static boolean ISDEBUG = false;
     
 	// 定位相关
 	LocationClient mLocClient;
