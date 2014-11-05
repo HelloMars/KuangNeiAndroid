@@ -320,15 +320,50 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 
 	
 	public void doUp(PostEntity postEntity){
-		this.postEntity = postEntity;
-		UpInfoManager.doUp(getHttpRequest(UpInfoManager.DO_UP), postEntity.mPostId+"");
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
+			
+			this.postEntity = postEntity;
+			UpInfoManager.doUp(getHttpRequest(UpInfoManager.DO_UP), postEntity.mPostId+"");
+			
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称和性别后发送帖子")
+			 .setPositiveButton("确定", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(PostListActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
+		}
+		
 	}
 	
 	public void doReplay(PostEntity postEntity){
-		if(mEmoticonPopupable!=null){
-			mEmoticonPopupable.show();
-			mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
+		
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
+
+			if(mEmoticonPopupable!=null){
+				mEmoticonPopupable.show();
+				mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
+			}
+			
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称和性别后发送帖子")
+			 .setPositiveButton("确定", new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(PostListActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
 		}
+		
 	}
 
 	/**

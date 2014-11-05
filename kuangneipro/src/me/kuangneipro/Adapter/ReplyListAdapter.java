@@ -95,6 +95,12 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 		holder.from.setOnClickListener(this);
 		holder.to.setTag(reply);
 		holder.from.setTag(reply);
+		
+		holder.content.setOnClickListener(this);
+		holder.content.setTag(reply);
+		holder.date.setOnClickListener(this);
+		holder.date.setTag(reply);
+		
 		return rowView;
 	}
 
@@ -111,6 +117,8 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 				break;
 			}
 			case R.id.from:
+			case R.id.date:
+			case R.id.content:
 			{
 				ReplyInfo replyInfo = (ReplyInfo)view.getTag();
 				replyInfo.replyUser = replyInfo.fromUser;

@@ -13,6 +13,7 @@ import me.kuangneipro.entity.PostEntity;
 import me.kuangneipro.entity.ReplyInfo;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.UpInfo;
+import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.UpInfoManager;
 import me.kuangneipro.util.SexUtil;
@@ -20,6 +21,9 @@ import me.kuangneipro.util.SexUtil;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -237,15 +241,50 @@ import com.squareup.picasso.Picasso;
 	}
 	
 	public void doUp(){
-		if(mPost!=null)
-			UpInfoManager.doUp(getHttpRequest(UpInfoManager.DO_UP), mPost.mPostId+"");
+		
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
+			
+			if(mPost!=null)
+				UpInfoManager.doUp(getHttpRequest(UpInfoManager.DO_UP), mPost.mPostId+"");
+			
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称和性别后发送帖子")
+			 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(PostDetailActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
+		}
+		
 	}
 
 	public void doReplay(ReplyInfo replyInfo){
-		if(mEmoticonPopupable!=null){
-			mEmoticonPopupable.show();
-			mEmoticonPopupable.getEmoticonSendButton().setTag(replyInfo);
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
+			
+			if(mEmoticonPopupable!=null){
+				mEmoticonPopupable.show();
+				mEmoticonPopupable.getEmoticonSendButton().setTag(replyInfo);
+			}
+			
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称和性别后发送帖子")
+			 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(PostDetailActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
 		}
+		
 	}
 
 	@Override

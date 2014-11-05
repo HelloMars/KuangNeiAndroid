@@ -80,6 +80,12 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 			//漂流瓶
 			//背景红
 			holder.bottle.setVisibility(View.VISIBLE);
+			
+			holder.content.setOnClickListener(this);
+			holder.content.setTag(message.replyInfo);
+			holder.date.setOnClickListener(this);
+			holder.date.setTag(message.replyInfo);
+			
 			//rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
 		
 		}else{
@@ -125,6 +131,8 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 				break;
 			}
 			case R.id.from:
+			case R.id.date:
+			case R.id.content:
 			{
 				ReplyInfo replyInfo = (ReplyInfo)view.getTag();
 				replyInfo.replyUser = replyInfo.fromUser;
