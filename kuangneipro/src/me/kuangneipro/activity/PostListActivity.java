@@ -90,7 +90,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
-			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
+			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(140);
 		}
 		
 		name = (TextView) findViewById(R.id.school);
@@ -347,6 +347,8 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
 
 			if(mEmoticonPopupable!=null){
+				if(postEntity!=null)
+					mEmoticonPopupable.getEmoticonEditText().setHint("回复 "+postEntity.mUserName);
 				mEmoticonPopupable.show();
 				mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
 			}

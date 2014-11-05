@@ -85,7 +85,7 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 			holder.content.setTag(message.replyInfo);
 			holder.date.setOnClickListener(this);
 			holder.date.setTag(message.replyInfo);
-			
+			holder.reply.setText(" to ");
 			//rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
 		
 		}else{

@@ -70,7 +70,7 @@ import com.squareup.picasso.Picasso;
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
-			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
+			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(140);
 		}
 		
 		back = findViewById(R.id.back);
@@ -268,6 +268,10 @@ import com.squareup.picasso.Picasso;
 		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
 			
 			if(mEmoticonPopupable!=null){
+				if(replyInfo!=null&&replyInfo.replyUser!=null)
+					mEmoticonPopupable.getEmoticonEditText().setHint("回复 "+replyInfo.replyUser.name);
+				else
+					mEmoticonPopupable.getEmoticonEditText().setHint("");
 				mEmoticonPopupable.show();
 				mEmoticonPopupable.getEmoticonSendButton().setTag(replyInfo);
 			}

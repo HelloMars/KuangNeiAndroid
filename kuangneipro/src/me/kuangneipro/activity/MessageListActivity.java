@@ -12,11 +12,15 @@ import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.entity.MessageInfo;
 import me.kuangneipro.entity.ReplyInfo;
 import me.kuangneipro.entity.ReturnInfo;
+import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.manager.MessageInfoManager;
 import me.kuangneipro.manager.ReplyInfoManager;
+import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -54,7 +58,7 @@ public class MessageListActivity extends HttpActivity implements OnEmoticonMessa
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
-			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(100);
+			mEmoticonPopupable.getEmoticonInputView().setMaxTextCount(140);
 		}
 		
 		back = findViewById(R.id.back);
@@ -144,10 +148,29 @@ public class MessageListActivity extends HttpActivity implements OnEmoticonMessa
 	}
 	
 	public void doReplay(ReplyInfo postEntity){
-		if(mEmoticonPopupable!=null){
-			mEmoticonPopupable.show();
-			mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
+		UserInfo userInfo = UserInfo.loadSelfUserInfo();
+		if(userInfo!=null && !TextUtils.isEmpty(userInfo.getName())  && SexUtil.isValid(userInfo.getSex())){
+			
+			if(mEmoticonPopupable!=null){
+				if(postEntity!=null&&postEntity.replyUser!=null)
+					mEmoticonPopupable.getEmoticonEditText().setHint("回复 "+postEntity.replyUser.name);
+				mEmoticonPopupable.show();
+				mEmoticonPopupable.getEmoticonSendButton().setTag(postEntity);
+			}
+			
+		}else{
+			new AlertDialog.Builder(this)
+			 .setMessage("请先设置昵称和性别后发送帖子")
+			 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					Intent intent = new Intent(MessageListActivity.this, PersonalInfoActivity.class);
+			    	startActivity(intent);
+				}
+			}) .setNegativeButton("取消", null)
+			 .show(); 
 		}
+		
 	}
 	
 	@Override
