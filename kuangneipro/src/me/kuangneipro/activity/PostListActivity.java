@@ -14,12 +14,14 @@ import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.entity.TopicInfo;
 import me.kuangneipro.entity.UpInfo;
 import me.kuangneipro.entity.UserInfo;
+import me.kuangneipro.entity.VersionInfo;
 import me.kuangneipro.manager.PostEntityManager;
 import me.kuangneipro.manager.ReplyInfoManager;
 import me.kuangneipro.manager.TopicInfoManager;
 import me.kuangneipro.manager.UnreadManager;
 import me.kuangneipro.manager.UpInfoManager;
-import me.kuangneipro.util.HttpHelper;
+import me.kuangneipro.manager.VersionManager;
+import me.kuangneipro.util.DownloadUtil;
 import me.kuangneipro.util.SexUtil;
 
 import org.json.JSONObject;
@@ -80,8 +82,6 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		
 		//个推请求clientid,并注册接收监听
         PushManager.getInstance().initialize(this.getApplicationContext());
-        
-        HttpHelper.feedback();
         
         if (UserInfo.loadSelfUserInfo() == null) {
 			Intent intent = new Intent(this, MapActivity.class);
@@ -181,6 +181,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         
         updateTopic();
         TopicInfoManager.getTopic(getHttpRequest(TopicInfoManager.GET));
+        VersionManager.doCheck(getHttpRequest(VersionManager.CHECK));
 		PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
 	}
 	
@@ -201,6 +202,14 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	protected void requestComplete(int id,JSONObject jsonObj) {
 		super.requestComplete(id,jsonObj);
 		switch (id) {
+		case VersionManager.CHECK:
+		{
+			VersionInfo version = VersionManager.getUnReadCountFromJson(jsonObj);
+			if(version.hasNewVersion){
+				DownloadUtil.showDialog(this, version.description, version.url);
+			}
+			break;
+		}
 		case PostEntityManager.POSTING_KEY_REFRESH:
 			mPostList.clear();
 		case PostEntityManager.POSTING_KEY_REFRESH_MORE:

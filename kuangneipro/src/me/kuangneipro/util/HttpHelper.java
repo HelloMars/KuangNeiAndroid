@@ -268,6 +268,7 @@ public class HttpHelper {
 		HttpResponse httpResponse = null;
 		try {
 			HttpClient httpclient= new DefaultHttpClient();
+			
 			HttpParams params = httpclient.getParams();  
 			params.setParameter(ClientPNames.HANDLE_REDIRECTS, false);  
 			httpResponse = httpclient.execute(request);

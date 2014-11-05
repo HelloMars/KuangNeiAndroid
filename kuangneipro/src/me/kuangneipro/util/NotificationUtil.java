@@ -24,7 +24,7 @@ public class NotificationUtil {
 		//设置通知显示的参数
 		Intent mIntent = new Intent(context, MessageListActivity.class);  
 		PendingIntent mPendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);  
-		notification.setLatestEventInfo(context, "回复",content,mPendingIntent);
+		notification.setLatestEventInfo(context, "",content,mPendingIntent);
 		//这个可以理解为开始执行这个通知
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
 		notificationManager.notify(1,notification);
