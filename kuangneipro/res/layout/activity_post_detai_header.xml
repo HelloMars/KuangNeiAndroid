@@ -35,7 +35,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:text="孤独的夏娃"
-                android:textColor="#1E5782"
+                android:textColor="#14C7B1"
                 android:textSize="14sp" />
             
             <ImageView

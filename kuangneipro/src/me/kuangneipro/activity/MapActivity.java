@@ -54,6 +54,7 @@ public class MapActivity extends HttpActivity {
 	public MyLocationListenner myListener = new MyLocationListenner();
 	boolean drawable = false;
 	int locNum = 0;// 定位级别
+	boolean hasLocResult = false;
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
@@ -170,13 +171,21 @@ public class MapActivity extends HttpActivity {
 		} else if (!isGPSEnabled && !isWifiEnabled) {
 			mState2Bar.setText("请打开wifi或者GPS");
 		} else {
-			if (isGPSEnabled && !isWifiEnabled) {
-				mState2Bar.setText("GPS定位中(仅室外可用)...");
-			} else if (!isGPSEnabled && isWifiEnabled) {
-				mState2Bar.setText("wifi定位中...");
-			} else {
-				mState2Bar.setText("定位中...");
-			}
+			
+			if(isGPSEnabled&&isWifiEnabled)
+				mState2Bar.setText("等待定位结果");
+			else if(isGPSEnabled)
+				mState2Bar.setText("等待GPS(仅室外可用)定位结果,打开wifi加速定位");
+			else
+				mState2Bar.setText("等待wifi定位结果,可打开GPS(仅室外可用)加速定位");
+			
+//			if (isGPSEnabled && !isWifiEnabled) {
+//				mState2Bar.setText("GPS定位中(仅室外可用)...");
+//			} else if (!isGPSEnabled && isWifiEnabled) {
+//				mState2Bar.setText("wifi定位中...");
+//			} else {
+//				mState2Bar.setText("定位中...");
+//			}
 		}
 
         MapEntityManager.getKuangList(getHttpRequest(MapEntityManager.MAP_KEY_GET));
@@ -388,9 +397,11 @@ public class MapActivity extends HttpActivity {
 			if (!GeoUtil.isOnline(mActivity)) {
 				mState2Bar.setText("请连接网络");
 				drawable = false;
+				hasLocResult = false;
 			} else if (!isGPSEnabled && !isWifiEnabled) {
 				mState2Bar.setText("请打开wifi或者GPS");
 				drawable = false;
+				hasLocResult = false;
 			} else {
 				LatLng point = new LatLng(location.getLatitude(), location.getLongitude());
 				if (ISDEBUG && currentPt != null) point = currentPt;
@@ -400,23 +411,34 @@ public class MapActivity extends HttpActivity {
 						mState2Bar.setText("定位认证成功");
 						startButton.setVisibility(View.VISIBLE);
 					} else {
-						mState2Bar.setText("定位不在框内，无法进入(等待GPS调整位置中...)");
+						mState2Bar.setText("GPS定位不在任何学校、公司范围内");
 					}
 					drawable = true;
+					hasLocResult = true;
 				} else if (location.getLocType() == 161 && location.getNetworkLocationType().equals("wf")) { // wifi 定位结果
 					if (isIn) {
 						mState2Bar.setText("定位认证成功");
 						startButton.setVisibility(View.VISIBLE);
 					} else {
 						if (isGPSEnabled) {
-							mState2Bar.setText("wifi定位不在框内，请等待更精确的GPS定位(仅室外可用)结果");
+							mState2Bar.setText("wifi定位不在任何学校、公司范围内，可等待更精确的GPS定位(仅室外可用)结果");
 						} else {
-							mState2Bar.setText("wifi定位不在框内，请打开GPS尝试更精确的定位(仅室外可用)");
+							mState2Bar.setText("wifi定位不在任何学校、公司范围内，可打开更精确的GPS定位再次尝试");
 						}
 					}
 					drawable = true;
+					hasLocResult = true;
 				} else {
-					mState2Bar.setText("非wifi或GPS定位结果，请等待更精确的定位");
+					//收到一次wifi或者gps定位结果，就不再显示下面的信息
+					if(!hasLocResult)
+					{
+						if(isGPSEnabled&&isWifiEnabled)
+							mState2Bar.setText("等待定位结果");
+						else if(isGPSEnabled)
+							mState2Bar.setText("等待GPS(仅室外可用)定位结果,打开wifi加速定位");
+						else
+							mState2Bar.setText("等待wifi定位结果,可打开GPS(仅室外可用)加速定位");
+					}
 					drawable = false;
 				}
 			}

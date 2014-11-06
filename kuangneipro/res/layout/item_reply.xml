@@ -18,10 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textColor="#1E5782"
+            android:textColor="#14C7B1"
             android:textSize="14sp"
             android:paddingTop="4dp" />
-
+<!-- android:textColor="#87C2E8" -->
         <TextView
             android:id="@+id/reply"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textColor="#1E5782"
+            android:textColor="#14C7B1"
             android:textSize="14sp"
             android:paddingTop="4dp" />
 
