@@ -60,7 +60,7 @@ public class PingActivity extends HttpActivity{
 		mEmoticonPopupable = new EmoticonInputPopupView(this);
 		mEmoticonPopupable.setParentView( findViewById(R.id.inputContainer));
 		mEmoticonPopupable.bindEmoticonEditText(mEditText,null,100);
-		mEmoticonPopupable.getEmoticonEditText().setHint("内部瓶将随机发送给一位"+kuangName+"的用户");
+		mEmoticonPopupable.getEmoticonEditText().setHint("随机发送给"+kuangName+"的一位用户");
 		EmoticonRelativeLayout rootLayout = (EmoticonRelativeLayout) findViewById(R.id.RelativeLayout1);
 		rootLayout.setEmoticonInputPopupView((EmoticonInputPopupView)mEmoticonPopupable);
 		

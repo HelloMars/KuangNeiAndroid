@@ -74,15 +74,15 @@ public class PostingActivity extends HttpActivity{
 			}
 		});
 		
-		
-		
 		mEditText = (EmoticonEditText) findViewById(R.id.editTextPost);
+		mEditText.setHint("记录你的见闻、感想、经历。");
 		
 		Intent intent = getIntent();
 		if(intent!=null){
 			String text = intent.getStringExtra("text");
 			if(!TextUtils.isEmpty(text))
 				mEditText.setText(text);
+				mEditText.setSelection(text.length());
 		}
 		
 		mImageGrid = (GridView) findViewById(R.id.imageGrid);
