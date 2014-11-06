@@ -68,7 +68,7 @@ public class PushReceiver extends BroadcastReceiver {
 						Toast.makeText(context, "newClientID:"+cid+"!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 					}else{
 						if(DebugUtil.isDebug())
-						Toast.makeText(context, "clientID:"+cid, Toast.LENGTH_LONG).show();
+						//Toast.makeText(context, "clientID:"+cid, Toast.LENGTH_LONG).show();
 						PushUtil.saveToken(cid);
 					}
 				}else{

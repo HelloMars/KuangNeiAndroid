@@ -118,7 +118,9 @@ public class UserInfo {
 	public boolean isMan(){
 		return sex == MAN;
 	}
-
+	public boolean isWoman(){
+		return sex == WOMAN;
+	}
 	public Date getBirthday() {
 		return birthday;
 	}

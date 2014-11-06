@@ -191,15 +191,15 @@ public class MapActivity extends HttpActivity {
                 Log.i(TAG, "ReturnInfo:" + info.getReturnMessage() + " " + info.getReturnCode());
                 MapEntityManager.fillKuangListFromJson(jsonObj, mKuangs);
                 if (mKuangs.isEmpty()) {
-                    Toast.makeText(this, "恭喜中奖，获取框们失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "获取框们失败", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case UserInfoManager.REGIGSTER:
     			UserInfo userInfo = UserInfoManager.fillUserInfoFromRegister(jsonObj);
     			if (userInfo != null) {
-    				Toast.makeText(this, "注册完成啦:username="+userInfo.getUsername(), Toast.LENGTH_LONG).show();
+    				//Toast.makeText(this, "注册完成啦:username="+userInfo.getUsername(), Toast.LENGTH_LONG).show();
     			} else {
-    				Toast.makeText(this, "恭喜中奖，注册失败", Toast.LENGTH_LONG).show();
+    				Toast.makeText(this, "注册失败", Toast.LENGTH_LONG).show();
     			}
     			break;
             default:
