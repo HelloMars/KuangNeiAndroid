@@ -5,14 +5,14 @@ import me.kuangneipro.util.HttpHelper.RequestCallBackListener;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Window;
 /**
  * 可发送Http请求的基类
  * @author connor
  */
-public class HttpActivity extends ActionBarActivity implements RequestCallBackListener {
+public class HttpActivity extends Activity implements RequestCallBackListener {
 
 	private HttpHelper httpRequest;
 	
