@@ -6,11 +6,12 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp" >
 
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="12dp" >
+        android:paddingTop="6dp" >
 
         <TextView
             android:id="@+id/from"
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="#1E5782"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
 
         <TextView
             android:id="@+id/reply"
@@ -27,7 +29,8 @@
             android:singleLine="true"
             android:text=" 回复 "
             android:textColor="#5D5D5D"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
 
         <TextView
             android:id="@+id/to"
@@ -35,27 +38,36 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="#1E5782"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
 
+        
         <TextView
-            android:id="@+id/date"
-            android:layout_width="0px"
+            android:id="@+id/not_use"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="right"
             android:gravity="right"
-            android:text="10秒前"
-            android:textColor="@color/time_text_color"
-            android:textSize="12sp" />
+            android:text=""
+            android:paddingTop="4dp"
+             />
         
         <ImageView
 			android:id="@+id/bottle"
 			android:layout_width="24dp"
 			android:layout_height="24dp"
-			android:layout_marginLeft="2dp"
 			android:src="@drawable/bottle"
 			android:visibility="gone"/>
         
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10秒前"
+            android:textColor="@color/time_text_color"
+            android:textSize="12sp"
+            android:paddingTop="4dp" />
     </LinearLayout>
 
     <TextView

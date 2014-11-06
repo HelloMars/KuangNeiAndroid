@@ -66,6 +66,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private boolean canSave;
 	
 	private String lastName;
+	private String lastName2;
 	private String lastSign;
 	
 	private InputMethodManager imm ;
@@ -149,11 +150,10 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		case UserInfoManager.UPDATE_USER_INFO:
 		case UserInfoManager.GET_USER_INFO:
 			
+				
 			UserInfo userInfo = UserInfoManager.fillUserInfoFromJson(jsonObj);
 			if(userInfo!=null){
-				if(id == UserInfoManager.UPDATE_USER_INFO){
-					Toast.makeText(this, "修改成功",Toast.LENGTH_SHORT).show();
-				}
+				
 				userSeletedImagePath = userInfo.getAvatar();
 //				Picasso.with(this)
 //	        	.load(userInfo.getAvatar())
@@ -161,12 +161,33 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 //	        	.error(R.drawable.error)
 //	        	.into(avatar);
 				
+				boolean isNameOccupied = false;
+				
 				if(!TextUtils.isEmpty(userInfo.getName()) && !getResources().getString(R.string.name_title).equals(userInfo.getName())){
 					name.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 					name.setText(userInfo.getName());
 					nameEdit.setText(userInfo.getName());
 				}else{
+					isNameOccupied = true;
 					name.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
+
+					if(lastName2!=null&&lastName2!="")
+					{
+						name.setText(lastName2);
+						nameEdit.setText(lastName2);
+					}
+					else
+					{
+						name.setText("昵称");
+						nameEdit.setText("昵称");
+					}
+				}
+				
+				if(id == UserInfoManager.UPDATE_USER_INFO){
+					if(isNameOccupied)
+						Toast.makeText(this, "该名字已被占用",Toast.LENGTH_SHORT).show();
+					else
+						Toast.makeText(this, "修改成功",Toast.LENGTH_SHORT).show();
 				}
 				
 				if(userInfo.getBirthday()!=null && userInfo.getBirthday().getTime()!=0){
@@ -187,6 +208,8 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				if(SexUtil.isValid(userInfo.getSex())){
 					sex.setTextColor(ColorUtil.NORMAL_TEXT_COLOR);
 					sex.setText(SexUtil.toString(userInfo.getSex()));
+
+					
 				}else{
 					sex.setTextColor(ColorUtil.DEFAULT_TEXT_COLOR);
 				}
@@ -328,6 +351,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
             break;
 		case R.id.name_layout:
 			lastName = null;
+			lastName2 = null;
 			disableEdit(false);
 //			saveButton.setVisible(true);
 			name.setVisibility(View.GONE);
@@ -339,6 +363,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				nameEdit.setText(name.getText());
 				lastSign = null;
 				lastName = name.getText().toString();
+				lastName2 = lastName;
 				nameEdit.requestFocus();
 				nameEdit.setSelection(0, nameEdit.getText().length());
 			}
