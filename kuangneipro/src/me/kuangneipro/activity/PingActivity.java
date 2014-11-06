@@ -6,6 +6,7 @@ import me.kuangneipro.emoticon.EmoticonEditText;
 import me.kuangneipro.emoticon.EmoticonInputPopupView;
 import me.kuangneipro.emoticon.EmoticonPopupable;
 import me.kuangneipro.emoticon.EmoticonRelativeLayout;
+import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.manager.ReplyInfoManager;
 import android.os.Bundle;
 import android.view.View;
@@ -48,9 +49,18 @@ public class PingActivity extends HttpActivity{
 		
 		mEditText = (EmoticonEditText) findViewById(R.id.editTextPost);
 		
+		KuangInfo kuang = KuangInfo.loadSelfKuangInfo();
+		String kuangName = "";
+		if (kuang == null) {
+			kuangName="内部";
+		} else {
+			kuangName=kuang.getName();
+		}
+		
 		mEmoticonPopupable = new EmoticonInputPopupView(this);
 		mEmoticonPopupable.setParentView( findViewById(R.id.inputContainer));
 		mEmoticonPopupable.bindEmoticonEditText(mEditText,null,100);
+		mEmoticonPopupable.getEmoticonEditText().setHint("内部瓶将随机发送给一位"+kuangName+"的用户");
 		EmoticonRelativeLayout rootLayout = (EmoticonRelativeLayout) findViewById(R.id.RelativeLayout1);
 		rootLayout.setEmoticonInputPopupView((EmoticonInputPopupView)mEmoticonPopupable);
 		

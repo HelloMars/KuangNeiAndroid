@@ -181,7 +181,9 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         
         updateTopic();
         TopicInfoManager.getTopic(getHttpRequest(TopicInfoManager.GET));
-        VersionManager.doCheck(getHttpRequest(VersionManager.CHECK));
+        double rand = Math.random();
+        if(rand<0.2)
+        	VersionManager.doCheck(getHttpRequest(VersionManager.CHECK));
 		PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
 	}
 	
