@@ -12,7 +12,7 @@
         android:layout_marginBottom="100dp"
         android:gravity="center"
         android:text="进入"
-        android:background="@drawable/ic_launcher"/>
+        android:background="@drawable/intro"/>
     
 </RelativeLayout>
 
