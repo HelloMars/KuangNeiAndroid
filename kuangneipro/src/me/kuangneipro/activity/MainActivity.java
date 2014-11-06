@@ -39,16 +39,8 @@ public class MainActivity extends HttpActivity {
 		TAB_NUM = tabNames.length;
 		
 		
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		mViewPager.setOnPageChangeListener(
-			new ViewPager.SimpleOnPageChangeListener() {
-			    @Override
-			    public void onPageSelected(int position) {
-			    	getSupportActionBar().setSelectedNavigationItem(position);
-			    }
-			});
 	}
 
 

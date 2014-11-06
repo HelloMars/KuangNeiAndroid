@@ -87,7 +87,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         HttpHelper.feedback();
         
         if (UserInfo.loadSelfUserInfo() == null) {
-			Intent intent = new Intent(this, MapActivity.class);
+			Intent intent = new Intent(this, IntroActivity.class);
 			this.startActivity(intent);
 			this.finish();
 			return;
