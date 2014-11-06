@@ -1,6 +1,11 @@
 package me.kuangneipro.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +41,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Environment;
 import android.text.TextUtils;
 
 
@@ -48,7 +54,51 @@ public class HttpHelper {
 	public static final String CHARSET =  HTTP.UTF_8;
 	
 	public static void feedback() {
-		
+		ApplicationWorker.getInstance().execute(new Runnable() {
+			@Override
+			public void run() {
+				if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {      
+		            String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/kuangnei/crash/";      
+		            File dir = new File(path);      
+		            if (!dir.exists()) {      
+		                return;
+		            }
+		            File send = null;
+		            long timestamp = 0;
+		            for (File f : dir.listFiles()) {
+		            	if (f.lastModified() > timestamp) {
+		            		timestamp = f.lastModified();
+		            		send = f;
+		            	}
+		            }
+		            
+		            FileInputStream fis = null;
+		            BufferedReader reader = null;
+		            try {  
+		            	fis = new FileInputStream(send);  
+		            	reader = new BufferedReader(new InputStreamReader(fis, "GBK"));
+		                StringBuilder sb = new StringBuilder();
+		                while(true){  
+		                    String s = reader.readLine();  
+		                    if(s == null) break;  
+		                    sb.append(s.toString());
+		                }
+		                feedbackpost(1, sb.toString());
+		            } catch (FileNotFoundException e) {  
+		                e.printStackTrace();  
+		            } catch (IOException e) {  
+		                e.printStackTrace();  
+		            } finally {   // 关闭流  
+		                try {  
+		                    reader.close();  
+		                    fis.close();  
+		                } catch (IOException e) {  
+		                    e.printStackTrace();  
+		                }  
+		            }
+				}
+			}
+		});
 	}
 	
 	private static void feedbackpost(int type, String content) {
