@@ -235,6 +235,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity
+            android:name=".activity.IntroActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask" >
+        </activity>
         <activity
             android:name=".activity.PostDetailActivity"
             android:excludeFromRecents="true"

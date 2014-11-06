@@ -84,7 +84,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         PushManager.getInstance().initialize(this.getApplicationContext());
         
         if (UserInfo.loadSelfUserInfo() == null) {
-			Intent intent = new Intent(this, MapActivity.class);
+			Intent intent = new Intent(this, IntroActivity.class);
 			this.startActivity(intent);
 			this.finish();
 			return;
