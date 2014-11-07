@@ -4,439 +4,118 @@
         <item>[微笑]</item>
         <item>[撇嘴]</item>
         <item>[色]</item>
-        <item>[发呆]</item>
-        <item>[得意]</item>
         <item>[流泪]</item>
         <item>[害羞]</item>
         <item>[闭嘴]</item>
         <item>[睡]</item>
         <item>[大哭]</item>
-        <item>[尴尬]</item>
         <item>[发怒]</item>
         <item>[调皮]</item>
         <item>[呲牙]</item>
         <item>[惊讶]</item>
         <item>[难过]</item>
-        <item>[酷]</item>
-        <item>[冷汗]</item>
         <item>[抓狂]</item>
         <item>[吐]</item>
         <item>[偷笑]</item>
         <item>[愉快]</item>
         <item>[白眼]</item>
-        <item>[傲慢]</item>
-        <item>[饥饿]</item>
-        <item>[困]</item>
         <item>[惊恐]</item>
-        <item>[流汗]</item>
-        <item>[憨笑]</item>
         <item>[悠闲]</item>
         <item>[奋斗]</item>
-        <item>[咒骂]</item>
         <item>[疑问]</item>
         <item>[嘘]</item>
         <item>[晕]</item>
-        <item>[疯了]</item>
-        <item>[衰]</item>
-        <item>[骷髅]</item>
         <item>[敲打]</item>
-        <item>[再见]</item>
         <item>[擦汗]</item>
         <item>[抠鼻]</item>
         <item>[鼓掌]</item>
-        <item>[糗大了]</item>
         <item>[坏笑]</item>
-        <item>[左哼哼]</item>
         <item>[右哼哼]</item>
         <item>[哈欠]</item>
         <item>[鄙视]</item>
         <item>[委屈]</item>
-        <item>[快哭了]</item>
         <item>[阴险]</item>
-        <item>[亲亲]</item>
         <item>[吓]</item>
         <item>[可怜]</item>
-        <item>[菜刀]</item>
-        <item>[西瓜]</item>
-        <item>[啤酒]</item>
-        <item>[篮球]</item>
-        <item>[乒乓]</item>
-        <item>[咖啡]</item>
-        <item>[饭]</item>
-        <item>[猪头]</item>
-        <item>[玫瑰]</item>
-        <item>[凋谢]</item>
-        <item>[嘴唇]</item>
-        <item>[爱心]</item>
-        <item>[心碎]</item>
-        <item>[蛋糕]</item>
-        <item>[闪电]</item>
-        <item>[炸弹]</item>
-        <item>[刀]</item>
-        <item>[足球]</item>
-        <item>[瓢虫]</item>
-        <item>[便便]</item>
-        <item>[月亮]</item>
-        <item>[太阳]</item>
-        <item>[礼物]</item>
-        <item>[拥抱]</item>
-        <item>[强]</item>
-        <item>[弱]</item>
-        <item>[握手]</item>
-        <item>[胜利]</item>
-        <item>[抱拳]</item>
-        <item>[勾引]</item>
-        <item>[拳头]</item>
-        <item>[差劲]</item>
-        <item>[爱你]</item>
-        <item>[NO]</item>
-        <item>[OK]</item>
-        <item>[爱情]</item>
-        <item>[飞吻]</item>
-        <item>[跳跳]</item>
-        <item>[发抖]</item>
-        <item>[怄火]</item>
-        <item>[转圈]</item>
-        <item>[磕头]</item>
-        <item>[回头]</item>
-        <item>[跳绳]</item>
-        <item>[投降]</item>
-        <item>[激动]</item>
-        <item>[乱舞]</item>
-        <item>[献吻]</item>
-        <item>[左太极]</item>
-        <item>[右太极]</item>
     </string-array>
     <string-array name="smileys_pattern_two">
         <item>/微笑</item>
         <item>/撇嘴</item>
         <item>/色</item>
-        <item>/发呆</item>
-        <item>/得意</item>
         <item>/流泪</item>
         <item>/害羞</item>
         <item>/闭嘴</item>
         <item>/睡</item>
         <item>/大哭</item>
-        <item>/尴尬</item>
         <item>/发怒</item>
         <item>/调皮</item>
         <item>/呲牙</item>
         <item>/惊讶</item>
         <item>/难过</item>
-        <item>/酷</item>
-        <item>/冷汗</item>
         <item>/抓狂</item>
         <item>/吐</item>
         <item>/偷笑</item>
         <item>/可爱</item>
         <item>/白眼</item>
-        <item>/傲慢</item>
-        <item>/饥饿</item>
-        <item>/困</item>
         <item>/惊恐</item>
-        <item>/流汗</item>
-        <item>/憨笑</item>
         <item>/大兵</item>
         <item>/奋斗</item>
-        <item>/咒骂</item>
         <item>/疑问</item>
         <item>/嘘</item>
         <item>/晕</item>
-        <item>/折磨</item>
-        <item>/衰</item>
-        <item>/骷髅</item>
         <item>/敲打</item>
-        <item>/再见</item>
         <item>/擦汗</item>
         <item>/抠鼻</item>
         <item>/鼓掌</item>
-        <item>/糗大了</item>
         <item>/坏笑</item>
-        <item>/左哼哼</item>
         <item>/右哼哼</item>
         <item>/哈欠</item>
         <item>/鄙视</item>
         <item>/委屈</item>
-        <item>/快哭了</item>
         <item>/阴险</item>
-        <item>/亲亲</item>
         <item>/吓</item>
         <item>/可怜</item>
-        <item>/菜刀</item>
-        <item>/西瓜</item>
-        <item>/啤酒</item>
-        <item>/篮球</item>
-        <item>/乒乓</item>
-        <item>/咖啡</item>
-        <item>/饭</item>
-        <item>/猪头</item>
-        <item>/玫瑰</item>
-        <item>/凋谢</item>
-        <item>/示爱</item>
-        <item>/爱心</item>
-        <item>/心碎</item>
-        <item>/蛋糕</item>
-        <item>/闪电</item>
-        <item>/炸弹</item>
-        <item>/刀</item>
-        <item>/足球</item>
-        <item>/瓢虫</item>
-        <item>/便便</item>
-        <item>/月亮</item>
-        <item>/太阳</item>
-        <item>/礼物</item>
-        <item>/拥抱</item>
-        <item>/强</item>
-        <item>/弱</item>
-        <item>/握手</item>
-        <item>/胜利</item>
-        <item>/抱拳</item>
-        <item>/勾引</item>
-        <item>/拳头</item>
-        <item>/差劲</item>
-        <item>/爱你</item>
-        <item>/NO</item>
-        <item>/OK</item>
-        <item>/爱情</item>
-        <item>/飞吻</item>
-        <item>/跳跳</item>
-        <item>/发抖</item>
-        <item>/怄火</item>
-        <item>/转圈</item>
-        <item>/磕头</item>
-        <item>/回头</item>
-        <item>/跳绳</item>
-        <item>/挥手</item>
-        <item>/激动</item>
-        <item>/街舞</item>
-        <item>/献吻</item>
-        <item>/左太极</item>
-        <item>/右太极</item>
     </string-array>
     <string-array name="smileys_pattern_three">
         <item>"/::)"</item>
         <item>"/::~"</item>
         <item>"/::B"</item>
-        <item>"/::|"</item>
-        <item>"/:8-)"</item>
         <item>"/::&lt;"</item>
         <item>"/::$"</item>
         <item>"/::X"</item>
         <item>"/::Z"</item>
         <item>"/::\'("</item>
-        <item>"/::-|"</item>
         <item>"/::@"</item>
         <item>"/::P"</item>
         <item>"/::D"</item>
         <item>"/::O"</item>
         <item>"/::("</item>
-        <item>"/::+"</item>
-        <item>"/:--b"</item>
         <item>"/::Q"</item>
         <item>"/::T"</item>
         <item>"/:,@P"</item>
         <item>"/:,@-D"</item>
         <item>"/::d"</item>
-        <item>"/:,@o"</item>
-        <item>"/::g"</item>
-        <item>"/:|-)"</item>
         <item>"/::!"</item>
-        <item>"/::L"</item>
-        <item>"/::>"</item>
         <item>"/::,@"</item>
         <item>"/:,@f"</item>
-        <item>"/::-S"</item>
         <item>"/:?"</item>
         <item>"/:,@x"</item>
         <item>"/:,@@"</item>
-        <item>"/::8"</item>
-        <item>"/:,@!"</item>
-        <item>"/:!!!"</item>
         <item>"/:xx"</item>
-        <item>"/:bye"</item>
         <item>"/:wipe"</item>
         <item>"/:dig"</item>
         <item>"/:handclap"</item>
-        <item>"/:&amp;-("</item>
         <item>"/:B-)"</item>
-        <item>"/:&lt;@"</item>
         <item>"/:@>"</item>
         <item>"/::-O"</item>
         <item>"/:>-|"</item>
         <item>"/:P-("</item>
-        <item>"/::\'|"</item>
         <item>"/:X-)"</item>
-        <item>"/::*"</item>
         <item>"/:@x"</item>
         <item>"/:8*"</item>
-        <item>"/:pd"</item>
-        <item>"/:&lt;W"></item>
-        <item>"/:beer"</item>
-        <item>"/:basketb"</item>
-        <item>"/:oo"</item>
-        <item>"/:coffee"</item>
-        <item>"/:eat"</item>
-        <item>"/:pig"</item>
-        <item>"/:rose"</item>
-        <item>"/:fade"</item>
-        <item>"/:showlove"</item>
-        <item>"/:heart"</item>
-        <item>"/:break"</item>
-        <item>"/:cake"</item>
-        <item>"/:li"</item>
-        <item>"/:bome"</item>
-        <item>"/:kn"</item>
-        <item>"/:footb"</item>
-        <item>"/:ladybug"</item>
-        <item>"/:shit"</item>
-        <item>"/:moon"</item>
-        <item>"/:sun"</item>
-        <item>"/:gift"</item>
-        <item>"/:hug"</item>
-        <item>"/:strong"</item>
-        <item>"/:weak"</item>
-        <item>"/:share"</item>
-        <item>"/:v"</item>
-        <item>"/:@)"</item>
-        <item>"/:jj"</item>
-        <item>"/:@@"</item>
-        <item>"/:bad"</item>
-        <item>"/:lvu"</item>
-        <item>"/:no"</item>
-        <item>"/:ok"</item>
-        <item>"/:love"</item>
-        <item>"/:&lt;L>"</item>
-        <item>"/:jump"</item>
-        <item>"/:shake"</item>
-        <item>"/:&lt;O>"</item>
-        <item>"/:circle"</item>
-        <item>"/:kotow"</item>
-        <item>"/:turn"</item>
-        <item>"/:skip"</item>
-        <item>"/:oY"</item>
-        <item>"/:#-0"</item>
-        <item>"/:hiphot"</item>
-        <item>"/:kiss"</item>
-        <item>"/:&lt;&amp;"</item>
-        <item>"/:&amp;"></item>
     </string-array>
 	<string-array name="emojis_pattern">
-        <item>"\\uD83D\\uDE03"</item>
-        <item>"\\uD83D\\uDE37"</item>
-        <item>"\\uD83D\\uDE02"</item>
-        <item>"\\uD83D\\uDE1D"</item>
-        <item>"\\uD83D\\uDE32"</item>
-        <item>"\\uD83D\\uDE33"</item>
-        <item>"\\uD83D\\uDE31"</item>
-        <item>"\\uD83D\\uDE14"</item>
-        <item>"\\uD83D\\uDE09"</item>
-        <item>"\\uD83D\\uDE0C"</item>
-        <item>"\\uD83D\\uDE12"</item>
-        <item>"\\uD83D\\uDE18"</item>
-        <item>"\\uD83D\\uDE2D"</item>
-        <item>"\\uD83D\\uDC7F"</item>
-        <item>"\\uD83D\\uDC7B"</item>
-        <item>"\\uD83D\\uDE4F"</item>
-        <item>"\\uD83D\\uDCAA"</item>
-        <item>"\\uD83D\\uDC4D"</item>
-        <item>"\\u270C"</item>
-        <item>"\\uD83C\\uDF85"</item>
-        <item>"\\uD83D\\uDC8B"</item>
-        <item>"\\uD83D\\uDC83"</item>
-        <item>"\\uD83D\\uDC59"</item>
-        <item>"\\uD83D\\uDC60"</item>
-        <item>"\\uD83D\\uDC8D"</item>
-        <item>"\\uD83D\\uDC8E"</item>
-        <item>"\\u2614"</item>
-        <item>"\\uD83C\\uDF02"</item>
-        <item>"\\u2600"</item>
-        <item>"\\uD83C\\uDF19"</item>
-        <item>"\\uD83C\\uDFC1"</item>
-        <item>"\\uD83C\\uDFCA"</item>
-        <item>"\\uD83C\\uDFC0"</item>
-        <item>"\\u26BD"</item>
-        <item>"\\uD83C\\uDFC6"</item>
-        <item>"\\uD83C\\uDFAC"</item>
-        <item>"\\uD83C\\uDFA4"</item>
-        <item>"\\uD83D\\uDCFA"</item>
-        <item>"\\uD83D\\uDFA5"</item>
-        <item>"\\uD83C\\uDFB5"</item>
-        <item>"\\uD83D\\uDCB0"</item>
-        <item>"\\u2764"</item>
-        <item>"\\uD83C\\uDF82"</item>
-        <item>"\\uD83C\\uDF70"</item>
-        <item>"\\uD83C\\uDF81"</item>
-        <item>"\\uD83C\\uDF89"</item>
-        <item>"\\uD83D\\uDD53"</item>
-        <item>"\\uD83C\\uDF84"</item>
-        <item>"\\uD83D\\uDF54"</item>
-        <item>"\\uD83C\\uDF5F"</item>
-        <item>"\\uD83C\\uDF7A"</item>
-        <item>"\\uD83C\\uDF66"</item>
-        <item>"\\uD83C\\uDF4E"</item>
-        <item>"\\uD83C\\uDF4A"</item>
-        <item>"\\uD83C\\uDF49"</item>
-        <item>"\\uD83C\\uDF53"</item>
-        <item>"\\uD83C\\uDF46"</item>
    </string-array>
    <string-array name="emojis_show">
-        <item>"\\uD83D\\uDE03"</item>
-        <item>"\\uD83D\\uDE37"</item>
-        <item>"\\uD83D\\uDE02"</item>
-        <item>"\\uD83D\\uDE1D"</item>
-        <item>"\\uD83D\\uDE32"</item>
-        <item>"\\uD83D\\uDE33"</item>
-        <item>"\\uD83D\\uDE31"</item>
-        <item>"\\uD83D\\uDE14"</item>
-        <item>"\\uD83D\\uDE09"</item>
-        <item>"\\uD83D\\uDE0C"</item>
-        <item>"\\uD83D\\uDE12"</item>
-        <item>"\\uD83D\\uDE18"</item>
-        <item>"\\uD83D\\uDE2D"</item>
-        <item>"\\uD83D\\uDC7F"</item>
-        <item>"\\uD83D\\uDC7B"</item>
-        <item>"\\uD83D\\uDE4F"</item>
-        <item>"\\uD83D\\uDCAA"</item>
-        <item>"\\uD83D\\uDC4D"</item>
-        <item>"\\u270C"</item>
-        <item>"\\uD83C\\uDF85"</item>
-        <item>"\\uD83D\\uDC8B"</item>
-        <item>"\\uD83D\\uDC83"</item>
-        <item>"\\uD83D\\uDC59"</item>
-        <item>"\\uD83D\\uDC60"</item>
-        <item>"\\uD83D\\uDC8D"</item>
-        <item>"\\uD83D\\uDC8E"</item>
-        <item>"\\u2614"</item>
-        <item>"\\uD83C\\uDF02"</item>
-        <item>"\\u2600"</item>
-        <item>"\\uD83C\\uDF19"</item>
-        <item>"\\uD83C\\uDFC1"</item>
-        <item>"\\uD83C\\uDFCA"</item>
-        <item>"\\uD83C\\uDFC0"</item>
-        <item>"\\u26BD"</item>
-        <item>"\\uD83C\\uDFC6"</item>
-        <item>"\\uD83C\\uDFAC"</item>
-        <item>"\\uD83C\\uDFA4"</item>
-        <item>"\\uD83D\\uDCFA"</item>
-        <item>"\\uD83D\\uDFA5"</item>
-        <item>"\\uD83C\\uDFB5"</item>
-        <item>"\\uD83D\\uDCB0"</item>
-        <item>"\\u2764"</item>
-        <item>"\\uD83C\\uDF82"</item>
-        <item>"\\uD83C\\uDF70"</item>
-        <item>"\\uD83C\\uDF81"</item>
-        <item>"\\uD83C\\uDF89"</item>
-        <item>"\\uD83D\\uDD53"</item>
-        <item>"\\uD83C\\uDF84"</item>
-        <item>"\\uD83D\\uDF54"</item>
-        <item>"\\uD83C\\uDF5F"</item>
-        <item>"\\uD83C\\uDF7A"</item>
-        <item>"\\uD83C\\uDF66"</item>
-        <item>"\\uD83C\\uDF4E"</item>
-        <item>"\\uD83C\\uDF4A"</item>
-        <item>"\\uD83C\\uDF49"</item>
-        <item>"\\uD83C\\uDF53"</item>
-        <item>"\\uD83C\\uDF46"</item>
    </string-array>
 </resources>
