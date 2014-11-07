@@ -4,7 +4,9 @@ import java.util.List;
 
 import me.kuangneipro.R;
 import me.kuangneipro.core.KuangNeiApplication;
+import me.kuangneipro.entity.KuangInfo;
 import me.kuangneipro.entity.ReplyInfo;
+import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.entity.ReplyInfo.User;
 import me.kuangneipro.entity.ReturnInfo;
 import me.kuangneipro.util.ApplicationWorker;
@@ -89,9 +91,35 @@ public class ReplyInfoManager {
 						@Override
 						public void run() {
 							if(returnInfo!=null)
+							{
+								if(returnInfo.getReturnCode()==ReturnInfo.NotOppositeSex)
+								{
+									KuangInfo kuang = KuangInfo.loadSelfKuangInfo();
+									String kuangName = "";
+									if (kuang == null) {
+										kuangName="内部";
+									} else {
+										kuangName=kuang.getName();
+									}
+									
+									String xingBie = "用户";
+									UserInfo userInfo = UserInfo.loadSelfUserInfo();
+									if(userInfo!=null){
+										if(userInfo.isMan())
+											xingBie = "女生";
+										if(userInfo.isWoman())
+											xingBie = "男生";
+									}
+									Toast.makeText( context, kuangName+"还没有"+xingBie+","+"邀吗？", Toast.LENGTH_SHORT).show();
+										
+								}else{
 								Toast.makeText( context, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
+								}
+							}
 							else 
+							{
 								Toast.makeText( context, "发送失败", Toast.LENGTH_SHORT).show();
+							}
 						}
 					});
 				}

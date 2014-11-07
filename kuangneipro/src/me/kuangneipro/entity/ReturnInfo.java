@@ -7,6 +7,7 @@ import android.util.Log;
 public class ReturnInfo {
 
 	public static final int SUCCESS = 0;
+	public static final int NotOppositeSex = 5;
 	
 	private final int returnCode;
 	private final String returnMessage;

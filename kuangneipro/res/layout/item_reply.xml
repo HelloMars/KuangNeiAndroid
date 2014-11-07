@@ -70,7 +70,10 @@
             android:paddingTop="4dp" />
     </LinearLayout>
 
-    <TextView
+    <me.kuangneipro.emoticon.EmoticonTextView
+        xmlns:emoticon="http://schemas.android.com/apk/res/me.kuangneipro"
+        emoticon:emoticonHeight="line_height"
+        emoticon:emoticonWidth="line_height"
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

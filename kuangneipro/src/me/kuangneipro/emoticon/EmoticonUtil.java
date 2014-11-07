@@ -79,14 +79,11 @@ public class EmoticonUtil {
 	public static final int SMILEY_MAX_PATTERN_SIZE_THREE = 10;
 	public static final int EMOJI_MAX_PATTERN_SIZE = 4;
 	private static volatile boolean isNotInited = true;
-	private static final String UNICODEPREFIX = "\\u";
 	private static final int SMILEYMAPCAPACITY = 420;
-	private static final int EMOJIMAPCAPACITY = 628;
 
 	private static final Map<String, Integer> smiley_pattern2DrawableMap_one = new HashMap<String, Integer>(SMILEYMAPCAPACITY);
 	private static final Map<String, Integer> smiley_pattern2DrawableMap_two = new HashMap<String, Integer>(SMILEYMAPCAPACITY);
 	private static final Map<String, Integer> smiley_pattern2DrawableMap_three = new HashMap<String, Integer>(SMILEYMAPCAPACITY);
-	private static final Map<String, Integer> emoji_pattern2DrawableMap = new HashMap<String, Integer>(EMOJIMAPCAPACITY);
 	private static final List<ImageInfo> pattern2DrawableList = new ArrayList<ImageInfo>();
 	private static String[] smileys_pattern_one;
 	private static String[] smileys_pattern_two;
@@ -137,22 +134,6 @@ public class EmoticonUtil {
 			pattern2DrawableList.add(imageInfo);
 		}
 		
-		String[] emojis_pattern = res.getStringArray(R.array.emojis_pattern);
-		for(int i=0;i<emojis_pattern.length;i++){
-			imageID = EMOJI_PREFIX+i;
-			imageResourceID = getResId(imageID, R.drawable.class);
-			emoji_pattern2DrawableMap.put(convertUTF_16ToStr(emojis_pattern[i]), imageResourceID);
-		}
-		
-		String[] emojis_show = res.getStringArray(R.array.emojis_show);
-		for(int i=0;i<emojis_show.length;i++){
-			imageInfo = new ImageInfo();
-			imageInfo.pattern = convertUTF_16ToStr(emojis_show[i]);
-//			Log.e("pattern"+i, emojis_show[i]+"  "+emoji_pattern2DrawableMap.get(convertUTF_16ToStr(emojis_show[i])));
-			imageInfo.imageResourceID = emoji_pattern2DrawableMap.get(convertUTF_16ToStr(emojis_show[i]));
-			imageInfo.imageType = EMOJI_IMAGE;
-			pattern2DrawableList.add(imageInfo);
-		}
 	}
 	
 	public static List<ImageInfo> getPattern2DrawableList(Context context){
@@ -160,42 +141,7 @@ public class EmoticonUtil {
 		return pattern2DrawableList;
 	}
 	
-	/**
-	 * 将字符串型的UTF16转化为String
-	 * @param uTF16Str 使用UTF16表示的字符串
-	 * @return 转义后的字符串
-	 */
-	private static String convertUTF_16ToStr(String uTF16Str) {  
-	    if (uTF16Str == null || uTF16Str.length() == 0||!uTF16Str.contains(UNICODEPREFIX)) {  
-	        return "";  
-	    }  
-	    String tempStr;  
-	    String tempHexStr;  
-	    StringBuffer sb = new StringBuffer();  
-	    while (uTF16Str.contains(UNICODEPREFIX)) {  
-	        // 获取第一次出现\\u的index  
-	        int firstIndex = uTF16Str.indexOf(UNICODEPREFIX);  
-	        // 获取第二次出现\\u的index  
-	        int secondIndex = uTF16Str.indexOf(UNICODEPREFIX, firstIndex + 2);  
-	        // 将第一出现与第二次出现中间的部分，截取下来  
-	        if (secondIndex == -1) {  
-	            tempStr = uTF16Str.substring(firstIndex);  
-	        } else {  
-	            tempStr = uTF16Str.substring(firstIndex, secondIndex);  
-	        }  
-	        tempHexStr = tempStr.substring(tempStr.indexOf(UNICODEPREFIX) + 2);  
-	        if (tempHexStr.length() == 4) {  
-	            sb.append((char) Integer.parseInt(tempHexStr, 16));  
-	        }  
-	        // 将第二次出现以后的部分截取下来  
-	        if (secondIndex == -1) {  
-	            uTF16Str = "";  
-	        } else {  
-	            uTF16Str = uTF16Str.substring(secondIndex);  
-	        }  
-	    }  
-	    return sb.toString();  
-	}  
+	
 
 	/**
 	 * 给指定的TextView这设置带表情文字。
@@ -283,29 +229,6 @@ public class EmoticonUtil {
 	}
 	
 	
-	/**
-	 * 匹配emoji类型的表情模式
-	 * @param str 表情字符串
-	 * @param i 表情可能的起始位置
-	 * @return 返回一个成功匹配的最小字符串长度-1为匹配失败
-	 */
-	private static int patternStrategyEmoji(String str,int i){
-		
-		int index = -1;
-		int temp = i;
-		
-		if(i<0)
-			return index;
-		
-		for(;i<str.length()&&i-temp<EMOJI_MAX_PATTERN_SIZE;i++){
-			if(emoji_pattern2DrawableMap.containsKey(str.substring(temp, i+1))){
-				index = i;
-				break;
-			}
-		}
-		
-		return index;
-	}
 	
 	/**
 	 * 在指定的字符串位置创建表情占位符
@@ -329,9 +252,6 @@ public class EmoticonUtil {
 				drawable = context.getResources().getDrawable(rId);
 				break;
 	
-			case EMOJI_IMAGE:
-				drawable = context.getResources().getDrawable(emoji_pattern2DrawableMap.get(str));
-				break;
 		}
 		
 		if(width == EmoticonShowStrategy.LINE_HEIGHT)
@@ -420,9 +340,6 @@ public class EmoticonUtil {
 	            i = patternEnd;
 			}else if (str.charAt(i) == ESCAPE_CHAR_2&&(patternEnd = patternStrategySmiley_Two(str,i))!=-1) {
 				insertImageSpan(context,textView, ss, str, i, patternEnd,emoticonWidth,emoticonHeight,SMILEY_IMAGE);
-				i = patternEnd;
-			}else if((patternEnd = patternStrategyEmoji(str,i))!=-1){
-				insertImageSpan(context,textView, ss, str, i, patternEnd,emoticonWidth,emoticonHeight,EMOJI_IMAGE);
 				i = patternEnd;
 			}
 
@@ -575,9 +492,6 @@ public class EmoticonUtil {
 				}else if (str.charAt(i) == ESCAPE_CHAR_2&&(patternEnd = patternStrategySmiley_Two(str,i))!=-1) {
 					// 匹配模式/XXXXX
 					insertImageSpan2Editable(context,editText, str, i, patternEnd,emoticonWidth,emoticonHeight,SMILEY_IMAGE);
-					i = patternEnd;
-				}else if((patternEnd = patternStrategyEmoji(str,i))!=-1){
-					insertImageSpan2Editable(context,editText, str, i, patternEnd,emoticonWidth,emoticonHeight,EMOJI_IMAGE);
 					i = patternEnd;
 				}
 
