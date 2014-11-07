@@ -43,6 +43,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 
 public class HttpHelper {
@@ -63,66 +64,44 @@ public class HttpHelper {
 		            if (!dir.exists()) {      
 		                return;
 		            }
-		            File send = null;
-		            long timestamp = 0;
 		            for (File f : dir.listFiles()) {
-		            	if (f.lastModified() > timestamp) {
-		            		timestamp = f.lastModified();
-		            		send = f;
+		            	if (f.getName().contains("crash-")) {
+		            		FileInputStream fis = null;
+		 		            BufferedReader reader = null;
+		 		            try {  
+		 		            	fis = new FileInputStream(f);
+		 		            	reader = new BufferedReader(new InputStreamReader(fis, "GBK"));
+		 		                StringBuilder sb = new StringBuilder();
+		 		                while(true){  
+		 		                    String s = reader.readLine();  
+		 		                    if(s == null) break;  
+		 		                    sb.append(s.toString());
+		 		                }
+		 		                new HttpHelper(null,1,HostUtil.FEED_BACK_URL).put("type", 1+"").put("content", sb.toString()).syncPost();
+		 		            } catch (FileNotFoundException e) {  
+		 		                e.printStackTrace();  
+		 		            } catch (IOException e) {
+		 		                e.printStackTrace();  
+		 		            } finally {   // 关闭流  
+		 		                try {  
+		 		                    reader.close();  
+		 		                    fis.close();  
+		 		                } catch (IOException e) {  
+		 		                    e.printStackTrace();  
+		 		                }  
+		 		            }
+		 		            String abpath = f.getAbsolutePath().replace("crash-", "sended-");
+		 		            boolean isMoved = f.renameTo(new File(abpath));
+		 		            if (isMoved) {
+		 		            	Log.i("info", "feedback success"); 
+		 		            } else {
+		 		            	Log.i("info", "feedback error");
+		 		            }
 		            	}
-		            }
-		            
-		            FileInputStream fis = null;
-		            BufferedReader reader = null;
-		            try {  
-		            	fis = new FileInputStream(send);  
-		            	reader = new BufferedReader(new InputStreamReader(fis, "GBK"));
-		                StringBuilder sb = new StringBuilder();
-		                while(true){  
-		                    String s = reader.readLine();  
-		                    if(s == null) break;  
-		                    sb.append(s.toString());
-		                }
-		                feedbackpost(1, sb.toString());
-		            } catch (FileNotFoundException e) {  
-		                e.printStackTrace();  
-		            } catch (IOException e) {  
-		                e.printStackTrace();  
-		            } finally {   // 关闭流  
-		                try {  
-		                    reader.close();  
-		                    fis.close();  
-		                } catch (IOException e) {  
-		                    e.printStackTrace();  
-		                }  
 		            }
 				}
 			}
 		});
-	}
-	
-	private static void feedbackpost(int type, String content) {
-		HttpPost httpPost = new HttpPost(HostUtil.FEED_BACK_URL);
-		List<NameValuePair> httpParams = new ArrayList<NameValuePair>();
-
-		httpParams.add(new BasicNameValuePair("type", type+""));
-		httpParams.add(new BasicNameValuePair("content", content));
-		
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(httpParams,CHARSET));
-			HttpClient httpclient= new DefaultHttpClient();
-			HttpParams params = httpclient.getParams();  
-			params.setParameter(ClientPNames.HANDLE_REDIRECTS, false);  
-			httpclient.execute(httpPost);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}	
 	}
 	
 	private final int id;

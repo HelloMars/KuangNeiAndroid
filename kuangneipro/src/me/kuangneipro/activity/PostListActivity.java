@@ -84,8 +84,6 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 		//个推请求clientid,并注册接收监听
         PushManager.getInstance().initialize(this.getApplicationContext());
         
-        HttpHelper.feedback();
-        
         if (UserInfo.loadSelfUserInfo() == null) {
 			Intent intent = new Intent(this, IntroActivity.class);
 			this.startActivity(intent);
@@ -188,6 +186,7 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
         if(rand<0.2)
         	VersionManager.doCheck(getHttpRequest(VersionManager.CHECK));
 		PostEntityManager.getPostList(getHttpRequest(PostEntityManager.POSTING_KEY_REFRESH), channelID, 1);
+		HttpHelper.feedback();
 	}
 	
 	@Override
