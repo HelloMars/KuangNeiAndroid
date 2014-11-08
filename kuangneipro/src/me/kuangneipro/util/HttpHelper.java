@@ -90,13 +90,17 @@ public class HttpHelper {
 		 		                    e.printStackTrace();  
 		 		                }  
 		 		            }
-		 		            String abpath = f.getAbsolutePath().replace("crash-", "sended-");
-		 		            boolean isMoved = f.renameTo(new File(abpath));
-		 		            if (isMoved) {
-		 		            	Log.i("info", "feedback success"); 
-		 		            } else {
-		 		            	Log.i("info", "feedback error");
+		 		            if(f!=null){
+		 		            	String abpath = f.getAbsolutePath().replace("crash-", "sended-");
+			 		            boolean isMoved = f.renameTo(new File(abpath));
+			 		            if (isMoved) {
+			 		            	Log.i("info", "feedback success"); 
+			 		            } else {
+			 		            	Log.i("info", "feedback error");
+			 		            }
 		 		            }
+		 		            
+		 		            
 		            	}
 		            }
 				}
