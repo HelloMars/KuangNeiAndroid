@@ -1,5 +1,7 @@
 package me.kuangneipro.activity;
 
+import com.igexin.sdk.PushManager;
+
 import me.kuangneipro.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +17,8 @@ public class IntroActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
-		
+		//个推请求clientid,并注册接收监听
+        PushManager.getInstance().initialize(this.getApplicationContext());
 		intro = findViewById(R.id.intro);
 		intro.setOnClickListener(this);
 	}

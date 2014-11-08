@@ -4,18 +4,13 @@
     android:layout_height="match_parent">
     
     
-<!--     <ImageView  -->
-<!--             android:id="@+id/intro_image" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="match_parent" -->
-<!--             android:src="@drawable/app_front_page" -->
-<!--             android:contentDescription="@null"/> -->
-    
-    <TextView 
+    <ImageView 
         android:id="@+id/intro_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/app_front_page"/>
+        android:src="@drawable/app_front_page"
+        android:scaleType="centerCrop"
+        android:contentDescription="@null"/>
     
     
     <TextView 

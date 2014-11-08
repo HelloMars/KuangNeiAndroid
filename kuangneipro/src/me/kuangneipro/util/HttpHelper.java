@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import me.kuangneipro.activity.RegisterActivity;
 import me.kuangneipro.activity.SignInActivity;
 import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.LoginUtil.OnSignInLisener;
@@ -212,9 +211,7 @@ public class HttpHelper {
 								request.setHeader(LoginUtil.COOKIE_KEY, LoginUtil.SESSION_KEY+"="+sessionId);
 						}else{
 							if(activity!=null){
-								Intent intent = new Intent(activity, RegisterActivity.class);
-								activity.startActivity(intent);
-								activity.finish();
+								signInFailed();
 							}
 							
 						}
@@ -319,25 +316,19 @@ public class HttpHelper {
 						if(retryCount<MAX_RETRY_COUNT){
 							return doHttpRequest(request);
 						}else{
-							Intent intent = new Intent(activity, SignInActivity.class);
-							activity.startActivity(intent);
-							activity.finish();
+							signInFailed();
 							returnJson = new JSONObject();
 						}
 					}else{
 						if(activity!=null){
-							Intent intent = new Intent(activity, SignInActivity.class);
-							activity.startActivity(intent);
-							activity.finish();
+							signInFailed();
 							returnJson = new JSONObject();
 						}
 					}
 				}
 				else {
 					if(activity!=null){
-						Intent intent = new Intent(activity, SignInActivity.class);
-						activity.startActivity(intent);
-						activity.finish();
+						signInFailed();
 						returnJson = new JSONObject();
 					}
 				}
@@ -354,6 +345,12 @@ public class HttpHelper {
 	        
 		return returnJson;
 		
+	}
+	
+	private void signInFailed(){
+		Intent intent = new Intent(activity, SignInActivity.class);
+		activity.startActivity(intent);
+		activity.finish();
 	}
 	
 }

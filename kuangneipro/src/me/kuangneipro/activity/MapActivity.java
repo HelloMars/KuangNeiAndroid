@@ -43,6 +43,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.igexin.sdk.PushManager;
 
 public class MapActivity extends HttpActivity {
 
@@ -91,7 +92,8 @@ public class MapActivity extends HttpActivity {
         super.onCreate(savedInstanceState);
         mActivity = this;
         setContentView(R.layout.activity_map);
-      		
+        //个推请求clientid,并注册接收监听
+        PushManager.getInstance().initialize(this.getApplicationContext());
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.bmapView);
 
