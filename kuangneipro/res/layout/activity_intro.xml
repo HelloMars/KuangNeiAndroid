@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/app_front_page"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:contentDescription="@null"/>
     
     
     <TextView 
         android:id="@+id/intro"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
