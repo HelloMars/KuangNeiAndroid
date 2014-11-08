@@ -56,6 +56,7 @@ public class MapActivity extends HttpActivity {
 	boolean drawable = false;
 	int locNum = 0;// 定位级别
 	boolean hasLocResult = false;
+	boolean isRegisting = false;
 
 	private MapView mMapView = null;
 	private BaiduMap mBaiduMap;
@@ -210,6 +211,7 @@ public class MapActivity extends HttpActivity {
     			if (userInfo != null) {
     				//Toast.makeText(this, "注册完成啦:username="+userInfo.getUsername(), Toast.LENGTH_LONG).show();
     			} else {
+    				isRegisting = false;
     				Toast.makeText(this, "注册失败", Toast.LENGTH_LONG).show();
     			}
     			break;
@@ -337,7 +339,10 @@ public class MapActivity extends HttpActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-            	UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER), mKuang.getId());
+            	if (!isRegisting) {
+            		isRegisting = true;
+            		UserInfoManager.regester(getHttpRequest(UserInfoManager.REGIGSTER), mKuang.getId());
+            	}
             }
         });
         startButton.setVisibility(View.GONE);
