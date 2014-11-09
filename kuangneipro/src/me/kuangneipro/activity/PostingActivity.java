@@ -75,7 +75,7 @@ public class PostingActivity extends HttpActivity{
 		});
 		
 		mEditText = (EmoticonEditText) findViewById(R.id.editTextPost);
-		mEditText.setHint("记录你的见闻、感想、经历。");
+		mEditText.setHint("你的遭遇、感情和观点。一个帖子也是一个完整的故事。");
 		
 		Intent intent = getIntent();
 		if(intent!=null){

@@ -55,7 +55,7 @@ public class PushReceiver extends BroadcastReceiver {
 					
 					PushUtil.saveToken(cid);
 					if(DebugUtil.isDebug())
-						Toast.makeText(context, "newClientID:"+cid+"!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+						;//Toast.makeText(context, "newClientID:"+cid+"!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 //					String ocid = PushUtil.getToken();
 //					Log.i(TAG, "Got ClientID:" + cid);
 //					if(!TextUtils.isEmpty(ocid) && !ocid.equals(cid) ){
