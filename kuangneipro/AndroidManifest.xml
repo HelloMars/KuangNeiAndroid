@@ -99,7 +99,7 @@
         <!-- 百度地图SDK配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="jYyDphqDzlSsKGZIIZk70BkM" />
+            android:value="10meQjrxoXXybyBiQDQ5kTXl" />
 
         <!-- 配置SDK核心服务 -->
         <service

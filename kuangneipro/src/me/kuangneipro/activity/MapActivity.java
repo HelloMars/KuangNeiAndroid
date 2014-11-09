@@ -50,6 +50,9 @@ public class MapActivity extends HttpActivity {
     private static final String TAG = MapActivity.class.getSimpleName(); // tag 用于测试log用
     private static boolean ISDEBUG = false;
     
+    //for debug
+    private int wifiPressCount = 0;
+    
 	// 定位相关
 	LocationClient mLocClient;
 	public MyLocationListenner myListener = new MyLocationListenner();
@@ -240,6 +243,7 @@ public class MapActivity extends HttpActivity {
         } else {
             Toast.makeText(this, "Wifi已经开启", Toast.LENGTH_SHORT).show();
         }
+        ++wifiPressCount;
     }
 
     private boolean isIn(LatLng point) {
@@ -290,6 +294,8 @@ public class MapActivity extends HttpActivity {
 		});
 		mBaiduMap.setOnMapLongClickListener(new OnMapLongClickListener() {
 			public void onMapLongClick(LatLng point) {
+				if(wifiPressCount<5)
+					return;
 				if (ISDEBUG) {
 					Toast.makeText(MapActivity.this, "关闭调试模式", Toast.LENGTH_LONG).show();
 					ISDEBUG = false;
