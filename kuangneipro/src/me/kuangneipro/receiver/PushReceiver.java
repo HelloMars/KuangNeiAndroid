@@ -1,14 +1,9 @@
 package me.kuangneipro.receiver;
 
-import me.kuangneipro.entity.UserInfo;
 import me.kuangneipro.util.DebugUtil;
 import me.kuangneipro.util.LoginUtil;
-import me.kuangneipro.util.LoginUtil.OnSignInLisener;
 import me.kuangneipro.util.NotificationUtil;
 import me.kuangneipro.util.PushUtil;
-
-import org.OpenUDID.OpenUDID_manager;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -51,11 +46,9 @@ public class PushReceiver extends BroadcastReceiver {
 				// 获取ClientID(CID)
 				final String cid = bundle.getString("clientid");
 				if(!TextUtils.isEmpty(cid)){
-					
-					
 					PushUtil.saveToken(cid);
 					if(DebugUtil.isDebug())
-						;//Toast.makeText(context, "newClientID:"+cid+"!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+						Toast.makeText(context, "clientID:"+cid+"!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
 //					String ocid = PushUtil.getToken();
 //					Log.i(TAG, "Got ClientID:" + cid);
 //					if(!TextUtils.isEmpty(ocid) && !ocid.equals(cid) ){

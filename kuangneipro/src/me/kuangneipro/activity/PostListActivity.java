@@ -197,7 +197,14 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 	
 	private void updateTopic(){
 		if(topic!=null){
-			topicInfo.setText(topic.topicInfo);
+			
+			if(TextUtils.isEmpty(topic.topicInfo)){
+				topicInfo.setVisibility(View.GONE);
+			}else{
+				topicInfo.setText(topic.topicInfo);
+				topicInfo.setVisibility(View.VISIBLE);
+			}
+			
 			topicName.setText(topic.topicName);
 		}
 	}
