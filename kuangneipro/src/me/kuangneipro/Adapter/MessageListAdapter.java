@@ -81,10 +81,10 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 			//背景红
 			holder.bottle.setVisibility(View.VISIBLE);
 			
-			holder.content.setOnClickListener(this);
-			holder.content.setTag(message.replyInfo);
-			holder.date.setOnClickListener(this);
-			holder.date.setTag(message.replyInfo);
+//			holder.content.setOnClickListener(this);
+//			holder.content.setTag(message.replyInfo);
+//			holder.date.setOnClickListener(this);
+//			holder.date.setTag(message.replyInfo);
 			holder.reply.setText(" to ");
 			//rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
 		

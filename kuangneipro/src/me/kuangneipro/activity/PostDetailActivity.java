@@ -83,10 +83,16 @@ import com.squareup.picasso.Picasso;
 		
 		
 		mListView = (PullToRefreshListView)findViewById(R.id.list);
-		headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_detai_header, null);
-		ListView l = mListView.getRefreshableView();
-		l.addHeaderView(headerView, null, false);
-		this.fillDetailData();
+	
+		
+		if(mPost.mChannelId != 0 ){
+			headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_detai_header, null);
+			ListView l = mListView.getRefreshableView();
+			l.addHeaderView(headerView, null, false);
+			this.fillDetailData();
+		}
+		
+		
         mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -114,7 +120,7 @@ import com.squareup.picasso.Picasso;
 		case ReplyInfoManager.REPLY_KEY_REFRESH_MORE:
 			ReplyInfoManager.fillReplyListFromJson(jsonObj, mReplyList);
 			if(mReplyListAdapter==null){
-				mReplyListAdapter = new ReplyListAdapter(this, mReplyList,Integer.parseInt(mPost.mUserId.trim()));
+				mReplyListAdapter = new ReplyListAdapter(this, mReplyList,Integer.parseInt(mPost.mUserId.trim()),mPost.mChannelId);
 				mListView.setAdapter(mReplyListAdapter);
 			}else{
 				mReplyListAdapter.notifyDataSetChanged();

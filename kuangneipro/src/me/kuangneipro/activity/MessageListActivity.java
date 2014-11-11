@@ -92,7 +92,7 @@ public class MessageListActivity extends HttpActivity implements OnEmoticonMessa
 						position = 0;
 					
 					MessageInfo messageInfo = mMessageListAdapter.getItem(position);
-					if(messageInfo!=null && messageInfo.postEntity!=null && messageInfo.postEntity.mChannelId != 0){
+					if(messageInfo!=null && messageInfo.postEntity!=null){
 						Intent intent = new Intent(MessageListActivity.this, PostDetailActivity.class);
 
 		        		Bundle bundle = new Bundle();

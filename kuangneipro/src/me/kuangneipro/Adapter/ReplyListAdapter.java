@@ -19,6 +19,7 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 	private final PostDetailActivity context;
 	private final List<ReplyInfo> replays;
 	private final int postUserId;
+	private final int channelId;
 
 	static class ViewHolder {
 		private TextView content;
@@ -29,11 +30,12 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 		private View split;
 	}
 
-	public ReplyListAdapter(PostDetailActivity context, List<ReplyInfo> replys,int postUserId) {
+	public ReplyListAdapter(PostDetailActivity context, List<ReplyInfo> replys,int postUserId,int channelId) {
 		super(context, R.layout.item_reply, replys);
 		this.context = context;
 		this.replays = replys;
 		this.postUserId = postUserId;
+		this.channelId = channelId;
 	}
 	
     @Override  
@@ -75,7 +77,7 @@ public class ReplyListAdapter extends ArrayAdapter<ReplyInfo> implements OnClick
 		
 		holder.date.setText(reply.getDate());
 		
-		if(reply.toUser.id == postUserId){
+		if(reply.toUser.id == postUserId || channelId == 0){
 			holder.to.setVisibility(View.GONE);
 			holder.reply.setVisibility(View.GONE);
 		}else{
