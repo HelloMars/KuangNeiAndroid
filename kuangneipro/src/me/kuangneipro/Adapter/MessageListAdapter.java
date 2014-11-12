@@ -6,6 +6,7 @@ import me.kuangneipro.R;
 import me.kuangneipro.activity.MessageListActivity;
 import me.kuangneipro.entity.MessageInfo;
 import me.kuangneipro.entity.ReplyInfo;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,14 +86,33 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 //			holder.content.setTag(message.replyInfo);
 //			holder.date.setOnClickListener(this);
 //			holder.date.setTag(message.replyInfo);
-			holder.reply.setText(" to ");
 			//rowView.setBackgroundColor(context.getResources().getColor(R.color.red));
+			
+			holder.to.setVisibility(View.GONE);
+			holder.from.setVisibility(View.GONE);
+			holder.reply.setVisibility(View.GONE);
+
+//			holder.reply.setText("漂流瓶");
+//			holder.reply.setTextColor(Color.rgb(58,196,199));
 		
 		}else{
 			//普通消息
 			//背景红
 			holder.bottle.setVisibility(View.GONE);
 			//rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
+			
+			holder.to.setVisibility(View.VISIBLE);
+			
+			holder.to.setTag(message.replyInfo);
+			holder.to.setText(message.replyInfo.toUser.name);
+			holder.to.setOnClickListener(this);
+			
+			holder.from.setTag(message.replyInfo);
+			holder.from.setText(message.replyInfo.fromUser.name);
+			holder.from.setOnClickListener(this);
+			
+			holder.reply.setVisibility(View.VISIBLE);
+			
 		
 		}
 		
@@ -100,14 +120,7 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 		
 		holder.date.setText(message.replyInfo.getDate());
 
-		holder.to.setVisibility(View.VISIBLE);
-		holder.to.setTag(message.replyInfo);
-		holder.from.setTag(message.replyInfo);
-		holder.reply.setVisibility(View.VISIBLE);
-		holder.to.setText(message.replyInfo.toUser.name);
-		holder.to.setOnClickListener(this);
-		holder.from.setText(message.replyInfo.fromUser.name);
-		holder.from.setOnClickListener(this);
+		
 		holder.content.setText(message.replyInfo.content);
 		//if (position == getCount() - 1)
 			holder.split.setVisibility(View.GONE);

@@ -42,16 +42,7 @@
             android:paddingTop="4dp" />
 
         
-        <TextView
-            android:id="@+id/not_use"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:text=""
-            android:paddingTop="4dp"
-             />
+ 
         
         <ImageView
 			android:id="@+id/bottle"
@@ -62,8 +53,11 @@
         
         <TextView
             android:id="@+id/date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:gravity="right"
             android:text="10秒前"
             android:textColor="@color/time_text_color"
             android:textSize="12sp"

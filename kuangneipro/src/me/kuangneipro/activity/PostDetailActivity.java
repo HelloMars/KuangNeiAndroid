@@ -43,6 +43,7 @@ import com.squareup.picasso.Picasso;
 @SuppressLint("InflateParams") public class PostDetailActivity extends HttpActivity implements OnEmoticonMessageSendListener, OnClickListener {
 	
 	public final static String SELECT_POST_INFO = "me.kuangnei.select.POST";
+	public final static String IS_PING_POST = "me.kuangnei.is.ping.post";
 	
 	private PullToRefreshListView mListView;
 	private List<ReplyInfo> mReplyList;
@@ -67,6 +68,13 @@ import com.squareup.picasso.Picasso;
 			return ;
 		}
 		
+		if( getIntent().getBooleanExtra(IS_PING_POST,false) )
+		{
+			TextView introText = (TextView)findViewById(R.id.introtext);
+			introText.setText("内部漂流瓶");
+			
+		}
+		
 		if (mEmoticonPopupable == null) {
 			mEmoticonPopupable = new EmoticonInputDialog(this, this);
 			//下方输入字数限制.
@@ -84,9 +92,10 @@ import com.squareup.picasso.Picasso;
 		
 		mListView = (PullToRefreshListView)findViewById(R.id.list);
 	
+		headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_detai_header, null);
 		
 		if(mPost.mChannelId != 0 ){
-			headerView = LayoutInflater.from(this).inflate(R.layout.activity_post_detai_header, null);
+			
 			ListView l = mListView.getRefreshableView();
 			l.addHeaderView(headerView, null, false);
 			this.fillDetailData();

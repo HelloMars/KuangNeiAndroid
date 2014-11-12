@@ -96,7 +96,8 @@ public class MessageListActivity extends HttpActivity implements OnEmoticonMessa
 						Intent intent = new Intent(MessageListActivity.this, PostDetailActivity.class);
 
 		        		Bundle bundle = new Bundle();
-		        	    bundle.putParcelable(PostDetailActivity.SELECT_POST_INFO, messageInfo.postEntity);     
+		        	    bundle.putParcelable(PostDetailActivity.SELECT_POST_INFO, messageInfo.postEntity);    
+		        	    bundle.putBoolean(PostDetailActivity.IS_PING_POST, true);
 		        	    intent.putExtras(bundle);
 		        		
 		        		startActivity(intent);
