@@ -148,7 +148,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	
 	@Override
 	protected void onDestroy() {
-		save();
+//		save();
 		super.onDestroy();
 	}
 	
@@ -314,10 +314,11 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		userInfo.setSign(sign.getText().toString());
 		
 		if(!TextUtils.isEmpty(sex.getText()) &&! getResources().getString(R.string.sex_title).equals(sex.getText().toString()))
+		{	
 			userInfo.setSex(SexUtil.fromString(sex.getText().toString()));
-		else
+		}else{
 			userInfo.setSex(SexUtil.UNSETTED);
-			
+		}
 		UserInfoManager.updateUserInfo(this,getHttpRequest(UserInfoManager.UPDATE_USER_INFO),userInfo);
 	}
 	
@@ -343,7 +344,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
         	.into(avatar);
             
             disableEdit(false);
-            save();
+//            save();
         }
     }
 
@@ -424,9 +425,12 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				Toast.makeText(this, "昵称不能为空", Toast.LENGTH_LONG).show();
 				break;
 			}
-		case R.id.sign_submit:
 			disableEdit(true);
 			save();
+			break;
+		case R.id.sign_submit:
+//			disableEdit(true);
+//			save();
 			break;
 		default:
 			break;
@@ -450,7 +454,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 		birthdayCalendar.clear();
 		birthdayCalendar.set(year, month, day);
 		birthday.setText(DateFormat.format("yyyy-MM-dd",birthdayCalendar));
-		save();
+//		save();
 	}
 
 }

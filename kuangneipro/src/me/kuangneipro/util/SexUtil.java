@@ -75,7 +75,7 @@ public class SexUtil {
 		LayoutInflater inflater = activity.getLayoutInflater();  
 		View sexDialogView = inflater.inflate(R.layout.dialog_sex_select, null);
 		ListView sexListView = (ListView)sexDialogView.findViewById(R.id.list_view);
-		sexListView.setAdapter(new ArrayAdapter<String>(activity,android.R.layout.simple_spinner_item, SexUtil.getAllSex()));
+		sexListView.setAdapter(new ArrayAdapter<String>(activity,R.layout.item_sex_select, SexUtil.getAllSex()));
 		sexListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
