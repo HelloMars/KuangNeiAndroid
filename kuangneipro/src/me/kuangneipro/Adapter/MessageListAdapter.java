@@ -102,11 +102,11 @@ public class MessageListAdapter extends ArrayAdapter<MessageInfo> implements OnC
 			//rowView.setBackgroundColor(context.getResources().getColor(R.color.white));
 			
 			holder.to.setVisibility(View.VISIBLE);
-			
 			holder.to.setTag(message.replyInfo);
 			holder.to.setText(message.replyInfo.toUser.name);
 			holder.to.setOnClickListener(this);
 			
+			holder.from.setVisibility(View.VISIBLE);
 			holder.from.setTag(message.replyInfo);
 			holder.from.setText(message.replyInfo.fromUser.name);
 			holder.from.setOnClickListener(this);

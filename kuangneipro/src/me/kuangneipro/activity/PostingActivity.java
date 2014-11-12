@@ -41,6 +41,7 @@ public class PostingActivity extends HttpActivity{
 	private ImageView imgBtnChoose;
 	private View back;
 	private View posting;
+	private View pageName;
 	
 	public static final int MAX_IMAGE_SIZE = 3;
 	
@@ -58,7 +59,6 @@ public class PostingActivity extends HttpActivity{
 		
 		
 		back = findViewById(R.id.back);
-		posting = findViewById(R.id.posting);
 		back.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -66,6 +66,16 @@ public class PostingActivity extends HttpActivity{
 				finish();
 			}
 		});
+		
+		pageName = findViewById(R.id.pagename);
+		pageName.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+
+		posting = findViewById(R.id.posting);
 		posting.setOnClickListener(new OnClickListener() {
 			
 			@Override

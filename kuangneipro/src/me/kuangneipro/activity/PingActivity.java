@@ -23,7 +23,7 @@ public class PingActivity extends HttpActivity{
 	private EmoticonPopupable mEmoticonPopupable;
 	private View back;
 	private View posting;
-	
+	private View pageName;
 	
 	public PingActivity(){
 	}
@@ -34,7 +34,6 @@ public class PingActivity extends HttpActivity{
 		setContentView(R.layout.activity_ping);
 		
 		back = findViewById(R.id.back);
-		posting = findViewById(R.id.posting);
 		back.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -42,6 +41,16 @@ public class PingActivity extends HttpActivity{
 				finish();
 			}
 		});
+		
+		pageName = findViewById(R.id.pagename);
+		pageName.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+		posting = findViewById(R.id.posting);
 		posting.setOnClickListener(new OnClickListener() {
 			
 			@Override

@@ -260,7 +260,12 @@ public class PostListActivity extends HttpActivity implements OnEmoticonMessageS
 					postEntity.mLikeSelected = upInfo.isDo();
 					if(mPostListAdapter!=null)
 						mPostListAdapter.notifyDataSetChanged();
-					Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
+					
+					if(upInfo.action.equals("do"))
+						Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
+					else
+						Toast.makeText(this, "取消点赞", Toast.LENGTH_SHORT).show();
+					
 				}else if(returnInfo != null){
 					Toast.makeText(this, returnInfo.getReturnMessage(), Toast.LENGTH_SHORT).show();
 				}else{

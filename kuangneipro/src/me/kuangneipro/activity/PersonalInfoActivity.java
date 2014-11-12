@@ -72,7 +72,7 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 	private InputMethodManager imm ;
 	
 	private View back;
-	
+	private View pageName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +85,15 @@ public class PersonalInfoActivity extends HttpActivity implements OnClickListene
 				finish();
 			}
 		});
+		
+		pageName = findViewById(R.id.pagename);
+		pageName.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
 		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 		canSave = false;
